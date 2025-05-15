@@ -1,0 +1,18 @@
+﻿Story,Task,Estimate min (hr),Estimate max (hr),Actual,Comment,Tags,Proposed Version
+Exploratory Data Analysis,Exploratory data profiling and analysis,1,2,2,"Use ydata-profiling to investigate data: types, missing values, distributions, formats, cleaning considerations, etc.",EDA,v0.0
+System Design & Stack,Design microservices architecture and communication protocols,3,7,5,"Define service boundaries, API contracts, and data flows.
+
+Research & select tech stack: OpenAI Agents SDK, FastAPI-MCP for service communication,  FastAPI for services, ChromaDB for semantic search over product catalog, Docker, GitHub Actions, Render deployment, Postman testing, and Gradio UI.
+
+Design session flow and context propagation strategy.",Foundation,v0.1
+Data Cleaning & Prep,Clean and prepare datasets for services,2,4,,"Standardize formats, handle missing values, prep text for vector embeddings strategies, and prep CSVs for ingestion into services.",Data Prep,v0.2
+Project Setup,Set up repository structure and development environment,2,3,,"Create service directories, configure uv/pre-commit, setup basic health endpoints and logging, and set up the shared/ package (config, context, guardrails, health, logging, middleware).",Foundation,v0.3
+Order Service,Implement order service with MCP integration,2,4,,"Create order service with data service layer, FastAPI endpoints and MCP tool exposure.",Order Service,v0.4
+Product Service,Implement product service with vector search,4,6,,"Create product service with ChromaDB integration, data service layer, search endpoints and MCP tools.",Product Service,v0.5
+Chat Service Core,Implement chat service with session management,2,4,,Create chat endpoints with session store and basic validation.,Chat Service,v0.6
+Agent & Streaming,Configure agent and implement real-time features,2,4,,Set up OpenAI Agents SDK integration and SSE streaming.,Chat Service,v0.7
+Parallel Processing,Implement parallel tool calls,2,4,,Enable concurrent MCP requests and handle error conditions.,Integration,v0.8
+Quality & Testing,Implement guardrails and core test suite,3,5,,"Add input/output guardrails, observability hooks, unit and end-to-end tests (including a full chat flow).",Testing,v0.9
+Bonus UI Implementation,Implement chat interface with Gradio,1,2,,Build a lightweight Gradio app to interact with chat service and render any tabular tool outputs.,UI,v1.0
+Deployment,Set up deployment pipeline and infrastructure,2,4,,"Configure Docker, CI/CD,  and deploy to Render.",Deployment,v1.1
+Documentation,Create system documentation and examples,1,2,,"Document architecture, API specs, usage examples, and developer setup steps.",Documentation,v1.2
