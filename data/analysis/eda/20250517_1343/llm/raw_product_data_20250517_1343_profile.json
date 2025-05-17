@@ -1,0 +1,327 @@
+{
+  "analysis": {
+    "title": "raw_product_data_20250517_1343",
+    "date": "2025-05-17 17:43:14.787608"
+  },
+  "table": {
+    "n_rows": 5000,
+    "n_columns": 11,
+    "n_cells_missing": 1297,
+    "p_cells_missing": 0.023581818181818183,
+    "column_types": {
+      "Text": 8,
+      "Numeric": 3
+    },
+    "memory_size": 440132
+  },
+  "variables": {
+    "main_category": {
+      "type": "Text",
+      "n_missing": 30,
+      "p_missing": 0.006,
+      "distinct": {
+        "count": 24,
+        "percent": 0.00482897384305835
+      },
+      "top_categories": {
+        "Musical Instruments": 4277,
+        "All Electronics": 195,
+        "Industrial & Scientific": 93,
+        "Tools & Home Improvement": 68,
+        "Amazon Home": 60
+      }
+    },
+    "title": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 4831,
+        "percent": 0.9662
+      },
+      "top_categories": {
+        "Acoustic Panels Studio Foam Sound Proof Panels Nosie Dampening Foam Studio Music Equipment Acoustical Treatments Foam 12 Pack-12''12''1''": 8,
+        "M33 Ukulele Strap Upgrade Multicolor Hawaiian Jacquard Woven, Double J Hooks Clip On Ukulele Belt": 7,
+        "Hohner PBH7 Piedmont Blues Harmonica Set - 7-Pack": 6,
+        "Karaoke Microphone for Kids Adults, Wireless 4 in 1 Handheld Bluetooth Microphone with LED Lights, Portable Smartphone Speaker Boys Girls Singing Toys for Home KTV Outdoor Christmas Birthday Party": 5,
+        "Acoustic Foam Panels, 12Pack 2\" X 12\" X 12\" SoundProof Padding Foam Panels, Studio Foam Pyramid Tiles Sound Absorbing Dampening Foam Treatment Wall Panels": 5
+      }
+    },
+    "average_rating": {
+      "type": "Numeric",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 20,
+        "percent": 0.004
+      },
+      "stats": {
+        "min": 3.1,
+        "max": 5.0,
+        "mean": 4.4865,
+        "median": 4.5,
+        "std": 0.24521781410670607
+      }
+    },
+    "rating_number": {
+      "type": "Numeric",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 1855,
+        "percent": 0.371
+      },
+      "stats": {
+        "min": 547,
+        "max": 100615,
+        "mean": 1876.2298,
+        "median": 963.0,
+        "std": 3899.3383632260156
+      }
+    },
+    "features": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 4515,
+        "percent": 0.903
+      },
+      "top_categories": {
+        "[]": 161,
+        "['Good Looking - The Ukulele is beautiful and well-made. We have different colors for you to make choice.', 'High Quality - The Ukulele is generally made of high quality Basswood with advanced wood patternsand nylon strings. All these make the tone of Ukulele bright and smooth.', 'Easy to Play - The Ukulele is suitable for beginners, either kids or adults. If you would like to start playing Ukulele, it is the best choice for you.', 'Free Accessories - We offer you a fine package of free accessories: a set of 4 strings, a high quality Ukulele bag, and 2 finger picks.', 'Best Service - 30 days unconditional money back guarantee. Please locate your order on your Amazon account and click \"Ask Seller\" to get assistance. We provide 24 hours customer service.']": 13,
+        "['\u266bSIGNAL STABILIZATION: Guitar cable AWG24 oxygen-free copper center conductor provides enhanced signal transmission for maximum signal transmission stability.', '\u266bLONG WORKING LIFE: Instrument cable is wrapped with aluminum foil to achieve super shielding. Guitar cable ensures fast signal transmission, pure tone, and increases the toughness of the guitar cable and prolongs the working life of the guitar cable.', '\u266bINSULATING OUTER LAYER: PVC insulating material, effectively reducing the electromagnetic interference of environmental noise, soft and durable. Lulu Home guitar cable insulating outer layer is more effective in ensuring the safety of using, and avoiding the danger while entertainment. Considering that the guitar cable often needs to be bent during carrying and use, Lulu Home guitar cable is made of PVC, which makes it softer and more durable than similar products.', '\u266bRELIABLE GOLD-PLATED: Higher conductivity and corrosion resistance. Damage to each guitar cable is usually a problem at the plug, and the quality of the plug directly affects the working life of the guitar cable. Lulu Home guitar cable plug is made of gold-plated material and has a high-hardness casing protection that is both durable and beautiful appearance. Heat shrink tubing will not be damaged.', '\u266bGUARANTEED FOR LIFE: You are not satisfied with our guitar cable, just send them back to us for a full refund in time. We hope to be better. Click the Add to Cart button now.']": 9,
+        "['Acoustic environment is very important for Studios, Recording Studios, Vocal Booths, Control Rooms, Offices, Home Studios, Home Entertainment Theaters, Gaming Rooms, and Home Offices.Acoustic panels are good for sound by effectively controlling unwanted reverb and echo, Great for spot treating walls in your studio or office.', 'Whether you are podcasting and hosting a Webinar or video review producer,nobody likes to hear Echoes through your sounds.Our acoustic panels will help eliminate Echo in any room of your house.', 'By increasing noise absorption properties inside the room will help to reduce noise transmission through the walls and thus reduce noise outside the room.professional acoustic control reduce waves, reverb and flutter echoes in smaller to medium sized rooms.', 'Acoustic panels are compression packing and can expand quickly. About tape: Most people use adhesive spray though. I suggest using use 3M Command strips,4 per square (one in each corner),and it worked great !', 'NRC:0.5 Density:25kg/m3 Fire Retardant: CA Technical Bulletin 117.']": 9,
+        "['Traditional reeds are known for their excellent response in all registers, allowing a pianissimo attack in even highest notes.', 'Extremely flexible, allowing the legato or staccato execution of large intervals while maintaining a richness of tone that gives body and clarity to the sound, which is a hallmark of Vandoren reeds.', 'Traditional reeds are available for all clarinets and saxophones in various strengths.', \"Every reed sealed in 'Flow Pack' to ensure freshness.\"]": 8
+      }
+    },
+    "description": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 2644,
+        "percent": 0.5288
+      },
+      "top_categories": {
+        "[]": 2152,
+        "['1']": 11,
+        "['Introduction', 'Apelila is an excellent and energetic brand in the US. Since we have dedicated to develop Apelila, our product lines are rich and diverse, for example, home furnishing, beauty tool, and musical instrument. At present, we are expanding the brand worldwide with our consistent high quality.', 'Features', '1. Good Looking.', 'The Ukulele is beautiful and well-made. We have different colors for you to make choice.', '2. High quality.', 'The Ukulele is generally made of high quality Basswood and nylon strings. All these make the tone of Ukulele bright and smooth .', '3. Easy to play.', 'The Ukulele is suitable for beginners, either children or adults. If you would like to start playing Ukulele, it is the best choice for you.', '4. Free accessories.', 'We offer you a fine package of free accessories: a set of 4 strings, a high quality Ukulele bag, and 2 finger picks.', 'Notice:', 'The strings are all in loose to keep from damage during the delivery. You have to tune them up before playing.']": 10,
+        "['The most widely played reeds in the world, with a superiority proven over the years, these reeds suit all styles of music.']": 7,
+        "['The Squier by Fender Bullet Strat with tremolo is an affordable and practical electric guitar designed for anyone\u2019s budget. It has many of the ingredients that have propelled the Stratocaster to be one of the most iconic guitars ever made. This Squier is a perfect choice for a first guitar no matter who you are or what style of music you want to learn. Welcome to the Fender family!']": 7
+      }
+    },
+    "price": {
+      "type": "Numeric",
+      "n_missing": 1266,
+      "p_missing": 0.2532,
+      "distinct": {
+        "count": 1194,
+        "percent": 0.3197643277986074
+      },
+      "stats": {
+        "min": 1.99,
+        "max": 1328.0,
+        "mean": 56.50802624531333,
+        "median": 25.924999999999997,
+        "std": 83.44762567017831
+      }
+    },
+    "store": {
+      "type": "Text",
+      "n_missing": 1,
+      "p_missing": 0.0002,
+      "distinct": {
+        "count": 1573,
+        "percent": 0.3146629325865173
+      },
+      "top_categories": {
+        "Fender": 124,
+        "JIM DUNLOP": 103,
+        "YAMAHA": 88,
+        "Pyle": 86,
+        "Donner": 77
+      }
+    },
+    "categories": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 368,
+        "percent": 0.0736
+      },
+      "top_categories": {
+        "['Musical Instruments', 'Instrument Accessories', 'Guitar & Bass Accessories', 'Picks & Pick Holders', 'Picks']": 168,
+        "['Musical Instruments', 'Ukuleles, Mandolins & Banjos', 'Ukuleles']": 130,
+        "['Musical Instruments', 'Microphones & Accessories', 'Accessories', 'Stands']": 118,
+        "['Musical Instruments', 'Microphones & Accessories', 'Microphones', 'Condenser Microphones', 'Multipurpose']": 113,
+        "['Musical Instruments', 'Microphones & Accessories', 'Microphones', 'Wireless Microphones & Systems', 'Handheld Wireless Microphones']": 112
+      }
+    },
+    "details": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 4953,
+        "percent": 0.9906
+      },
+      "top_categories": {
+        "{}": 26,
+        "{\"Item Weight\": \"2 pounds\", \"Product Dimensions\": \"9.5 x 4 x 2 inches\", \"Item model number\": \"PBH7\", \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"February 16, 2007\", \"Color Name\": \"Gold\", \"Material Type\": \"Fabric\", \"Instrument Key\": \"G\", \"Size\": \"Multi-Instrument\", \"Color\": \"Gold\", \"Brand\": \"Hohner Accordions\", \"Material\": \"Fabric\", \"Style\": \"American\"}": 4,
+        "{\"Item Weight\": \"4.44 pounds\", \"Product Dimensions\": \"23 x 3 x 10 inches\", \"Item model number\": \"44BK\", \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"December 10, 2005\", \"Back Material\": \"Maple\", \"Color Name\": \"Black\", \"Top Material\": \"Maple, Spruce\", \"Number of Strings\": \"4\", \"Material Type\": \"Maple Wood, Pear Wood\", \"Size\": \"4/4\", \"Brand\": \"Crescent\", \"Color\": \"Black\", \"Item Dimensions LxWxH\": \"23 x 3 x 10 inches\", \"Top Material Type\": \"Maple, Spruce\", \"Back Material Type\": \"Maple\", \"Finish Type\": \"Polished\", \"Instrument\": \"Violin\", \"Operation Mode\": \"Manual\"}": 3,
+        "{\"Item Weight\": \"1.5 pounds\", \"Product Dimensions\": \"9 x 1 x 12 inches\", \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"November 15, 2012\"}": 3,
+        "{\"Brand\": \"Jeunesse Global\", \"Flavor\": \"Active\", \"Unit Count\": \"25.5 Fl Oz\", \"Item Weight\": \"12 Pounds\", \"Item Dimensions LxWxH\": \"8 x 12 x 8 inches\", \"Product Benefits\": \"Antioxidant\", \"Package Information\": \"Bottle\", \"Number of Items\": \"4\", \"Dosage Form\": \"Capsule\", \"Is Discontinued By Manufacturer\": \"No\", \"Product Dimensions\": \"8 x 12 x 8 inches; 12 Pounds\", \"Item model number\": \"MonavieActive\", \"Department\": \"Teens-Adults-Unisex\", \"Date First Available\": \"January 24, 2010\", \"Manufacturer\": \"Jeunesse Global\"}": 3
+      }
+    },
+    "parent_asin": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 5000,
+        "percent": 1.0
+      },
+      "top_categories": {
+        "B0BSGM6CQ9": 1,
+        "B0978Y8NTL": 1,
+        "B082FGB729": 1,
+        "B07SXGF77V": 1,
+        "B07RVB6SCL": 1
+      }
+    }
+  },
+  "sample_rows": [
+    {
+      "main_category": "Musical Instruments",
+      "title": "YAMAHA PSR-E263 61-Key Portable Keyboard",
+      "average_rating": 4.6,
+      "rating_number": 1397,
+      "features": "['The PSRE263 Yamaha portable keyboard features a wide variety of sounds and functions for beginners', '61 full sized keys are great for learning and developing keyboard playing technique', 'The Yamaha Education Suite can be used with the more than 100 preset songs, making it the ideal first keyboard for aspiring musicians', 'The aux line input allows you to connect any music device with a headphone output, such as an MP3 player, a computer, a mixer or even another instrument, and hear it through the internal speakers', 'Power adapter sold separately; Tone generating technology: AWM stereo sampling']",
+      "description": "['The Yamaha PSR-E263 is a 61-key portable keyboard featuring a wide variety of sounds and functions. With the included 3-step lesson program, It is ideal first keyboard for aspiring musicians who are just starting out. Use the on-board lesson feature, Yamaha Education Suite (Y. E. S. ) to learn the 100 preset songs, or take advantage of 385 instrument voices and 100 styles to experiment and create your own music. The aux line input turns the PSR-E263 into a speaker system for your MP3 player so you can play along or just listen, all for a very affordable price.', 'Tuning: 427.0 - 440.0 - 453.0 Hz (approx.0.2Hz increments).']",
+      "price": NaN,
+      "store": "YAMAHA",
+      "categories": "['Musical Instruments', 'Keyboards & MIDI', 'Electronic Keyboards', 'Portable & Arranger Keyboards']",
+      "details": "{\"Item Weight\": \"8 pounds\", \"Product Dimensions\": \"37 x 12.5 x 4.2 inches\", \"Item model number\": \"PSRE263\", \"Batteries\": \"2 AA batteries required.\", \"Best Sellers Rank\": {\"Musical Instruments\": 43809, \"Portable & Arranger Keyboards\": 276}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"March 31, 2017\", \"Color Name\": \"Black\", \"Connector Type\": \"Aux\", \"Number of Keyboard Keys\": \"61\", \"Size\": \"Keyboard Only\", \"Proficiency Level\": \"Beginner\", \"Battery type\": \"Alkaline\", \"Power Source\": \"Corded Electric\", \"Voltage\": \"12 Volts\", \"Brand\": \"Yamaha\", \"Color\": \"Black\", \"Number of Keys\": \"61\", \"Skill Level\": \"Beginner\", \"Special Feature\": \"Portable\"}",
+      "parent_asin": "B06XSLM5YZ"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "MAONO USB/XLR Podcasting Dynamic Microphone, Studio Mic Kit with Volume Control, Shock Mount, Pop Filter, Ideal for Vocal, Recording, Voice Over, Live Streaming (Gray)",
+      "average_rating": 4.5,
+      "rating_number": 877,
+      "features": "[\"Clean & Warm Sound: The podcast dynamic microphone's built-in cardioid capsule, capture clear sound in front of the microphone and reduces possible background noise from the other side and rear. Smooth, extended frequency response for rich and natural vocal reproduction. After professional tuning, the outstanding mid-frequency curve is very suitable for vocal recording\", 'Switch Button & Volume Control Button Friendly Design: the USB microphone built-in Switch Button for convenient control of the recording status, which is to avoid unnecessary noise in your podcast or streaming. The volume control button is flexible for adjusting the volume of the headphone monitor to ensure better audio output (Only in USB mode)', 'Monitor Function: The USB podcast microphone built-in 3.5mm headphones real-time monitoring allows for zero-latency monitoring, so you can hear yourself without any delay or echo. you also can adjust the monitor volume for more audio detail via the onboard volume control button of the vocal dynamic microphone, ensuring a clear, smooth, natural audio output.', 'USB/XLR Dual Connection For Easy Device Switching\uff1a HD300T dynamic microphone is provided with both USB and XLR connections. The USB output for connecting to a computer is convenient, quickly enter the daily recording on your desktop or laptop, easy to use. The XLR analog output for stable connection, and works great with a mixer, audio interface, or portable PA system, perfect for beginner home studio and mobile recording.', 'Durable Metal Construction For Better Stability: Rugged metal construction provides outstanding reliability. The heavy round base with the all-metal and will not be easily knocked down. Height adjustable metal tube is stronger than ordinary plastic tube and easily supports heavy microphones. Shock mount and pop filter for reducing p-pops.', 'What You Get: MAONO HD300T Dynamic microphone\uff08gray\uff09 / Shock mount/Mic stand/Pop Filter/ 78in USB cable/ 98in XLR cable/user guide book, our worry-free 12-month warranty, and friendly customer service.']",
+      "description": "[]",
+      "price": 54.59,
+      "store": "MAONO",
+      "categories": "['Musical Instruments', 'Microphones & Accessories', 'Microphones', 'Condenser Microphones', 'Multipurpose']",
+      "details": "{\"Item Weight\": \"2.99 pounds\", \"Package Dimensions\": \"10.94 x 6.06 x 5 inches\", \"Country of Origin\": \"China\", \"Item model number\": \"MAONO HD300T\", \"Best Sellers Rank\": {\"Musical Instruments\": 504, \"Multipurpose Dynamic Microphones\": 3, \"Multipurpose Condenser Microphones\": 22}, \"Date First Available\": \"September 24, 2022\", \"Color Name\": \"Gray\", \"Compatible Devices\": \"Laptop,Computer, PC, Audio interface,Studio Mixer equipment and PA System\", \"Connector Type\": \"USB, XLR Connector\", \"Material Type\": \"Metal\", \"Hardware Platform\": \"Laptop, Computer,PC, PA system, Audio interface,Studio Mixer equipment\", \"Power Source\": \"Corded Electric\", \"Recommended Uses For Product\": \"Streaming, Podcasting, Recording, Gaming, Singing\", \"Brand\": \"MAONO\", \"Connectivity Technology\": \"USB 2.0 Cable, XLR Cable\", \"Special Feature\": \"Volume Control, Headphone Monitoring\", \"Color\": \"Gray\", \"Included Components\": \"HD300T dynamic microphone (gray), Mic stand and metal round base, Pop filter, USB Cable, XLR Cable, Shock mount, user manualHD300T dynamic microphone (gray), Mic stand and metal round base, Pop filter, USB Cable, XLR Cable, Shock mount, user manual  See more\", \"Polar Pattern\": \"Unidirectional\", \"Audio Sensitivity\": \"45 dB\"}",
+      "parent_asin": "B0BRXTSP77"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Shure PGA31-TQG Headworn Microphone Wireless",
+      "average_rating": 4.5,
+      "rating_number": 1670,
+      "features": "['Wireframe headset fits securely for active speakers and vocal performers', 'Permanently charged electret condenser cartridge delivers detailed, crisp vocals', 'Unidirectional cardioid polar pattern rejects unwanted noise for improved sound quality and higher gain-before-feedback', 'Flexible gooseneck design and discrete adjustment capabilities optimize microphone positioning for further source isolation', 'TA4F (TQG) connector seamlessly integrates with Shure wireless body packs']",
+      "description": "['Shure PGA31 Performance Condenser Microphone', 'View larger', 'Frequency Response', 'View larger', 'Shure PGA31 Performance Condenser Microphone with Windscreen', 'View larger', 'Shure PGA31 Performance Headset Condenser Microphone', 'Specifications Accessories The PGA31 is an affordable wireless cardioid condenser headset microphone that delivers reliable sound quality for speech and live vocal performance applications. Designed for long-wearing comfort, the PGA31 offers a secure fit for hands-free operation in any situation. Its unidirectional cardioid polar pattern provides excellent off-axis rejection for higher gain-before-feedback when using a stage monitor.', 'Wireless Packages:', 'Available in bundled BLX, GLX-D, and PGX Digital wireless systems, the PGA31 features TA4F 4-pin connectors that make it a viable replacement for any Shure wireless headset system.', 'Features:', 'Wireframe headset fits securely for active speakers and vocal performers', 'Wireframe headset fits securely for active speakers and vocal performers', 'Permanently charged electret condenser cartridge delivers detailed, crisp vocals', 'Permanently charged electret condenser cartridge delivers detailed, crisp vocals', 'Unidirectional cardioid polar pattern rejects unwanted noise for improved sound quality and higher gain-before-feedback', 'Unidirectional cardioid polar pattern rejects unwanted noise for improved sound quality and higher gain-before-feedback', 'Flexible gooseneck design and discrete adjustment capabilities optimize microphone positioning for further source isolation', 'Flexible gooseneck design and discrete adjustment capabilities optimize microphone positioning for further source isolation', 'TA4F (TQG) connector seamlessly integrates with Shure wireless bodypacks', 'TA4F (TQG) connector seamlessly integrates with Shure wireless bodypacks', 'Included windscreen tames plosives for clean and intelligible sound reproduction', 'Included windscreen tames plosives for clean and intelligible sound reproduction', 'Tailored frequency response for great sound on vocals', 'Tailored frequency response for great sound on vocals', 'Legendary Shure precision engineering for durability and performance.', 'Legendary Shure precision engineering for durability and performance.']",
+      "price": 49.0,
+      "store": "Shure",
+      "categories": "['Musical Instruments', 'Microphones & Accessories', 'Microphones', 'Wireless Microphones & Systems', 'Wireless Headset Microphones']",
+      "details": "{\"Item Weight\": \"0.07 Kilograms\", \"Product Dimensions\": \"2.6 x 6.8 x 5.8 inches\", \"Domestic Shipping\": \"Currently, item can be shipped only within the U.S. and to APO/FPO addresses. For APO/FPO shipments, please check with the manufacturer regarding warranty and support issues.\", \"International Shipping\": \"This item can be shipped to select countries outside of the U.S.  Learn More\", \"Country of Origin\": \"Philippines\", \"Item model number\": \"PGA31-TQG\", \"Batteries\": \"1 Lithium Ion batteries required.\", \"Best Sellers Rank\": {\"Musical Instruments\": 898, \"Wireless Headset Microphones & Systems\": 2}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"March 7, 2014\", \"Color Name\": \"Black\", \"Compatible Devices\": \"Headphone, Speaker\", \"Material Type\": \"Foam\", \"Color Screen\": \"No\", \"Power Source\": \"PHANTOM POWER: All condenser microphones require phantom power to operate. Please refer to the User Manual for more details on power requirements.\", \"Recommended Uses For Product\": \"Singing\", \"Brand\": \"Shure\", \"Model Name\": \"PGA31 TQG\", \"Connectivity Technology\": \"Wired\", \"Special Feature\": \"Mute Function, Voice Activated Recording\", \"Color\": \"Black\", \"Included Components\": \"Headset Condenser\", \"Polar Pattern\": \"Unidirectional\"}",
+      "parent_asin": "B074JF4CMN"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Costzon BX-II 88-Key Portable Touch Sensitive Digital Piano, Upgraded Electric Keyboard with MIDI/USB Keyboard, Bluetooth, Dynamics Adjustment, Sustain Pedal, Power Supply, and Black Handbag (Black)",
+      "average_rating": 4.2,
+      "rating_number": 555,
+      "features": "['Touch Sensitive Keys: The digital piano features 88 fully touch sensitive keys (exquisitely according to 1:1 piano key ratio ) and is heavier in the low end and lighter in the high end, which can give you the feel of an acoustic piano and provide a wonderful playing experience! Touch sensitive keys is easy to implement when you long press the transpose+ button. Thus, different dynamics will present unique piano piece.', 'Multiple Connections & Functions: MIDI/USB interface makes it possible to connect computer and other intelligent devices to obtain better training experience. 128 Rhythms, 128 tones and 20 demos allow you to learn popular songs and practice your chords. You can also use Bluetooth to connect smart phone for more lessons.', 'Full Size Touch Sensitive Keys for Soft Finger Touch: Full size touch sensitive keys crafted exquisitely according to 1:1 piano key ratio, provide comfortable finger touch and make better sound. The volume will change depending on how hard you play.Engineered from durable ABS material, smooth keys will prevent skidding during playing time and avoid fading to keep long-lasting gloss.', 'Safe Material & Longer Playing Time: Premium aluminum alloy ensures reliable structure for prolonged service time. ASTM certification certifies adequate security of frequent usage. After charging 4 hours through power bank, computer USB or power strip, the keyboard can keep 12 hours battery life.', 'Portable Carrying Case Facilitates Storing: Big carrying case is convenient to store keyboard so that you can take keyboard anywhere and play anytime at will. Waterproof as well as heavy-duty oxford cloth will protect digital piano safely. Meanwhile, portable hand belt and strap will help you carry the bag more conveniently.']",
+      "description": "[]",
+      "price": 139.99,
+      "store": "Costzon",
+      "categories": "['Musical Instruments', 'Keyboards & MIDI', 'Electronic Keyboards', 'Portable & Arranger Keyboards']",
+      "details": "{\"Item Weight\": \"15 pounds\", \"Product Dimensions\": \"50 x 8.4 x 2.5 inches\", \"Item model number\": \"BX-II\", \"Best Sellers Rank\": {\"Musical Instruments\": 39364, \"Portable & Arranger Keyboards\": 262}, \"Date First Available\": \"December 19, 2019\", \"Color Name\": \"Black\", \"Material Type\": \"Aluminum, Acrylonitrile Butadiene Styrene\", \"Number of Keyboard Keys\": \"88\", \"Size\": \"50\\\" X 8.4\\\" X 2.5\\\" (LX WX H)\", \"Power Source\": \"Electric\", \"Brand\": \"Costzon\", \"Color\": \"Black\", \"Number of Keys\": \"88\", \"Special Feature\": \"Portable\"}",
+      "parent_asin": "B082XQX951"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Wireless Lavalier/Headset Microphone System Dual Bodypack Transmitters&Receiver Wireless Mic Set Rechargeable for iPhone, PA Speaker, DSLR Camera, YouTube, Video Recording, Teaching, Church, Interview",
+      "average_rating": 4.2,
+      "rating_number": 5205,
+      "features": "[\"Excellent Audio Performance - Wireless lavalier mic system offers high-quality sound transmission and clear voice at operating via the mic system's noise-reducing technology. There are 3 different mics, a lavalier mic, a headset mic, and a short line mic, providing you with different choices. The mics' built-in condenser chip is more sensitive and clearer. The wireless mic has stable signal and wide transmission distance. In the absence of obstacles, the transmission distance can reach 300ft.\", 'Multi Applications - This dual wireless headset microphone system is ideal for living performances like preaching in church, weddings, teaching, presentations, school plays, training, public speeches, interviews, or video and audio recording. It can also serve as a nice tool for fitness /exercise instructors. Two guys can use the microphone at the same time during video shooting or recording. Which could prevent the interference of using 2 single wireless mic systems.', 'Value Accessories in Wireless Mic Set - Dual wireless mic system kit is equipped with 3 Adapters (2 TRS adapters, 1 TRRS adapter); 3 Different Mics: 2 Headset Mics, 1 Short Line Mic, 2 Lavalier Lapel Mics; 2 Windproof Fur Shields, and a 3-in-1 USB Charging Cable. The rechargeable wireless transmitters and receiver can be used right out of the box. Select the lapel or headset or shortline mic, plug into the transmitter, turn on the mic system, and after the system automatic pairing, plug & play.', 'Wide Compatibility - The YM-2 wireless receiver has a 1/4\" plug that could work with a mixer, PA speaker, and amplifier. Once plugged in the 6.35 to 3.5 adapter, you can connect the receiver to any mobile device with a 1/8\" jack, such as DSLR camera, digital camera, laptop, desktop, smartphones. And for smartphones/tablets without a 1/8\u201d jack, you will need an extra adapter cable(not included in the package). Note: the mic system can\\'t be used with Macbook and bluetooth speakers.', \"Adjustable Frequency Channel&Volume - Dual wireless lavalier microphone system delivers 32 frequencies for each transmitter. 2 transmitters have different channels and won't interfere with each other's signals. Selectable frequency provides you more choice when there is frequency interference, press buttons on the bodypack transmitter, and choose an interference-free frequency. Also, there are 21 voice volumes, adjust the volume on the transmitter according to your needs, conveniently to use.\"]",
+      "description": "[]",
+      "price": 91.99,
+      "store": "ttstar",
+      "categories": "['Musical Instruments', 'Microphones & Accessories', 'Microphones', 'Wireless Microphones & Systems', 'Wireless Lavalier Microphones']",
+      "details": "{\"Item Weight\": \"487 Grams\", \"Package Dimensions\": \"9.88 x 9.65 x 2.05 inches\", \"Country of Origin\": \"China\", \"Item model number\": \"YM-2\", \"Batteries\": \"3 Lithium Ion batteries required. (included)\", \"Best Sellers Rank\": {\"Musical Instruments\": 508, \"Wireless Lavalier Microphones & Systems\": 21}, \"Date First Available\": \"July 8, 2022\", \"Color Name\": \"Gray\", \"Compatible Devices\": \"Laptop, Smartphone/ Tablet, Personal Computer, Camera, Speaker\", \"Connector Type\": \"3.5 mm Jack, 6.35 mm Jack\", \"Material Type\": \"Stainless Steel\", \"Size\": \"2T1R\", \"Battery type\": \"Lithium Ion\", \"Hardware Platform\": \"Tablet\", \"Power Source\": \"Battery Powered\", \"Recommended Uses For Product\": \"Recording\", \"Brand\": \"ttstar\", \"Connectivity Technology\": \"Bluetooth\", \"Special Feature\": \"Volume Control\", \"Color\": \"Gray\", \"Included Components\": \"Handheld mini Microphone\", \"Polar Pattern\": \"Omnidirectional\"}",
+      "parent_asin": "B0BQYH4Y5L"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Evans EC Reverse Dot Snare Drum Head - 14 Snare Drum Head - Featuring Reverse Dot for Durability, Focus, Attack - Coated with 2 Plies - 14 Inch",
+      "average_rating": 4.7,
+      "rating_number": 1811,
+      "features": "['COATED DRUM HEAD - 14\" snare batter drum head made using two plies of film. An outer ply of 7mil and an inner ply of 10mil film', \"EDGE CONTROL - Edge Control technology pre-EQs the sound, removing troublesome mid-range overtones that muddy the snare drum's sound\", 'REVERSE DOT - The reverse dot is mounted on the underside of the head for extra durability, focus and attack without getting in the way of brushes', 'ALSO AVAILABLE - Also available in a single ply version with the reversed dot and a two-ply version without the reversed dot', 'MADE IN THE USA - For over 60 years, Evans has been a pioneer in drum head manufacturing and design. Regarded for high quality and consistency all Evans drumheads are proudly designed, engineered, and manufactured in the USA to the most stringent quality controls in the industry.']",
+      "description": "['Product Description', \"A controlled sound but with resonance and sensitivity at all tuning and dynamic ranges, EC Snare head combines two-plies of film (6.5mil external, 10mil internal) with Evan's 'Edge Control' technology to eliminate the mid-range frequencies that muddy up the mix, leaving crisp highs and deep lows. The reverse dot version lends added durability and accentuated attack without choking the overall sound. EC Reverse Dot Snare Series Overview Evans EC snare heads feature two plies of film. The combination of a 7mil top ply and a 10mil bottom provides a controlled sound but with resonance and sensitivity at all tuning and dynamic ranges. Sound Shaping Technology (SST) rings on the underside reduce unwanted frequencies and enhances attack. The Reverse Dot lends extra durability, focus and attack in the center. The revolutionary Evans Level 360 drum head technology is found in the proprietary collar design that extends the level playing surface of the drum head 360 degrees around the drum. This vertically enhanced collar design ensures balanced contact with the critical bearing edge of the drum shell.\", 'From the Manufacturer', 'EC Reverse Dot Snare Series Overview', 'Evans EC snare heads feature two plies of film. The combination of a 7mil top ply and a 10mil bottom provides a controlled sound but with resonance and sensitivity at all tuning and dynamic ranges. Sound Shaping Technology (SST) rings on the underside reduce unwanted frequencies and enhances attack. The Reverse Dot lends extra durability, focus and attack in the center.', 'The revolutionary Evans Level 360 drum head technology is found in the proprietary collar design that extends the level playing surface of the drum head 360 degrees around the drum. This vertically enhanced collar design ensures balanced contact with the critical bearing edge of the drum shell, resulting in: \u2022 Ease of fit \u2022 Ease of tuning \u2022 Extended tuning range and quality of sound Available on all Evans 6 \u2013 20 inch Batter and Resonant Drum set, Snare Side, Concert and Marching Tenor heads. Evans Level 360 technology solves the age-old dilemma of traditional synthetic heads consistently not fitting a variety of drum shells without using force that chokes the responsiveness of the head and the drum\u2019s performance.', 'The Level 360 Blueprint', 'The benefits provided by Evans Level 360 technology stem from a groundbreaking collar design:', 'Steeper Collar:', 'Extends the level plane of the drum head to ensure balanced contact with the critical bearing edge of the drum shell.', 'Roll-over Hoop:', 'Provides strength and stability where the film meets the hoop, for greater durability without diminishing performance.', 'Balanced Contact:', 'For ease of tuning and enhanced quality of sound.', 'Greater Tonal Range:', 'Wider tuning options result in higher levels of responsivness and resonance, giving you the confidence to tune your drums high or low.']",
+      "price": 27.99,
+      "store": "Evans",
+      "categories": "['Musical Instruments', 'Instrument Accessories', 'Drum & Percussion Accessories', 'Drum Set Accessories', 'Drumheads', 'Tom-Tom Drumheads']",
+      "details": "{\"Item Weight\": \"0.64 Pounds\", \"Product Dimensions\": \"15 x 1.11 x 15 inches\", \"Domestic Shipping\": \"Item can be shipped within U.S.\", \"International Shipping\": \"This item can be shipped to select countries outside of the U.S.  Learn More\", \"Country of Origin\": \"USA\", \"Item model number\": \"B14ECSRD\", \"Best Sellers Rank\": {\"Musical Instruments\": 3380, \"Drum Set Tom-Tom Drumheads\": 15}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"May 5, 2007\", \"Color Name\": \"White\", \"Number of Keyboard Keys\": \"1\", \"Size\": \"14 Inch\", \"Percussion Diameter\": \"14 Inches\", \"Color\": \"White\", \"Brand\": \"Evans\", \"Item Dimensions LxWxH\": \"15 x 1.11 x 15 inches\", \"Included Components\": \"Snare\"}",
+      "parent_asin": "B0B2TND26L"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Remo PP-1470-PS Pinstripe Clear Tom Drumhead Pack - 10\", 12\" & 16\"",
+      "average_rating": 4.8,
+      "rating_number": 1072,
+      "features": "['Clear Pinstripe heads are made with two 7-mil Mylar plies', 'Feature a quick decay, making them ideal heads for the fat sounds of Pop, Rock and R&B', 'Ideal for those who want a low pitched sound with moderate attack and response characteristics', 'item package weight: 1.5 pounds']",
+      "description": "['Remo PP-1470-PS Pinstripe Clear Tom Drumhead Pack - 10\", 12\" & 16\"']",
+      "price": 55.95,
+      "store": "Remo",
+      "categories": "['Musical Instruments', 'Instrument Accessories', 'Drum & Percussion Accessories', 'Drum Set Accessories', 'Drumheads', 'Tom-Tom Drumheads']",
+      "details": "{\"Item Weight\": \"2.56 ounces\", \"Product Dimensions\": \"16.75 x 16.75 x 0.75 inches\", \"Domestic Shipping\": \"Item can be shipped within U.S.\", \"International Shipping\": \"This item can be shipped to select countries outside of the U.S.  Learn More\", \"Country of Origin\": \"USA\", \"Item model number\": \"PP-1470-PS\", \"Best Sellers Rank\": {\"Musical Instruments\": 1882, \"Drum Set Tom-Tom Drumheads\": 8}, \"Date First Available\": \"June 8, 2005\", \"Color Name\": \"#N/A\", \"Size\": \"10\\\", 12\\\"&16\\\"\"}",
+      "parent_asin": "B07281RLMX"
+    },
+    {
+      "main_category": "All Electronics",
+      "title": "tisino 3.5mm to XLR Cable Unbalanced Mini Jack 1/8 inch to XLR Male Adapter Microphone Cord - 1.6ft/50cm",
+      "average_rating": 4.6,
+      "rating_number": 1687,
+      "features": "['Unbalanced 3.5mm(1/8 inch) to XLR Cable connects a Cell phone, MP3 player, tablet, laptop, voice recorder, or any 3.5mm audio output to a mixing console or powered speakers; Connect a smartphone with a headphone jack to XLR input; Connect a tablet using an instrument App into a mixing console for a performance. (Note: it is used for aux out to xlr in, can not run this cable from an xlr out to a mic in)', 'This XLR male to 3.5mm cable combines the left and right stereo signal from a source with 3.5mm stereo output to a single mono feed, This is an Unbalanced cable, the L and R channels are soldered together making a mono signal to XLR Pin 2, the XLR Pin 1 and Pin 3 are shorted to ground, it is not suitable for most \"balanced\" applications.(Please See Diagram)', 'XLR male connector has molded strain relief to support the weight of the cable; 24k Gold-plated 3.5mm TRS connector has 360 degree easy-grip treads for frequent unplugging and durability, the step-down design of the 3.5mm connector provides connection to recessed ports.', '20 AWG 4N OFC Wire, High Density Shielding and Al-foil Shielded to Prevent EMI/RFI Interference ensuring the highest quality audio transfer without static, or popping.', 'Heavy Duty Flexible Soft Rubber Jacket provided maximum flexibility and durability performance']",
+      "description": "['Unbalanced 3.5mm TRS male to XLR male Cable This Unbalanced XLR to 3.5mm Cable is an ideal cable for connecting most devices with stereo mini jack output to a mixing console or powered speakers with XLR input.', 'Compatibility', 'Connect iPhone, iPod, MP3 player, tablet, laptop, or voice recorder to a mixing console or powered speakers(Behringer EUROLIVE or Behringer Xenyx ); 3.5mm stereo jack output to XLR input.', 'Features:', '- Heavy duty components.- High Grade Oxygen Free Copper (OFC) for effective EMI and RFI rejection and flexibility.- Durable and flexible PVC outer sleeve. - Inside aluminum foil shielding layer to reduce interference, for a better fidelity effect.- Gold Plated Reinforced Male 1/8\" Plug Delivers Preimum Quality Sound with Minnimal Interferance.- Low-Loss 98.5% Copper Braided Spiral-Wound Shield provides maximum cancellation of hum and noise.- Free velcro cable wrap included.- This full-featured cable has a soft PVC jacket for easy use and storage. - Sturdy metal connectors have Nickel-plated contacts to reduce oxidation and reinforcing screws on the XLR connector to maintain the cable integrity. - 4N Oxygen-free copper conductors are encased in bare copper braid shielding to provide pure sound that is noise free.', 'Cable Specifications', '- Cable Input: 3.5mm TRS Male- Cable Output: XLR 3-pin Male - Cable Conductors: Bare Copper- Connector Contacts: Gold-plated- Braid Shielding: 98.5% Coverage- Jacket Material: PVC- Cable Gauge: 20 AWG- Cable Body Outside Diameter: 6.0mm - Length: 1.6Feet/50CM', 'Note', 'This is unbalanced 3.5mm to xlr cable, which combine L/R stereo to mono input, not balanced.']",
+      "price": 9.99,
+      "store": "tisino",
+      "categories": "['Musical Instruments', 'Live Sound & Stage', 'Stage & Studio Cables', 'Microphone Cables']",
+      "details": "{\"Brand\": \"tisino\", \"Connector Type\": \"Auxiliary, XLR\", \"Cable Type\": \"AUX, XLR\", \"Compatible Devices\": \"Speaker\", \"Special Feature\": \"Braided\", \"Compatible Phone Models\": \"IPhone\", \"Color\": \"Black\", \"Connector Gender\": \"3.5mm male to xlr male\", \"Unit Count\": \"1.0 Count\", \"Gauge\": \"20.0\", \"Headphones Jack\": \"3.5 mm Jack\", \"Product Dimensions\": \"6 x 4 x 0.6 inches\", \"Item Weight\": \"1.76 ounces\", \"Item model number\": \"TSN9502\", \"Best Sellers Rank\": {\"Musical Instruments\": 891, \"Microphone Cables\": 40}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"September 17, 2018\", \"Manufacturer\": \"DEXINUO\"}",
+      "parent_asin": "B07MX64M6L"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Pyle Recording Shield Box-Microphone Foam Booth Cube, Sound Dampening Filter-Audio Acoustic Noise Isolator Platform w/Wedgie Padding, Studio, Podcast, Vocal Use PSIB27",
+      "average_rating": 3.9,
+      "rating_number": 777,
+      "features": "['ELIMINATES UNWANTED NOISE: The Sound Recording Booth Cube Shield features sound dampening foam that assists unwanted sounds from contaminating your recordings. Creates an acoustic boundary around the microphone that improves vocal audio flow', 'RECORD LIKE A PRO: Acoustic foam platform pads that block off outside noise such as air conditioning or computer fans, reduce sound reflections or echo and attenuate unwanted acoustic interference, the soundproof filter will let you record like a pro', 'THICK WEDGIE FOAM: Made of high density noise-absorbing acoustic foam that promotes mic stabilization. Unwanted outside audio waves and vibrations also known as noise and interference, are shielded while your voice has a clear path to your microphone', 'PORTABLE AND COMPACT: The microphone isolator box is lightweight and portable to easily transport from the studio countertop to the recording booth. Designed box-style for maximum absorption. Perfect for studio recording, podcast, vocal, singing, etc', 'REAR PANEL ZIPPER: The isolation box lets you to run cables through the rear panel zipper for a clean installation. Helps you achieve a more crisp sound preferred by most music professionals. Measures 12. 2\u201d x 13\u201d x 13. 3\u201d and comes in charcoal gray']",
+      "description": "[\"PylePro Model : PSIB27 Sound Recording Audio Isolation Box Sound Recording Booth Box, Studio Soundproofing Foam Shield Isolation Filter Cube Features: Versatile Mic Recording & Sound Isolation Ability Portable and Compact Cube Design Ready to Record: Quick & Easy Setup Soundproofing Studio Foam 'Wedgie' Acoustic Tiles Box-Style Engineered for Maximum Absorption/Isolation High Density Noise-Absorbing Acoustic Foam Perfect for Studio Recording, Podcasts, Vocals, Singing, etc. Run Cables Through Rear Panel Zipper Foam Color: Charcoal Gray *Tripod Mount & Microphone not included Dimensions (L x W x H): 12. 2'' x 13. 0'' x 13. 3'' -Open Dimensions (L x W x H): 25. 2'' x 13. 2'' x 2. 4'' -Folded The Pyle PSiB27 Sound Isolation Recording Booth Cube Shield features sound dampening foam that assists unwanted sounds from contaminating your recordings. The box shield creates an acoustic boundary around the microphone that improves vocal audio flow -- directing your voice to the containment area, and at the same time, preventing room reflections from directly entering the recording zone. The isolation box will help you achieve a more crisp and clean sound, preferred by most music professionals. Unwanted outside audio waves and vibrations, also known as noise and interference, are shielded while your voice has a clear path to your microphone. It's lightweight and portable so you can easily transport from the studio countertop to the recording booth. Get that studio-quality recording sound you've been looking for with the Pyle PSiB27 Soundproofing Foam Shield Isolation Cube.\"]",
+      "price": NaN,
+      "store": "Pyle",
+      "categories": "['Musical Instruments', 'Studio Recording Equipment', 'Studio Environment', 'Acoustical Treatments']",
+      "details": "{\"Item Weight\": \"1.99 pounds\", \"Product Dimensions\": \"2 x 25 x 13.25 inches\", \"Item model number\": \"PSIB27\", \"Best Sellers Rank\": {\"Musical Instruments\": 14972, \"Recording Studio Acoustical Treatments\": 305}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"July 5, 2015\", \"Color Name\": \"Black\"}",
+      "parent_asin": "B084GY3PB4"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Donner 12-Pack Acoustic Panels Sound Proof Foam Panels for Walls, 2\" x 12\" x 12\" Wedge Sound Absorbing Panels, Acoustic Foam Noise Canceling Panels for Studio Recording, Home Office",
+      "average_rating": 4.0,
+      "rating_number": 4471,
+      "features": "['\u3010 Wedge Surface & Perfect Sound Absorption\u3011Donner acoustic panels are designed for sound absorption and isolation. The wedge-shaped surface increases the contact area with sound waves to prevent sound from continuing to bounce and echo throughout the space by attenuating excess sound waves, thereby improving sound quality.', '\u3010High-quality Flame-retardant Material\u3011Soundproof foam panels have high-density polyurethane material. It is made of flame-retardant and environmentally-friendly materials that passed the test of SGS. NOTE: Before using acoustic foam in an enclosed space, it is recommended that you ventilate to remove the odor of the flame retardant.', '\u3010Easy to Use & Install\u3011Soundproof wall panels can be soaked in water for a while and then air-dried for 24-48 hours to restore the original shapes. Please make sure the wall is flat and free of foreign matter such as powder when you post. If your wall is rough, you can use acoustic foam spray adhesive. NOTE: Not included Stickers and acoustic foam spray adhesive.', '\u3010Multi-purpose\u3011These sound-canceling foam can improve the acoustics in a room and make it a more valuable and useful space, whether for your studio or home theatre, entertainment room, church, office, or Gymnasiums.', '\u3010After-sale Service Guarantee\u3011We provide a worry-free shopping experience service, if you have any questions, please feel free to contact our 24-hour customer service for help. We will give you a satisfactory solution.']",
+      "description": "[]",
+      "price": 23.99,
+      "store": "Donner",
+      "categories": "['Musical Instruments', 'Studio Recording Equipment', 'Studio Environment', 'Acoustical Treatments']",
+      "details": "{\"Item Weight\": \"1.68 pounds\", \"Product Dimensions\": \"13.78 x 13.78 x 5.91 inches\", \"Item model number\": \"EC2031-PAN-RD\", \"Best Sellers Rank\": {\"Musical Instruments\": 3122, \"Recording Studio Acoustical Treatments\": 102}, \"Date First Available\": \"February 20, 2020\", \"Size\": \"2\\\" x 12\\\" x 12\\\"\"}",
+      "parent_asin": "B09K6GW17L"
+    }
+  ]
+}

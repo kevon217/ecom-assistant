@@ -1,0 +1,448 @@
+{
+  "analysis": {
+    "title": "raw_order_data_20250517_1343",
+    "date": "2025-05-17 17:43:16.286291"
+  },
+  "table": {
+    "n_rows": 51290,
+    "n_columns": 16,
+    "n_cells_missing": 8,
+    "p_cells_missing": 9.748488984207448e-06,
+    "column_types": {
+      "Text": 9,
+      "Numeric": 7
+    },
+    "memory_size": 6565252
+  },
+  "variables": {
+    "Order_Date": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 356,
+        "percent": 0.006940924156755703
+      },
+      "top_categories": {
+        "2018-04-24": 615,
+        "2018-07-30": 482,
+        "2018-06-30": 330,
+        "2018-05-16": 283,
+        "2018-11-07": 273
+      }
+    },
+    "Time": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 35275,
+        "percent": 0.6877558978358355
+      },
+      "top_categories": {
+        "19:54:45": 7,
+        "16:31:00": 7,
+        "18:33:35": 6,
+        "16:31:53": 6,
+        "11:11:12": 6
+      }
+    },
+    "Aging": {
+      "type": "Numeric",
+      "n_missing": 1,
+      "p_missing": 1.9496977968414897e-05,
+      "distinct": {
+        "count": 11,
+        "percent": 0.00021447093918774006
+      },
+      "stats": {
+        "min": 1.0,
+        "max": 10.5,
+        "mean": 5.255035192731385,
+        "median": 5.0,
+        "std": 2.9599483613755444
+      }
+    },
+    "Customer_Id": {
+      "type": "Numeric",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 38997,
+        "percent": 0.7603236498342757
+      },
+      "stats": {
+        "min": 10000,
+        "max": 99999,
+        "mean": 58155.758763891594,
+        "median": 61018.0,
+        "std": 26032.215825722877
+      }
+    },
+    "Gender": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 2,
+        "percent": 3.899395593682979e-05
+      },
+      "top_categories": {
+        "Male": 28138,
+        "Female": 23152
+      }
+    },
+    "Device_Type": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 2,
+        "percent": 3.899395593682979e-05
+      },
+      "top_categories": {
+        "Web": 47632,
+        "Mobile": 3658
+      }
+    },
+    "Customer_Login_type": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 4,
+        "percent": 7.798791187365959e-05
+      },
+      "top_categories": {
+        "Member": 49097,
+        "Guest": 1993,
+        "First SignUp": 173,
+        "New ": 27
+      }
+    },
+    "Product_Category": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 4,
+        "percent": 7.798791187365959e-05
+      },
+      "top_categories": {
+        "Fashion": 25646,
+        "Home & Furniture": 15438,
+        "Auto & Accessories": 7505,
+        "Electronic": 2701
+      }
+    },
+    "Product": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 42,
+        "percent": 0.0008188730746734257
+      },
+      "top_categories": {
+        "Suits": 2332,
+        "T - Shirts": 2332,
+        "Fossil Watch": 2332,
+        "Shirts": 2332,
+        "Jeans": 2332
+      }
+    },
+    "Sales": {
+      "type": "Numeric",
+      "n_missing": 1,
+      "p_missing": 1.9496977968414897e-05,
+      "distinct": {
+        "count": 39,
+        "percent": 0.0007603969662110784
+      },
+      "stats": {
+        "min": 33.0,
+        "max": 250.0,
+        "mean": 152.34087231180175,
+        "median": 133.0,
+        "std": 66.49541941735208
+      }
+    },
+    "Quantity": {
+      "type": "Numeric",
+      "n_missing": 2,
+      "p_missing": 3.899395593682979e-05,
+      "distinct": {
+        "count": 5,
+        "percent": 9.748869131180783e-05
+      },
+      "stats": {
+        "min": 1.0,
+        "max": 5.0,
+        "mean": 2.5029831539541414,
+        "median": 2.0,
+        "std": 1.5118586336411266
+      }
+    },
+    "Discount": {
+      "type": "Numeric",
+      "n_missing": 1,
+      "p_missing": 1.9496977968414897e-05,
+      "distinct": {
+        "count": 5,
+        "percent": 9.748679053988184e-05
+      },
+      "stats": {
+        "min": 0.1,
+        "max": 0.5,
+        "mean": 0.3038214821891633,
+        "median": 0.3,
+        "std": 0.1310266110766322
+      }
+    },
+    "Profit": {
+      "type": "Numeric",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 391,
+        "percent": 0.007623318385650224
+      },
+      "stats": {
+        "min": 0.5,
+        "max": 167.5,
+        "mean": 70.4072255800351,
+        "median": 59.9,
+        "std": 48.729488299512695
+      }
+    },
+    "Shipping_Cost": {
+      "type": "Numeric",
+      "n_missing": 1,
+      "p_missing": 1.9496977968414897e-05,
+      "distinct": {
+        "count": 153,
+        "percent": 0.0029830957905203847
+      },
+      "stats": {
+        "min": 0.1,
+        "max": 16.8,
+        "mean": 7.0415566690713405,
+        "median": 6.0,
+        "std": 4.871744672835268
+      }
+    },
+    "Order_Priority": {
+      "type": "Text",
+      "n_missing": 2,
+      "p_missing": 3.899395593682979e-05,
+      "distinct": {
+        "count": 4,
+        "percent": 7.799095304944626e-05
+      },
+      "top_categories": {
+        "Medium": 29433,
+        "High": 15499,
+        "Critical": 3932,
+        "Low": 2424
+      }
+    },
+    "Payment_method": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 5,
+        "percent": 9.748488984207447e-05
+      },
+      "top_categories": {
+        "credit_card": 38137,
+        "money_order": 9629,
+        "e_wallet": 2789,
+        "debit_card": 734,
+        "not_defined": 1
+      }
+    }
+  },
+  "sample_rows": [
+    {
+      "Order_Date": "2018-07-08",
+      "Time": "20:06:55",
+      "Aging": 3.0,
+      "Customer_Id": 77180,
+      "Gender": "Female",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Fashion",
+      "Product": "Sneakers",
+      "Sales": 62.0,
+      "Quantity": 2.0,
+      "Discount": 0.3,
+      "Profit": 31.0,
+      "Shipping_Cost": 3.1,
+      "Order_Priority": "Medium",
+      "Payment_method": "credit_card"
+    },
+    {
+      "Order_Date": "2018-10-22",
+      "Time": "21:39:34",
+      "Aging": 3.0,
+      "Customer_Id": 28639,
+      "Gender": "Female",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Auto & Accessories",
+      "Product": "Car Mat",
+      "Sales": 54.0,
+      "Quantity": 1.0,
+      "Discount": 0.3,
+      "Profit": 18.0,
+      "Shipping_Cost": 1.8,
+      "Order_Priority": "Critical",
+      "Payment_method": "credit_card"
+    },
+    {
+      "Order_Date": "2018-11-19",
+      "Time": "20:45:16",
+      "Aging": 10.0,
+      "Customer_Id": 70771,
+      "Gender": "Male",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Home & Furniture",
+      "Product": "Curtains",
+      "Sales": 34.0,
+      "Quantity": 1.0,
+      "Discount": 0.3,
+      "Profit": 17.0,
+      "Shipping_Cost": 1.7,
+      "Order_Priority": "Medium",
+      "Payment_method": "credit_card"
+    },
+    {
+      "Order_Date": "2018-08-09",
+      "Time": "15:41:23",
+      "Aging": 7.0,
+      "Customer_Id": 71200,
+      "Gender": "Male",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Home & Furniture",
+      "Product": "Bed Sheets",
+      "Sales": 211.0,
+      "Quantity": 4.0,
+      "Discount": 0.4,
+      "Profit": 97.2,
+      "Shipping_Cost": 9.7,
+      "Order_Priority": "Medium",
+      "Payment_method": "credit_card"
+    },
+    {
+      "Order_Date": "2018-06-01",
+      "Time": "14:06:06",
+      "Aging": 4.0,
+      "Customer_Id": 65318,
+      "Gender": "Male",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Home & Furniture",
+      "Product": "Dinning Tables",
+      "Sales": 119.0,
+      "Quantity": 3.0,
+      "Discount": 0.4,
+      "Profit": 24.7,
+      "Shipping_Cost": 2.5,
+      "Order_Priority": "Medium",
+      "Payment_method": "money_order"
+    },
+    {
+      "Order_Date": "2018-05-16",
+      "Time": "08:54:42",
+      "Aging": 4.0,
+      "Customer_Id": 15942,
+      "Gender": "Female",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Fashion",
+      "Product": "Shirts",
+      "Sales": 196.0,
+      "Quantity": 2.0,
+      "Discount": 0.5,
+      "Profit": 96.4,
+      "Shipping_Cost": 9.6,
+      "Order_Priority": "Medium",
+      "Payment_method": "money_order"
+    },
+    {
+      "Order_Date": "2018-11-09",
+      "Time": "11:37:35",
+      "Aging": 10.0,
+      "Customer_Id": 39960,
+      "Gender": "Male",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Auto & Accessories",
+      "Product": "Car Speakers",
+      "Sales": 211.0,
+      "Quantity": 1.0,
+      "Discount": 0.3,
+      "Profit": 122.6,
+      "Shipping_Cost": 12.3,
+      "Order_Priority": "High",
+      "Payment_method": "money_order"
+    },
+    {
+      "Order_Date": "2018-09-09",
+      "Time": "17:46:23",
+      "Aging": 6.0,
+      "Customer_Id": 28483,
+      "Gender": "Male",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Fashion",
+      "Product": "Fossil Watch",
+      "Sales": 159.0,
+      "Quantity": 1.0,
+      "Discount": 0.5,
+      "Profit": 74.2,
+      "Shipping_Cost": 7.4,
+      "Order_Priority": "Medium",
+      "Payment_method": "credit_card"
+    },
+    {
+      "Order_Date": "2018-07-21",
+      "Time": "12:52:54",
+      "Aging": 8.0,
+      "Customer_Id": 61507,
+      "Gender": "Female",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Fashion",
+      "Product": "Suits",
+      "Sales": 109.0,
+      "Quantity": 2.0,
+      "Discount": 0.3,
+      "Profit": 22.5,
+      "Shipping_Cost": 2.2,
+      "Order_Priority": "Medium",
+      "Payment_method": "money_order"
+    },
+    {
+      "Order_Date": "2018-09-08",
+      "Time": "19:56:54",
+      "Aging": 2.0,
+      "Customer_Id": 94374,
+      "Gender": "Female",
+      "Device_Type": "Web",
+      "Customer_Login_type": "Member",
+      "Product_Category": "Home & Furniture",
+      "Product": "Dinning Tables",
+      "Sales": 119.0,
+      "Quantity": 1.0,
+      "Discount": 0.3,
+      "Profit": 35.4,
+      "Shipping_Cost": 3.5,
+      "Order_Priority": "Medium",
+      "Payment_method": "credit_card"
+    }
+  ]
+}

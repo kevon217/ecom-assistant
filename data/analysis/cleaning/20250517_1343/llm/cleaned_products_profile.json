@@ -1,0 +1,385 @@
+{
+  "analysis": {
+    "title": "cleaned_products",
+    "date": "2025-05-17 17:43:59.030335"
+  },
+  "table": {
+    "n_rows": 5000,
+    "n_columns": 14,
+    "n_cells_missing": 1297,
+    "p_cells_missing": 0.01852857142857143,
+    "column_types": {
+      "Text": 8,
+      "Numeric": 3,
+      "Unsupported": 3
+    },
+    "memory_size": 560132
+  },
+  "variables": {
+    "main_category": {
+      "type": "Text",
+      "n_missing": 30,
+      "p_missing": 0.006,
+      "distinct": {
+        "count": 24,
+        "percent": 0.00482897384305835
+      },
+      "top_categories": {
+        "Musical Instruments": 4277,
+        "All Electronics": 195,
+        "Industrial & Scientific": 93,
+        "Tools & Home Improvement": 68,
+        "Amazon Home": 60
+      }
+    },
+    "title": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 4831,
+        "percent": 0.9662
+      },
+      "top_categories": {
+        "Acoustic Panels Studio Foam Sound Proof Panels Nosie Dampening Foam Studio Music Equipment Acoustical Treatments Foam 12 Pack-12''12''1''": 8,
+        "M33 Ukulele Strap Upgrade Multicolor Hawaiian Jacquard Woven, Double J Hooks Clip On Ukulele Belt": 7,
+        "Hohner PBH7 Piedmont Blues Harmonica Set - 7-Pack": 6,
+        "Karaoke Microphone for Kids Adults, Wireless 4 in 1 Handheld Bluetooth Microphone with LED Lights, Portable Smartphone Speaker Boys Girls Singing Toys for Home KTV Outdoor Christmas Birthday Party": 5,
+        "Acoustic Foam Panels, 12Pack 2\" X 12\" X 12\" SoundProof Padding Foam Panels, Studio Foam Pyramid Tiles Sound Absorbing Dampening Foam Treatment Wall Panels": 5
+      }
+    },
+    "average_rating": {
+      "type": "Numeric",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 20,
+        "percent": 0.004
+      },
+      "stats": {
+        "min": 3.1,
+        "max": 5.0,
+        "mean": 4.4865,
+        "median": 4.5,
+        "std": 0.24521781410670607
+      }
+    },
+    "rating_number": {
+      "type": "Numeric",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 1855,
+        "percent": 0.371
+      },
+      "stats": {
+        "min": 547,
+        "max": 100615,
+        "mean": 1876.2298,
+        "median": 963.0,
+        "std": 3899.3383632260156
+      }
+    },
+    "features": {
+      "type": "Unsupported",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 0,
+        "percent": 0
+      }
+    },
+    "description": {
+      "type": "Unsupported",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 0,
+        "percent": 0
+      }
+    },
+    "price": {
+      "type": "Numeric",
+      "n_missing": 1266,
+      "p_missing": 0.2532,
+      "distinct": {
+        "count": 1194,
+        "percent": 0.3197643277986074
+      },
+      "stats": {
+        "min": 1.99,
+        "max": 1328.0,
+        "mean": 56.50802624531333,
+        "median": 25.924999999999997,
+        "std": 83.44762567017831
+      }
+    },
+    "store": {
+      "type": "Text",
+      "n_missing": 1,
+      "p_missing": 0.0002,
+      "distinct": {
+        "count": 1573,
+        "percent": 0.3146629325865173
+      },
+      "top_categories": {
+        "Fender": 124,
+        "JIM DUNLOP": 103,
+        "YAMAHA": 88,
+        "Pyle": 86,
+        "Donner": 77
+      }
+    },
+    "categories": {
+      "type": "Unsupported",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 0,
+        "percent": 0
+      }
+    },
+    "details": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 4953,
+        "percent": 0.9906
+      },
+      "top_categories": {
+        "{}": 26,
+        "{\"Item Weight\": \"2 pounds\", \"Product Dimensions\": \"9.5 x 4 x 2 inches\", \"Item model number\": \"PBH7\", \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"February 16, 2007\", \"Color Name\": \"Gold\", \"Material Type\": \"Fabric\", \"Instrument Key\": \"G\", \"Size\": \"Multi-Instrument\", \"Color\": \"Gold\", \"Brand\": \"Hohner Accordions\", \"Material\": \"Fabric\", \"Style\": \"American\"}": 4,
+        "{\"Item Weight\": \"4.44 pounds\", \"Product Dimensions\": \"23 x 3 x 10 inches\", \"Item model number\": \"44BK\", \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"December 10, 2005\", \"Back Material\": \"Maple\", \"Color Name\": \"Black\", \"Top Material\": \"Maple, Spruce\", \"Number of Strings\": \"4\", \"Material Type\": \"Maple Wood, Pear Wood\", \"Size\": \"4/4\", \"Brand\": \"Crescent\", \"Color\": \"Black\", \"Item Dimensions LxWxH\": \"23 x 3 x 10 inches\", \"Top Material Type\": \"Maple, Spruce\", \"Back Material Type\": \"Maple\", \"Finish Type\": \"Polished\", \"Instrument\": \"Violin\", \"Operation Mode\": \"Manual\"}": 3,
+        "{\"Item Weight\": \"1.5 pounds\", \"Product Dimensions\": \"9 x 1 x 12 inches\", \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"November 15, 2012\"}": 3,
+        "{\"Brand\": \"Jeunesse Global\", \"Flavor\": \"Active\", \"Unit Count\": \"25.5 Fl Oz\", \"Item Weight\": \"12 Pounds\", \"Item Dimensions LxWxH\": \"8 x 12 x 8 inches\", \"Product Benefits\": \"Antioxidant\", \"Package Information\": \"Bottle\", \"Number of Items\": \"4\", \"Dosage Form\": \"Capsule\", \"Is Discontinued By Manufacturer\": \"No\", \"Product Dimensions\": \"8 x 12 x 8 inches; 12 Pounds\", \"Item model number\": \"MonavieActive\", \"Department\": \"Teens-Adults-Unisex\", \"Date First Available\": \"January 24, 2010\", \"Manufacturer\": \"Jeunesse Global\"}": 3
+      }
+    },
+    "parent_asin": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 5000,
+        "percent": 1.0
+      },
+      "top_categories": {
+        "B0BSGM6CQ9": 1,
+        "B0978Y8NTL": 1,
+        "B082FGB729": 1,
+        "B07SXGF77V": 1,
+        "B07RVB6SCL": 1
+      }
+    },
+    "features_raw": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 4515,
+        "percent": 0.903
+      },
+      "top_categories": {
+        "[]": 161,
+        "['Good Looking - The Ukulele is beautiful and well-made. We have different colors for you to make choice.', 'High Quality - The Ukulele is generally made of high quality Basswood with advanced wood patternsand nylon strings. All these make the tone of Ukulele bright and smooth.', 'Easy to Play - The Ukulele is suitable for beginners, either kids or adults. If you would like to start playing Ukulele, it is the best choice for you.', 'Free Accessories - We offer you a fine package of free accessories: a set of 4 strings, a high quality Ukulele bag, and 2 finger picks.', 'Best Service - 30 days unconditional money back guarantee. Please locate your order on your Amazon account and click \"Ask Seller\" to get assistance. We provide 24 hours customer service.']": 13,
+        "['\u266bSIGNAL STABILIZATION: Guitar cable AWG24 oxygen-free copper center conductor provides enhanced signal transmission for maximum signal transmission stability.', '\u266bLONG WORKING LIFE: Instrument cable is wrapped with aluminum foil to achieve super shielding. Guitar cable ensures fast signal transmission, pure tone, and increases the toughness of the guitar cable and prolongs the working life of the guitar cable.', '\u266bINSULATING OUTER LAYER: PVC insulating material, effectively reducing the electromagnetic interference of environmental noise, soft and durable. Lulu Home guitar cable insulating outer layer is more effective in ensuring the safety of using, and avoiding the danger while entertainment. Considering that the guitar cable often needs to be bent during carrying and use, Lulu Home guitar cable is made of PVC, which makes it softer and more durable than similar products.', '\u266bRELIABLE GOLD-PLATED: Higher conductivity and corrosion resistance. Damage to each guitar cable is usually a problem at the plug, and the quality of the plug directly affects the working life of the guitar cable. Lulu Home guitar cable plug is made of gold-plated material and has a high-hardness casing protection that is both durable and beautiful appearance. Heat shrink tubing will not be damaged.', '\u266bGUARANTEED FOR LIFE: You are not satisfied with our guitar cable, just send them back to us for a full refund in time. We hope to be better. Click the Add to Cart button now.']": 9,
+        "['Acoustic environment is very important for Studios, Recording Studios, Vocal Booths, Control Rooms, Offices, Home Studios, Home Entertainment Theaters, Gaming Rooms, and Home Offices.Acoustic panels are good for sound by effectively controlling unwanted reverb and echo, Great for spot treating walls in your studio or office.', 'Whether you are podcasting and hosting a Webinar or video review producer,nobody likes to hear Echoes through your sounds.Our acoustic panels will help eliminate Echo in any room of your house.', 'By increasing noise absorption properties inside the room will help to reduce noise transmission through the walls and thus reduce noise outside the room.professional acoustic control reduce waves, reverb and flutter echoes in smaller to medium sized rooms.', 'Acoustic panels are compression packing and can expand quickly. About tape: Most people use adhesive spray though. I suggest using use 3M Command strips,4 per square (one in each corner),and it worked great !', 'NRC:0.5 Density:25kg/m3 Fire Retardant: CA Technical Bulletin 117.']": 9,
+        "['Traditional reeds are known for their excellent response in all registers, allowing a pianissimo attack in even highest notes.', 'Extremely flexible, allowing the legato or staccato execution of large intervals while maintaining a richness of tone that gives body and clarity to the sound, which is a hallmark of Vandoren reeds.', 'Traditional reeds are available for all clarinets and saxophones in various strengths.', \"Every reed sealed in 'Flow Pack' to ensure freshness.\"]": 8
+      }
+    },
+    "description_raw": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 2644,
+        "percent": 0.5288
+      },
+      "top_categories": {
+        "[]": 2152,
+        "['1']": 11,
+        "['Introduction', 'Apelila is an excellent and energetic brand in the US. Since we have dedicated to develop Apelila, our product lines are rich and diverse, for example, home furnishing, beauty tool, and musical instrument. At present, we are expanding the brand worldwide with our consistent high quality.', 'Features', '1. Good Looking.', 'The Ukulele is beautiful and well-made. We have different colors for you to make choice.', '2. High quality.', 'The Ukulele is generally made of high quality Basswood and nylon strings. All these make the tone of Ukulele bright and smooth .', '3. Easy to play.', 'The Ukulele is suitable for beginners, either children or adults. If you would like to start playing Ukulele, it is the best choice for you.', '4. Free accessories.', 'We offer you a fine package of free accessories: a set of 4 strings, a high quality Ukulele bag, and 2 finger picks.', 'Notice:', 'The strings are all in loose to keep from damage during the delivery. You have to tune them up before playing.']": 10,
+        "['The most widely played reeds in the world, with a superiority proven over the years, these reeds suit all styles of music.']": 7,
+        "['The Squier by Fender Bullet Strat with tremolo is an affordable and practical electric guitar designed for anyone\u2019s budget. It has many of the ingredients that have propelled the Stratocaster to be one of the most iconic guitars ever made. This Squier is a perfect choice for a first guitar no matter who you are or what style of music you want to learn. Welcome to the Fender family!']": 7
+      }
+    },
+    "categories_raw": {
+      "type": "Text",
+      "n_missing": 0,
+      "p_missing": 0.0,
+      "distinct": {
+        "count": 368,
+        "percent": 0.0736
+      },
+      "top_categories": {
+        "['Musical Instruments', 'Instrument Accessories', 'Guitar & Bass Accessories', 'Picks & Pick Holders', 'Picks']": 168,
+        "['Musical Instruments', 'Ukuleles, Mandolins & Banjos', 'Ukuleles']": 130,
+        "['Musical Instruments', 'Microphones & Accessories', 'Accessories', 'Stands']": 118,
+        "['Musical Instruments', 'Microphones & Accessories', 'Microphones', 'Condenser Microphones', 'Multipurpose']": 113,
+        "['Musical Instruments', 'Microphones & Accessories', 'Microphones', 'Wireless Microphones & Systems', 'Handheld Wireless Microphones']": 112
+      }
+    }
+  },
+  "sample_rows": [
+    {
+      "main_category": "Musical Instruments",
+      "title": "Yamaha DK-15 Chrome Drum Key",
+      "average_rating": 4.8,
+      "rating_number": 598,
+      "features": "['Genuine Yamaha part', 'Ergonomic design', 'May be attached to key chain', 'Country of Origin: China']",
+      "description": "['Chrome Drum Key']",
+      "price": 9.96,
+      "store": "YAMAHA",
+      "categories": "['Musical Instruments', 'Instrument Accessories', 'Drum & Percussion Accessories', 'Drum Set Accessories', 'Drum Keys & Wrenches']",
+      "details": "{\"Item Weight\": \"1.58 Ounces\", \"Product Dimensions\": \"5.12 x 2.76 x 2.76 inches\", \"Item model number\": \"DK-15\", \"Best Sellers Rank\": {\"Musical Instruments\": 7729, \"Drum Set Drum Keys & Wrenches\": 12}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"June 19, 2012\", \"Color Name\": \"Silver\", \"Size\": \"-inch\", \"Color\": \"Silver\", \"Brand\": \"Yamaha\", \"Model Name\": \"DK 15\", \"Item Dimensions LxWxH\": \"5.12 x 2.76 x 2.76 inches\"}",
+      "parent_asin": "B0BR2WB9JY",
+      "features_raw": "['Genuine Yamaha part', 'Ergonomic design', 'May be attached to key chain', 'Country of Origin: China']",
+      "description_raw": "['Chrome Drum Key']",
+      "categories_raw": "['Musical Instruments', 'Instrument Accessories', 'Drum & Percussion Accessories', 'Drum Set Accessories', 'Drum Keys & Wrenches']"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Hand Crafted Modern Didgeridoo - Beeswax Mouthpiece - Free Mouthpiece Repair Kit - Key of C Ohm - Loud! - by World Percussion USA",
+      "average_rating": 4.5,
+      "rating_number": 747,
+      "features": "[\"Individual inspection and testing - we won't sell it if it doesn't sound good.\", '52\" tall, 2\" wide - optimal for easy transport and excellent sound - Key of C - Ohm', 'Hand crafted with synthetic and natural materials. More durable than wood, and weatherproof and lightweight.', 'Contoured playing end, hand dipped beeswax mouthpiece, with FREE beeswax bar to customize mouthpiece', 'The sale of this didge helps support the efforts of Africa Heartwood Project .']",
+      "description": "[]",
+      "price": 44.95,
+      "store": "World Percussion USA",
+      "categories": "['Musical Instruments', 'Wind & Woodwind Instruments', 'Folk & World', 'Didgeridoos']",
+      "details": "{\"Color\": \"Brown, fire etched\", \"Brand\": \"World Percussion USA\", \"Instrument Key\": \"C\", \"Material\": \"hand shaped polymer\", \"Style\": \"Modern\"}",
+      "parent_asin": "B003Z2YI8K",
+      "features_raw": "[\"Individual inspection and testing - we won't sell it if it doesn't sound good.\", '52\" tall, 2\" wide - optimal for easy transport and excellent sound - Key of C - Ohm', 'Hand crafted with synthetic and natural materials. More durable than wood, and weatherproof and lightweight.', 'Contoured playing end, hand dipped beeswax mouthpiece, with FREE beeswax bar to customize mouthpiece', 'The sale of this didge helps support the efforts of Africa Heartwood Project .']",
+      "description_raw": "[]",
+      "categories_raw": "['Musical Instruments', 'Wind & Woodwind Instruments', 'Folk & World', 'Didgeridoos']"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Korg 88 Key Lifestyle Piano Black (LP180BK)",
+      "average_rating": 4.4,
+      "rating_number": 626,
+      "features": "['A digital piano with a rich and authentic grand piano sound', 'Natural Weighted Hammer Action (NH) faithfully reproduces the touch of an acoustic piano', 'A total of ten sounds are provided, including electric pianos, and more', 'Reverb and chorus effects for enhanced sound']",
+      "description": "['Emanating a sense of quality that exceeds its class, this slim, digital piano features a beautiful and rich authentic grand piano sound, keyboard cover, a one-piece stand, and a three-pedal unit.']",
+      "price": 749.99,
+      "store": "Korg",
+      "categories": "['Musical Instruments', 'Keyboards & MIDI', 'Electronic Keyboards', 'Digital Pianos', 'Home Digital Pianos']",
+      "details": "{\"Item Weight\": \"63.3 pounds\", \"Product Dimensions\": \"56.5 x 14.72 x 17.32 inches\", \"Item model number\": \"LP180BK\", \"Best Sellers Rank\": {\"Musical Instruments\": 79158, \"Home Digital Pianos\": 243}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"April 29, 2014\", \"Color Name\": \"Korg 88 Key Lifestyle Piano Black\", \"Number of Keyboard Keys\": \"88\", \"Speaker Count\": \"2\", \"Output Wattage\": \"20 Watts\", \"Size\": \"Large\", \"Power Source\": \"Electric\", \"Brand\": \"Korg\", \"Color\": \"Korg 88 Key Lifestyle Piano Black\", \"Number of Keys\": \"88\", \"Special Feature\": \"Weighted Keys\"}",
+      "parent_asin": "B01LZBBSFY",
+      "features_raw": "['A digital piano with a rich and authentic grand piano sound', 'Natural Weighted Hammer Action (NH) faithfully reproduces the touch of an acoustic piano', 'A total of ten sounds are provided, including electric pianos, and more', 'Reverb and chorus effects for enhanced sound']",
+      "description_raw": "['Emanating a sense of quality that exceeds its class, this slim, digital piano features a beautiful and rich authentic grand piano sound, keyboard cover, a one-piece stand, and a three-pedal unit.']",
+      "categories_raw": "['Musical Instruments', 'Keyboards & MIDI', 'Electronic Keyboards', 'Digital Pianos', 'Home Digital Pianos']"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "GraphTech PT606000 TUSQ XL Black Self-Lubricating Slotted Nut, Epiphone Style",
+      "average_rating": 4.7,
+      "rating_number": 809,
+      "features": "['TUSQ XL is engineered from the same material as TUSQ and is impregnated with PTFE which is five times more slippery than graphite', 'It has all the tonal benefits of TUSQ, bringing out the hidden harmonics of your guitar all while drastically improving tuning performance', 'TUSQ XL is consistent from piece to piece, and within each piece, to offer you harmonically rich tones without the problems associated with natural materials', 'Country of Origin: United States']",
+      "description": "[\"Sounds so good it must be illegal! Man made ivory. Compared to standard materials, you'll hear crystal clear bell-like high end, big open lows, and a noticeable increase in overall sustain. Unlike natural materials such as bone and ivory, TUSQ is consistent from piece to piece. Without a doubt, this is the best synthetic material on the market, and it cuts and files beautifully.\"]",
+      "price": NaN,
+      "store": "Graph Tech",
+      "categories": "['Musical Instruments', 'Instrument Accessories', 'Guitar & Bass Accessories', 'Acoustic & Classical Guitar Parts', 'Nuts']",
+      "details": "{\"Item Weight\": \"0.01 Pounds\", \"Product Dimensions\": \"1.73 x 0.24 x 0.36 inches\", \"Item model number\": \"PT606000\", \"Best Sellers Rank\": {\"Musical Instruments\": 6314, \"Acoustic & Classical Guitar Nuts\": 12}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"October 13, 2007\", \"Color Name\": \"Black\", \"Size\": \"1/4inch\", \"Brand\": \"Graph Tech\", \"Color\": \"Black\", \"Style\": \"Epiphone Style\", \"Item Dimensions LxWxH\": \"1.73 x 0.24 x 0.36 inches\"}",
+      "parent_asin": "B0002E1UEO",
+      "features_raw": "['TUSQ XL is engineered from the same material as TUSQ and is impregnated with PTFE which is five times more slippery than graphite', 'It has all the tonal benefits of TUSQ, bringing out the hidden harmonics of your guitar all while drastically improving tuning performance', 'TUSQ XL is consistent from piece to piece, and within each piece, to offer you harmonically rich tones without the problems associated with natural materials', 'Country of Origin: United States']",
+      "description_raw": "[\"Sounds so good it must be illegal! Man made ivory. Compared to standard materials, you'll hear crystal clear bell-like high end, big open lows, and a noticeable increase in overall sustain. Unlike natural materials such as bone and ivory, TUSQ is consistent from piece to piece. Without a doubt, this is the best synthetic material on the market, and it cuts and files beautifully.\"]",
+      "categories_raw": "['Musical Instruments', 'Instrument Accessories', 'Guitar & Bass Accessories', 'Acoustic & Classical Guitar Parts', 'Nuts']"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "The 12-inch Double Sided Premium Practice Drum Pad, 3-in-1 Laminate - Fully Rimmed With Three Different Hitting Surfaces, The Most Versatile Drum Practice Pad In The Market",
+      "average_rating": 4.8,
+      "rating_number": 577,
+      "features": "[\"The Absolute Essential Practice Pad for Drum Kit, Marching, and Concert Snare Drummers - This practice pad is 12'' in diameter, 2-sided with 3 different playing surfaces, fully rimmed, and includes a laminated insert\", 'Realistic Top Surface - The top surface is a durable silicone rubber that includes a laminated insert for an articulate response. Without the insert, the top surface resembles the feel and response of a snare drum.', 'Laminated Insert - Insert the laminated surface for a more articulate experience, and remove at any time with any pointed device', 'Dual Surface - The bottom side is a quieter and softer hitting rubber that produces a friendlier surface with less rebound. This side is ideal for drummers who want to either quietly work on their chops or increase muscle development', 'Ultra Durable and Portable - The Double-Sided Practice Pad weighs 4.1 pounds and is an all purpose practice tool that drum set, marching, and concert snare percussionists can utilize']",
+      "description": "[]",
+      "price": NaN,
+      "store": "Movement Drum Co.",
+      "categories": "['Musical Instruments', 'Instrument Accessories', 'Drum & Percussion Accessories', 'Practice Pads & Devices']",
+      "details": "{\"Item Weight\": \"3.8 pounds\", \"Product Dimensions\": \"12 x 12 x 1.25 inches\", \"Best Sellers Rank\": {\"Musical Instruments\": 38411, \"Practice Pads & Devices\": 122}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"September 26, 2017\", \"Color Name\": \"Black\", \"Size\": \"Laminate\"}",
+      "parent_asin": "B074XHHZT2",
+      "features_raw": "[\"The Absolute Essential Practice Pad for Drum Kit, Marching, and Concert Snare Drummers - This practice pad is 12'' in diameter, 2-sided with 3 different playing surfaces, fully rimmed, and includes a laminated insert\", 'Realistic Top Surface - The top surface is a durable silicone rubber that includes a laminated insert for an articulate response. Without the insert, the top surface resembles the feel and response of a snare drum.', 'Laminated Insert - Insert the laminated surface for a more articulate experience, and remove at any time with any pointed device', 'Dual Surface - The bottom side is a quieter and softer hitting rubber that produces a friendlier surface with less rebound. This side is ideal for drummers who want to either quietly work on their chops or increase muscle development', 'Ultra Durable and Portable - The Double-Sided Practice Pad weighs 4.1 pounds and is an all purpose practice tool that drum set, marching, and concert snare percussionists can utilize']",
+      "description_raw": "[]",
+      "categories_raw": "['Musical Instruments', 'Instrument Accessories', 'Drum & Percussion Accessories', 'Practice Pads & Devices']"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "HalleluYAH 20\"-24\" Yemenite kudu Shofar From Israel Plus Free Bonus Ram Horn",
+      "average_rating": 4.5,
+      "rating_number": 896,
+      "features": "['AN INSTRUMENT WITH A LONG HISTORY: The Shofar horn has been used for over 4000 years for Jewish religious and spiritual purposes. This unique musical instrument uses the power of wind and it emits a mysterious, uplifting, and reassuring sound that touches your soul and makes you feel connected to God.', 'AN AUTHENTIC SHOFAR HORN: Made with the raw horn of an animal of the Bovidae family, this Shofar is 100% authentic and natural. The HalleluYAH Shofar horn is sterilized, polished and in excellent condition, and it has been carefully designed to create the deepest sound.', 'FEELTHE SPIRITUAL CONNECTION: Once you blow the wind instrument or listen to its mysterious sound, you will immediately feel connected to the cosmos and the power of The Creator. The Shofar will uplift your spirit and you will feel closer to the divine \u2013 all it takes is one powerful blow.', 'USE IT ON MULTIPLE EVENTS: Spiritual ceremonies, the Jubilee, the beginning of a new year, praise to God, before, during and after the Musaf prayer on Rosh Hashanah, the end of Yom Kippur, every weekday morning in the month of Elul \u2013 you can use the Shofar on many different occasions and religious events.', 'CRAFTED IS ISRAEL: The HalleluYAH Shofar horn has been made in Israel by experienced and skillful craftspeople. The art of crafting the Shofar is based on ancient knowledge kept for thousands of years, so you can be 100% sure that this is an authentic Shofar!']",
+      "description": "[]",
+      "price": 99.99,
+      "store": "HalleluYAH",
+      "categories": "['Musical Instruments', 'Wind & Woodwind Instruments', 'Folk & World', 'Shofars']",
+      "details": "{\"Item Weight\": \"1.3 pounds\", \"Package Dimensions\": \"20.08 x 6.65 x 5 inches\", \"Date First Available\": \"February 27, 2022\", \"Color Name\": \"Half Polished\", \"Material Type\": \"horn\", \"Instrument Key\": \"A\", \"Size\": \"20\\\"-24\\\"\", \"Color\": \"Half Polished\", \"Brand\": \"HalleluYAH\", \"Material\": \"horn\", \"Style\": \"Religious\"}",
+      "parent_asin": "B09S3T48S9",
+      "features_raw": "['AN INSTRUMENT WITH A LONG HISTORY: The Shofar horn has been used for over 4000 years for Jewish religious and spiritual purposes. This unique musical instrument uses the power of wind and it emits a mysterious, uplifting, and reassuring sound that touches your soul and makes you feel connected to God.', 'AN AUTHENTIC SHOFAR HORN: Made with the raw horn of an animal of the Bovidae family, this Shofar is 100% authentic and natural. The HalleluYAH Shofar horn is sterilized, polished and in excellent condition, and it has been carefully designed to create the deepest sound.', 'FEELTHE SPIRITUAL CONNECTION: Once you blow the wind instrument or listen to its mysterious sound, you will immediately feel connected to the cosmos and the power of The Creator. The Shofar will uplift your spirit and you will feel closer to the divine \u2013 all it takes is one powerful blow.', 'USE IT ON MULTIPLE EVENTS: Spiritual ceremonies, the Jubilee, the beginning of a new year, praise to God, before, during and after the Musaf prayer on Rosh Hashanah, the end of Yom Kippur, every weekday morning in the month of Elul \u2013 you can use the Shofar on many different occasions and religious events.', 'CRAFTED IS ISRAEL: The HalleluYAH Shofar horn has been made in Israel by experienced and skillful craftspeople. The art of crafting the Shofar is based on ancient knowledge kept for thousands of years, so you can be 100% sure that this is an authentic Shofar!']",
+      "description_raw": "[]",
+      "categories_raw": "['Musical Instruments', 'Wind & Woodwind Instruments', 'Folk & World', 'Shofars']"
+    },
+    {
+      "main_category": "All Electronics",
+      "title": "Turntable Platter Mat Rubber 12 inch Silicone Turntable LP Slipmat Universal Compatible for Audio Technica AT-LP120BK AT-LP-1200 Turntable Platter (12 Inch Diameter)",
+      "average_rating": 4.7,
+      "rating_number": 550,
+      "features": "['\u25b6Size: Turntable Platter Mat Black Rubber Silicone Design for Universal to All LP Vinyl Record Players. Made from solid soft safety rubber, diameter is 12 inch, thickness is 3mm, Upgrade or replace any old felt, rubber or OEM turntable platter mat', '\u25b6Universal Apply: Compatible with all brand turntables. like Audio-Technica ,Technics, Rega, Pro-Ject, Fluance, Music Hall and more. Use on all standard 12 inch platters, conforming to the turntables spindle', '\u25b6Play your record great: The platter mat incorporates non-slip groves and a label recess to ensure records stay flat on the mat for optimal playback.', '\u25b6Non-Slip turntable mat: Perfect stay on your turntable platter, a gift for your Audio Technica AT-LP120BK or AT-LP-1200 turntable.', '\u25b6Order with No Worry: Just try our products and if you don\u2019t absolutely love them let us know and we will offer lifetime warranty.']",
+      "description": "[]",
+      "price": 14.99,
+      "store": "Ywhomal",
+      "categories": "['Musical Instruments', 'Electronic Music, DJ & Karaoke', 'DJ Equipment', 'Accessories', 'Slipmats']",
+      "details": "{\"Package Dimensions\": \"11.73 x 11.61 x 0.51 inches\", \"Item Weight\": \"8.4 ounces\", \"Manufacturer\": \"Ywhomal\", \"Country of Origin\": \"China\", \"Item model number\": \"YWM-20190701-1201\", \"Best Sellers Rank\": {\"Musical Instruments\": 4227, \"DJ Slipmats\": 9}, \"Date First Available\": \"June 30, 2019\", \"Brand\": \"Ywhomal\", \"Material\": \"Plastic\", \"Style\": \"Modern\", \"Color\": \"Black\", \"Power Source\": \"Corded Electric\"}",
+      "parent_asin": "B07TSZLMD2",
+      "features_raw": "['\u25b6Size: Turntable Platter Mat Black Rubber Silicone Design for Universal to All LP Vinyl Record Players. Made from solid soft safety rubber, diameter is 12 inch, thickness is 3mm, Upgrade or replace any old felt, rubber or OEM turntable platter mat', '\u25b6Universal Apply: Compatible with all brand turntables. like Audio-Technica ,Technics, Rega, Pro-Ject, Fluance, Music Hall and more. Use on all standard 12 inch platters, conforming to the turntables spindle', '\u25b6Play your record great: The platter mat incorporates non-slip groves and a label recess to ensure records stay flat on the mat for optimal playback.', '\u25b6Non-Slip turntable mat: Perfect stay on your turntable platter, a gift for your Audio Technica AT-LP120BK or AT-LP-1200 turntable.', '\u25b6Order with No Worry: Just try our products and if you don\u2019t absolutely love them let us know and we will offer lifetime warranty.']",
+      "description_raw": "[]",
+      "categories_raw": "['Musical Instruments', 'Electronic Music, DJ & Karaoke', 'DJ Equipment', 'Accessories', 'Slipmats']"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Easttop Professional Harmonica Key of G 10 Hole 20 Tone Heavy Duty with Case & Cleaning Cloth for Professional Player, Beginner, Students, Children, Kids",
+      "average_rating": 4.5,
+      "rating_number": 786,
+      "features": "['Professional Grade - G major diatonic harmonica is suitable for blues, folk, pop classical music, jazz, country, and rock & roll. Perfect for ambitious player and advanced players, kids and adults. It\u2019s for anyone who loves great sounding harmonica.', 'Crisp & Clear Sound- Phosphor Bronze Reeds content 99.99% copper for rich and full notes. 1mm thicker Copper Plate helps to sound more clear and melodious. Non-toxic food grade ABS Resin Frets plated with nickel metal that is lib-friendly and safe to use for kids.', 'Easy to Play- Precise design made harmonica ensures a smooth and effortless plays to every single key notes.', 'Small and Exquisite - 4.1\u201dx 1.1\u201dx 0.77\u201d small enough to slip into your pocket wherever you go. It\u2019s suitable to use on stage, go travel, on family day, for kid\u2019s and beloved\u2019s gift.', 'This harmonica is a suitable instrument for either solo playing or in combination with other instruments such as guitar or ukulele. Package includes 1x harmonica (professional grade);1x instruction;1x cleaning cloth.']",
+      "description": "[]",
+      "price": 24.59,
+      "store": "Eison",
+      "categories": "['Musical Instruments', 'Wind & Woodwind Instruments', 'Folk & World', 'Harmonicas']",
+      "details": "{\"Item Weight\": \"4.2 ounces\", \"Product Dimensions\": \"4 x 1 x 0.7 inches\", \"Item model number\": \"Harmonica Key of G\", \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"March 24, 2019\", \"Color Name\": \"Blue G\", \"Material Type\": \"Bronze, Stainless Steel, Resin, Nickel, Metal, Acrylonitrile Butadiene Styrene, Copper\", \"Instrument Key\": \"G\", \"Color\": \"Blue G\", \"Brand\": \"Eison\", \"Material\": \"Bronze, Stainless Steel, Resin, Nickel, Metal, Acrylonitrile Butadiene Styrene, Copper\", \"Style\": \"Classical,Professional\"}",
+      "parent_asin": "B07T8HTTNL",
+      "features_raw": "['Professional Grade - G major diatonic harmonica is suitable for blues, folk, pop classical music, jazz, country, and rock & roll. Perfect for ambitious player and advanced players, kids and adults. It\u2019s for anyone who loves great sounding harmonica.', 'Crisp & Clear Sound- Phosphor Bronze Reeds content 99.99% copper for rich and full notes. 1mm thicker Copper Plate helps to sound more clear and melodious. Non-toxic food grade ABS Resin Frets plated with nickel metal that is lib-friendly and safe to use for kids.', 'Easy to Play- Precise design made harmonica ensures a smooth and effortless plays to every single key notes.', 'Small and Exquisite - 4.1\u201dx 1.1\u201dx 0.77\u201d small enough to slip into your pocket wherever you go. It\u2019s suitable to use on stage, go travel, on family day, for kid\u2019s and beloved\u2019s gift.', 'This harmonica is a suitable instrument for either solo playing or in combination with other instruments such as guitar or ukulele. Package includes 1x harmonica (professional grade);1x instruction;1x cleaning cloth.']",
+      "description_raw": "[]",
+      "categories_raw": "['Musical Instruments', 'Wind & Woodwind Instruments', 'Folk & World', 'Harmonicas']"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Clip On Guitar Tuner For All Instruments, Ukulele, Guitar, Bass, Mandolin, Violin, Banjo, Large Clear LCD Display For Guitar Tuner, Chromatic Tuner, 4 Pack Guitar Picks Included",
+      "average_rating": 4.5,
+      "rating_number": 1867,
+      "features": "['MULTI MODES CLIP-ON TUNNING: Chromatic, Guitar, Bass, Ukulele, Violin...', 'HIGH PRECISION: High sensitive vibration tuner responds fast, which ignores the background noise, is ideal for loud, chaotic environment. Pitch calibration from 430HZ to 450HZ', 'LARGE LCD DISPAY & EASY VIEW: in chromatic mode, the display shows the note name; In guitar, bass, violin and Ukulele mode, the display shows the string number and the note name.', 'MINI DESIGN: Guitar tuner is mini design, small as a coin, you will easily take it anywhere in your guitar bag.', 'ZERO RISK PURCHASING: Instant refund or replacement if any unsatisfied to our products, we will email you within 24hours.']",
+      "description": "['Tuning Procedure:', '1.Press the power button and hold 2 seconds to turn on (off) the tuner. 2.Press the power button continuously to select tuning mode out of Chromatic, Guitar, Bass, Violin and Ukulele. 3.Clip the tuner onto your instrument. 4.Play a single note on your instrument, the note name (and string number) will appear in the display, the screen color will change, and the meter moves. Back light turns green;and meter stands in the middle:note in tune Back light stay white;the meter points to left or right:flat or sharp note', 'Features :', 'Quality environmental-friendly ABS applied, Scientific design with exquisite workmanship ensure no break in use. Very simple to operate,only one button controls everything:turn on /off and setting tuning modes according to your instruments. The tuner head turns 360 degrees for any reviewing angle for your easy reading; Auto off for no signal detected for 3 minutes to save energy.', 'Specifications:', 'Tuning range: A0(27.5Hz)~C8(4186Hz) Tuning scale: Chromatic, Guitar, Bass, Violin, Ukulele, Banjo, Mandolin Precision: \u00b13Cent A4: 430Hz- 450Hz Color: Black Power Supply: 3V LCD dimention:0.79x0.9 inch Demensions: 1.1(W)x1.46(D)x1.89(H)inch Weight: 0.06 lb', 'YOU WILL GET:', '1 x Tuner 1 x user manual 1 x coin battery CR2032  4 x picks']",
+      "price": 10.99,
+      "store": "Feluog",
+      "categories": "['Musical Instruments', 'Instrument Accessories', 'General Accessories', 'Tuning']",
+      "details": "{\"Item Weight\": \"0.81 Ounces\", \"Product Dimensions\": \"1.46 x 1.1 x 1.89 inches\", \"Item model number\": \"GT-001\", \"Batteries\": \"1 CR2 batteries required. (included)\", \"Best Sellers Rank\": {\"Musical Instruments\": 3120, \"Music Tuning Accessories\": 57}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"August 10, 2017\", \"Back Material\": \"Acrylonitrile Butadiene Styrene, Basswood\", \"Color Name\": \"Black + Pick\", \"Number of Strings\": \"4\", \"Material Type\": \"ABS\", \"Size\": \"Small\", \"Battery type\": \"Lithium Ion\", \"Brand\": \"Feluog\", \"Color\": \"Black + Pick\", \"Item Dimensions LxWxH\": \"1.46 x 1.1 x 1.89 inches\", \"Back Material Type\": \"Acrylonitrile Butadiene Styrene, Basswood\", \"Instrument\": \"Guitar, Violin, Ukulele, Banjo, Mandolin\", \"Operation Mode\": \"Manual\"}",
+      "parent_asin": "B0BWT3S95C",
+      "features_raw": "['MULTI MODES CLIP-ON TUNNING: Chromatic, Guitar, Bass, Ukulele, Violin...', 'HIGH PRECISION: High sensitive vibration tuner responds fast, which ignores the background noise, is ideal for loud, chaotic environment. Pitch calibration from 430HZ to 450HZ', 'LARGE LCD DISPAY & EASY VIEW: in chromatic mode, the display shows the note name; In guitar, bass, violin and Ukulele mode, the display shows the string number and the note name.', 'MINI DESIGN: Guitar tuner is mini design, small as a coin, you will easily take it anywhere in your guitar bag.', 'ZERO RISK PURCHASING: Instant refund or replacement if any unsatisfied to our products, we will email you within 24hours.']",
+      "description_raw": "['Tuning Procedure:', '1.Press the power button and hold 2 seconds to turn on (off) the tuner. 2.Press the power button continuously to select tuning mode out of Chromatic, Guitar, Bass, Violin and Ukulele. 3.Clip the tuner onto your instrument. 4.Play a single note on your instrument, the note name (and string number) will appear in the display, the screen color will change, and the meter moves. Back light turns green;and meter stands in the middle:note in tune Back light stay white;the meter points to left or right:flat or sharp note', 'Features :', 'Quality environmental-friendly ABS applied, Scientific design with exquisite workmanship ensure no break in use. Very simple to operate,only one button controls everything:turn on /off and setting tuning modes according to your instruments. The tuner head turns 360 degrees for any reviewing angle for your easy reading; Auto off for no signal detected for 3 minutes to save energy.', 'Specifications:', 'Tuning range: A0(27.5Hz)~C8(4186Hz) Tuning scale: Chromatic, Guitar, Bass, Violin, Ukulele, Banjo, Mandolin Precision: \u00b13Cent A4: 430Hz- 450Hz Color: Black Power Supply: 3V LCD dimention:0.79x0.9 inch Demensions: 1.1(W)x1.46(D)x1.89(H)inch Weight: 0.06 lb', 'YOU WILL GET:', '1 x Tuner 1 x user manual 1 x coin battery CR2032  4 x picks']",
+      "categories_raw": "['Musical Instruments', 'Instrument Accessories', 'General Accessories', 'Tuning']"
+    },
+    {
+      "main_category": "Musical Instruments",
+      "title": "Grover Acoustic Guitar Nut (GP1103)",
+      "average_rating": 4.5,
+      "rating_number": 1197,
+      "features": "['Converts any guitar for lap steel playing', 'Fits over the existing nut to raise action', 'Will not throw your guitar out of tune', 'Sturdy die-cast zinc construction', 'Raises string action by 3/8\"']",
+      "description": "['Grover\\'s Perfect Guitar Nut Height Extender takes your existing guitar and adds slide steel sound and playability by raising string action by 3/8\". Just install the Perfect extender over your existing nut, replace the strings, grab a slide, and go You\\'ll have so much fun discovering the new sounds you get out of your favorite guitars, you\\'ll love them even more. And since it\\'s a temporary installation, you can move it back and forth between your electric solid body guitars and your acoustic guitars for even more tonal variety.']",
+      "price": NaN,
+      "store": "Grover",
+      "categories": "['Musical Instruments', 'Instrument Accessories', 'Guitar & Bass Accessories', 'Acoustic & Classical Guitar Parts', 'Nuts']",
+      "details": "{\"Item Weight\": \"0.704 ounces\", \"Product Dimensions\": \"5 x 1 x 0.8 inches\", \"Item model number\": \"GP1103\", \"Best Sellers Rank\": {\"Musical Instruments\": 4155, \"Acoustic & Classical Guitar Nuts\": 6}, \"Is Discontinued By Manufacturer\": \"No\", \"Date First Available\": \"April 16, 2015\"}",
+      "parent_asin": "B00W7ZL4TM",
+      "features_raw": "['Converts any guitar for lap steel playing', 'Fits over the existing nut to raise action', 'Will not throw your guitar out of tune', 'Sturdy die-cast zinc construction', 'Raises string action by 3/8\"']",
+      "description_raw": "['Grover\\'s Perfect Guitar Nut Height Extender takes your existing guitar and adds slide steel sound and playability by raising string action by 3/8\". Just install the Perfect extender over your existing nut, replace the strings, grab a slide, and go You\\'ll have so much fun discovering the new sounds you get out of your favorite guitars, you\\'ll love them even more. And since it\\'s a temporary installation, you can move it back and forth between your electric solid body guitars and your acoustic guitars for even more tonal variety.']",
+      "categories_raw": "['Musical Instruments', 'Instrument Accessories', 'Guitar & Bass Accessories', 'Acoustic & Classical Guitar Parts', 'Nuts']"
+    }
+  ]
+}

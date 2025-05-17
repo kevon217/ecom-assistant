@@ -1,0 +1,222 @@
+{
+  "orders": {
+    "column_changes": {
+      "new_columns": [
+        "Order_Date_raw",
+        "Time_raw",
+        "datetime"
+      ],
+      "type_changes": {
+        "Order_Date": {
+          "from": "object",
+          "to": "datetime64[ns]"
+        }
+      }
+    },
+    "row_count": {
+      "before": 51290,
+      "after": 51290,
+      "difference": 0
+    },
+    "missing_values": {
+      "total": {
+        "before": 8,
+        "after": 8,
+        "difference": 0
+      },
+      "by_column": {
+        "Order_Date": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "Time": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "Aging": {
+          "before": 1,
+          "after": 1,
+          "difference": 0
+        },
+        "Customer_Id": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "Gender": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "Device_Type": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "Customer_Login_type": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "Product_Category": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "Product": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "Sales": {
+          "before": 1,
+          "after": 1,
+          "difference": 0
+        },
+        "Quantity": {
+          "before": 2,
+          "after": 2,
+          "difference": 0
+        },
+        "Discount": {
+          "before": 1,
+          "after": 1,
+          "difference": 0
+        },
+        "Profit": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "Shipping_Cost": {
+          "before": 1,
+          "after": 1,
+          "difference": 0
+        },
+        "Order_Priority": {
+          "before": 2,
+          "after": 2,
+          "difference": 0
+        },
+        "Payment_method": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        }
+      }
+    }
+  },
+  "products": {
+    "column_changes": {
+      "new_columns": [
+        "features_raw",
+        "description_raw",
+        "categories_raw"
+      ],
+      "type_changes": {}
+    },
+    "row_count": {
+      "before": 5000,
+      "after": 5000,
+      "difference": 0
+    },
+    "missing_values": {
+      "total": {
+        "before": 1297,
+        "after": 1297,
+        "difference": 0
+      },
+      "by_column": {
+        "main_category": {
+          "before": 30,
+          "after": 30,
+          "difference": 0
+        },
+        "title": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "average_rating": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "rating_number": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "features": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "description": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "price": {
+          "before": 1266,
+          "after": 1266,
+          "difference": 0
+        },
+        "store": {
+          "before": 1,
+          "after": 1,
+          "difference": 0
+        },
+        "categories": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "details": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        },
+        "parent_asin": {
+          "before": 0,
+          "after": 0,
+          "difference": 0
+        }
+      }
+    },
+    "list_fields": {
+      "features": {
+        "empty_lists": {
+          "before": 161,
+          "after": 161
+        },
+        "avg_length": {
+          "before": 4.717,
+          "after": 4.717
+        }
+      },
+      "description": {
+        "empty_lists": {
+          "before": 2152,
+          "after": 2152
+        },
+        "avg_length": {
+          "before": 2.3436,
+          "after": 2.3436
+        }
+      },
+      "categories": {
+        "empty_lists": {
+          "before": 83,
+          "after": 83
+        },
+        "avg_length": {
+          "before": 4.3274,
+          "after": 4.3274
+        }
+      }
+    }
+  }
+}

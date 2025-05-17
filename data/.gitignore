@@ -1,0 +1,23 @@
+# Python cache
+__pycache__/
+*.py[cod]
+
+# Generated reports and profiles
+*.html
+analysis/**/profiles/*.json
+
+# Logs
+logs/*.log
+
+# Empty placeholder directories will be created by scripts
+analysis/models/
+
+# Keep LLM-optimized JSON and metrics
+!analysis/**/llm/*.json
+!analysis/**/metrics/*.json
+
+# Processed data versioning
+processed/**/
+!processed/latest/
+processed/latest/*
+!processed/latest/.gitkeep
