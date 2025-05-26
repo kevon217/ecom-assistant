@@ -1,0 +1,79 @@
+[project]
+name = "ecom-assistant"
+version = "0.1.0"
+description = "E-commerce Expert Assistant with microservices architecture"
+requires-python = ">=3.11"
+
+dependencies = [
+    "fastapi>=0.109.0",
+    "uvicorn>=0.27.0",
+    "pydantic>=2.6.0",
+    "pydantic-settings>=2.1.0",
+    "chromadb>=0.4.22",
+    "openai>=1.12.0",
+    "python-dotenv>=1.0.0",
+    "httpx>=0.26.0",
+    "pandas>=2.2.3",
+    "numpy>=2.1.3",
+    "pyyaml>=6.0.1",
+    "fastapi-mcp>=0.3.4",
+    "pytest-asyncio>=0.26.0",
+    "rapidfuzz>=3.13.0",
+    "openai-agents>=0.0.15",
+    "openai-agents-mcp>=0.0.8",
+    "fastapi-mcp-client",
+    "sentence-transformers>=4.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0.0",
+    "pytest-html>=4.1.0",
+    "black>=24.1.0",
+    "isort>=5.13.0",
+    "mypy>=1.8.0",
+    "ruff>=0.2.0",
+    "ipykernel>=6.29.5",
+    "ydata-profiling>=4.16.1",
+    "setuptools>=80.0.0",
+    "pyarrow>=20.0.0",
+    "pre-commit>=3.6.0",
+    "check-jsonschema>=0.28.0",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.black]
+line-length = 88
+target-version = ["py311"]
+
+[tool.isort]
+profile = "black"
+line_length = 88
+
+[tool.pytest.ini_options]
+testpaths = [
+    "services/order/tests",
+    "services/product/tests",
+    "services/chat/tests"
+]
+python_files = ["test_*.py"]
+addopts = """
+    -v
+    --tb=short
+    --html=test-reports/report.html
+    --self-contained-html
+    --log-cli-level=INFO
+    --log-file=test-reports/pytest.log
+    --log-file-level=DEBUG
+"""
+pythonpath = ["."]
+markers = [
+    "integration: mark a test as an integration test."
+]
+asyncio_default_fixture_loop_scope = "function"
+
+[tool.uv.sources]
+fastapi-mcp-client = { git = "https://github.com/RooseveltAdvisors/fastapi-mcp-client.git", rev = "main" }

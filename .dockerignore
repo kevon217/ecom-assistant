@@ -1,0 +1,22 @@
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.venv
+**/.env
+**/logs
+.git
+.github
+docs
+tests
+*.md
+**/.ruff_cache
+**/.mypy_cache
+**/node_modules
+**/.DS_Store
+**/Thumbs.db
+.coverage
+.pytest_cache
+build/
+dist/
+*.egg-info/
+EOF < /dev/null
