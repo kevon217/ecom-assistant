@@ -18,7 +18,7 @@ A modular, microservice-driven e-commerce assistant that provides contextual, RA
   - REST + OpenAPI for external UIs and integrations
   - FastAPI-MCP for zero-config LLM tool publication:
      1. Native FastAPI integration preserving schemas and docs
-     2. ASGI transport for efficient communication
+     2. Server-Sent Events (SSE) transport for real-time communication
      3. Authentication using existing FastAPI dependencies
 
 - **LLM Orchestration**
@@ -64,9 +64,9 @@ A modular, microservice-driven e-commerce assistant that provides contextual, RA
 
 | Service | Port | Purpose | Key Components |
 |---------|------|---------|----------------|
-| **Product Service** | :8003 | Product search | ProductDataService, ChromaProductStore, vector search |
-| **Order Service** | :8002 | Customer analytics | OrderDataService, pandas ops, MCP tools
-| **Chat Service** | :8001 | LLM orchestration | AgentOrchestrator, OpenAI Agents SDK, SSE streaming |
+| **Product Service** | :8003 | Semantic search | ProductDataService, ChromaProductStore (4,882 products), ProductItemLLM optimization |
+| **Order Service** | :8002 | Business analytics | OrderDataService, comprehensive analytics (profit, customer stats, demographics), safety limits |
+| **Chat Service** | :8001 | LLM orchestration | AgentOrchestrator, OpenAI Agents SDK, SSE streaming, session management |
 | **Web UI** | :8000 | User interface | Gradio chat interface, session management |
 
 **3. Communication Flow**
@@ -113,6 +113,15 @@ ecom-assistant/
 - **Data Strategy:** ChromaDB as single source of truth for products; delta sync via embed_checksums.
 - **Bootstrap Process:** StorageManager handles incremental vector updates and data synchronization.
 
+## Recent Enhancements & Production Features
+
+- **Enhanced Order Analytics:** Comprehensive business intelligence endpoints including profit analysis, customer demographics, category sales, and shipping cost analytics.
+- **LLM Safety Measures:** Field exclusion patterns (order_id hidden from LLM), 1000-record safety limits for massive datasets, and token optimization.
+- **Advanced Search Capabilities:** Complex filtering with profit thresholds, priority levels, category filters, and multi-criteria search operations.
+- **Production-Ready Testing:** Comprehensive test suites with unit, integration, and business workflow testing via enhanced Postman collection.
+- **Route Optimization:** Resolved path collision issues by strategic endpoint ordering (specific routes before parameterized routes).
+- **Pydantic v2 Migration:** Updated field validation patterns (regex → pattern), enhanced model validation and LLM optimization.
+
 ---
 
 ## Service Boundaries & Data Flow
@@ -126,14 +135,17 @@ ecom-assistant/
   - Batch embeds and upserts only changed data to `/data/chroma`.
 
 - **Order Service**
-  - OrderDataService with pandas-based analytics reads `/data/processed`.
-  - FastAPI endpoints + MCP tools for customer lookup and order history.
-  - Business logic separated from data access layer.
+  - OrderDataService with comprehensive business analytics (51k+ orders dataset).
+  - Enhanced endpoints: customer stats, profit analysis, gender demographics, category sales.
+  - Safety measures: 1000-record limits to protect LLM, LLM field exclusion (order_id hidden).
+  - Advanced filtering: profit thresholds, priority levels, complex search with multiple criteria.
+  - FastAPI endpoints + MCP tools for complete business intelligence.
 
 - **Product Service**
-  - ProductDataService uses ChromaProductStore interface for storage abstraction.
-  - Supports semantic search with metadata filtering.
-  - FastAPI endpoints + MCP tools for product search and recommendations.
+  - ProductDataService with ChromaProductStore (4,882 products with vector embeddings).
+  - ProductItemLLM model with 80% token optimization for LLM efficiency.
+  - Semantic search with complex document filters and metadata discovery.
+  - FastAPI endpoints + MCP tools for intelligent product search and recommendations.
 
 - **Chat Service**
   - `/chat` & `/chat/stream` → `AgentOrchestrator`:
