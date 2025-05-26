@@ -1,0 +1,144 @@
+paths:
+  # Base directories
+  raw_data: "data/raw" # Source data files
+  processed: "data/processed" # Base directory for all processed outputs
+
+  # Run-specific outputs
+  runs: "data/processed/runs" # Timestamped run outputs
+  latest: "data/processed/latest" # Symlink to most recent successful run
+
+  # Analysis outputs
+  analysis: "data/processed/analysis" # Base directory for analysis outputs
+  profiles: "data/processed/analysis/profiles" # ydata profiling reports
+
+datasets_to_process:
+  - products
+  - orders
+
+datasets:
+  orders:
+    file: "Order_Data_Dataset.csv"
+    fields:
+      Order_Date:
+        type: "datetime"
+        options:
+          format: "%Y-%m-%d" # Keep strict format for dates
+      Time:
+        type: "datetime"
+        options:
+          time_only: true # This will now handle various time formats
+      order_timestamp:
+        type: "datetime"
+        preprocessing: ["combine_datetime"]
+        options:
+          date_series: "Order_Date"
+          time_series: "Time"
+          timezone: "UTC" # Explicitly set timezone
+      Sales:
+        type: "numeric"
+      Profit:
+        type: "numeric"
+      Shipping_Cost:
+        type: "numeric"
+      Discount:
+        type: "numeric"
+      Aging:
+        type: "numeric"
+      Quantity:
+        type: "numeric"
+      Customer_Id:
+        type: "text"
+        options:
+          drop_duplicates: true
+          on_missing: "warn"
+          remove_special_chars: false
+
+  products:
+    file: "Product_Information_Dataset.csv"
+    fields:
+      price:
+        type: "numeric"
+      average_rating:
+        type: "numeric"
+      rating_number:
+        type: "numeric"
+      features:
+        type: "structured"
+        options:
+          format: "list"
+        preserve_raw: true
+        min_token_length: 3
+        preprocessing:
+          - "normalize_text"
+          - "to_embedding_text"
+        add_norm_column: true
+      description:
+        type: "structured"
+        options:
+          format: "list"
+        preserve_raw: true
+        min_token_length: 3
+        preprocessing:
+          - "normalize_text"
+          - "to_embedding_text"
+      categories:
+        type: "structured"
+        options:
+          format: "list"
+        preserve_raw: true
+      title:
+        type: "text"
+        preserve_raw: true
+        options:
+          lowercase: true
+          remove_special_chars: true
+        preprocessing:
+          - "normalize_text"
+        add_norm_column: true
+      store:
+        type: "categorical"
+        options:
+          lowercase: true
+          missing_fill: "Unknown Store"
+      details:
+        type: "structured"
+        options:
+          format: "dict"
+        # preprocessing:
+        # - "normalize_text" # leaving this out for now
+      parent_asin:
+        type: "categorical"
+        options:
+          drop_duplicates: true
+          on_missing: "warn"
+      main_category:
+        type: "categorical"
+        options:
+          lowercase: true
+
+validation:
+  enabled: true
+  test_sample_size: 100 # Number of rows to test
+  auto_fix: true # Attempt to fix validation errors
+  fail_on_errors: false # Whether to fail pipeline if validation errors found
+  generate_report: true # Generate detailed validation report
+
+analysis:
+  profile:
+    minimal: true
+    correlations:
+      auto: true
+      pearson: false
+      spearman: false
+      kendall: false
+      phi_k: false
+      cramers: false
+    missing_diagrams:
+      heatmap: false
+    vars:
+      cat:
+        characters: false
+        words: false
+        n_obs: 3
+      num:
+        quantiles: [0.25, 0.5, 0.75]

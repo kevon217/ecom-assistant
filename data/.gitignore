@@ -1,10 +1,12 @@
+# data/chroma/*
+
 # Python cache
 __pycache__/
 *.py[cod]
 
-# Generated reports and profiles
-*.html
-analysis/**/profiles/*.json
+# # Generated reports and profiles
+# *.html
+# analysis/**/profiles/*.json
 
 # Logs
 logs/*.log
@@ -16,8 +18,8 @@ analysis/models/
 !analysis/**/llm/*.json
 !analysis/**/metrics/*.json
 
-# Processed data versioning
-processed/**/
-!processed/latest/
-processed/latest/*
-!processed/latest/.gitkeep
+# # Processed data versioning
+# processed/**/
+# !processed/latest/
+# processed/latest/*
+# !processed/latest/.gitkeep

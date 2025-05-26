@@ -1,6 +1,6 @@
 # Data Directory
 
-This directory contains all initial (and more to follow) data and analysis outputs for the ecom-assistant project.
+This directory contains all initial data and analysis outputs for the ecom-assistant project. See cleaner/ for more recent pipeline details.
 
 ## Directory Structure
 
