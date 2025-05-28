@@ -12,6 +12,7 @@ env:
 jobs:
   test-services:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       matrix:
         service: [order, product, chat]
@@ -61,6 +62,7 @@ jobs:
 
   integration-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     needs: test-services
     steps:
       - name: Checkout code
