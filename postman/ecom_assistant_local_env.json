@@ -1,0 +1,42 @@
+{
+  "id": "local-env-id",
+  "name": "E-Commerce Assistant - Local",
+  "values": [
+    {
+      "key": "base_url",
+      "value": "http://localhost",
+      "enabled": true
+    },
+    {
+      "key": "chat_port",
+      "value": "8001",
+      "enabled": true
+    },
+    {
+      "key": "order_port",
+      "value": "8002",
+      "enabled": true
+    },
+    {
+      "key": "product_port",
+      "value": "8003",
+      "enabled": true
+    },
+    {
+      "key": "chat_url",
+      "value": "{{base_url}}:{{chat_port}}",
+      "enabled": true
+    },
+    {
+      "key": "order_url",
+      "value": "{{base_url}}:{{order_port}}",
+      "enabled": true
+    },
+    {
+      "key": "product_url",
+      "value": "{{base_url}}:{{product_port}}",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

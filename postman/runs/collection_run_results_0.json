@@ -1,0 +1,1684 @@
+{
+	"id": "26942f1d-758b-488d-8d0d-01577d81cd5e",
+	"name": "E-Commerce Assistant - Complete Challenge & Demo Collection",
+	"timestamp": "2025-05-28T17:31:34.120Z",
+	"collection_id": "20864951-9c0ea2dd-6729-4bec-911a-048162f61320",
+	"folder_id": 0,
+	"environment_id": "20864951-79619764-eac0-4e67-b0f9-4e878c9fe911",
+	"totalPass": 101,
+	"delay": 0,
+	"persist": true,
+	"status": "finished",
+	"startedAt": "2025-05-28T17:27:39.884Z",
+	"totalFail": 1,
+	"results": [
+		{
+			"id": "aa90fae8-4599-4bd0-acaa-8e7b74c2c300",
+			"name": "All Services Health Check",
+			"url": "http://localhost:8001/health",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Chat service is healthy": true,
+				"Service details available": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Chat service is healthy": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Service details available": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Chat service is healthy": true,
+					"Service details available": true
+				}
+			]
+		},
+		{
+			"id": "db953b9e-e9c4-49a4-a598-6b248ffdc296",
+			"name": "Product Service Health (ChromaDB Status)",
+			"url": "http://localhost:8003/health",
+			"time": 8,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Product service is healthy": true,
+				"ChromaDB vector store status": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Product service is healthy": {
+					"pass": 1,
+					"fail": 0
+				},
+				"ChromaDB vector store status": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Product service is healthy": true,
+					"ChromaDB vector store status": true
+				}
+			]
+		},
+		{
+			"id": "3b9487ee-99ec-48d4-9185-bcaf31a98a3a",
+			"name": "Order Service Health (51k Dataset)",
+			"url": "http://localhost:8002/health",
+			"time": 144,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Order service is healthy": true,
+				"Order dataset loaded": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Order service is healthy": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Order dataset loaded": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				144
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Order service is healthy": true,
+					"Order dataset loaded": true
+				}
+			]
+		},
+		{
+			"id": "ce54334f-3c21-440b-9c2c-d566d75b8d6e",
+			"name": "MCP Integration Verification",
+			"url": "http://localhost:8001/chat",
+			"time": 4678,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Chat can access MCP tools": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Chat can access MCP tools": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4678
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Chat can access MCP tools": true
+				}
+			]
+		},
+		{
+			"id": "ccb78ac9-839a-475f-bb0a-fb2c3745b627",
+			"name": "1. Customer Order Details (37077)",
+			"url": "http://localhost:8001/chat",
+			"time": 6837,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Returns customer order information": false
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns customer order information": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				6837
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Returns customer order information": false
+				}
+			]
+		},
+		{
+			"id": "22d20bd4-a5a6-481a-878d-513c42e7e7f5",
+			"name": "2. High-Priority Orders",
+			"url": "http://localhost:8001/chat",
+			"time": 11238,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Returns high-priority orders": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns high-priority orders": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11238
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Returns high-priority orders": true
+				}
+			]
+		},
+		{
+			"id": "685f0154-64b6-4f0b-a070-df2f851bb062",
+			"name": "3. Order Status Inquiry (41066)",
+			"url": "http://localhost:8001/chat",
+			"time": 5081,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Provides order status information": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Provides order status information": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5081
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Provides order status information": true
+				}
+			]
+		},
+		{
+			"id": "4f31d3c3-fedb-4dda-88e5-2f2af924bc3f",
+			"name": "4. Customer Total Spending",
+			"url": "http://localhost:8001/chat",
+			"time": 5427,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Provides spending analysis": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Provides spending analysis": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5427
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Provides spending analysis": true
+				}
+			]
+		},
+		{
+			"id": "fdad1f6c-0799-4cd6-9d1a-e82a4432f303",
+			"name": "5. Recent Orders Overview",
+			"url": "http://localhost:8001/chat",
+			"time": 19936,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Shows recent orders": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Shows recent orders": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				19936
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Shows recent orders": true
+				}
+			]
+		},
+		{
+			"id": "b8666f2a-76ca-4bda-99a0-84b72f9ecc73",
+			"name": "1. Ask for Order Details (No ID)",
+			"url": "http://localhost:8001/chat",
+			"time": 2796,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Agent asks for Customer ID": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Agent asks for Customer ID": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2796
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Agent asks for Customer ID": true
+				}
+			]
+		},
+		{
+			"id": "6bf45220-e8bc-40c7-bd1e-b82886c0661e",
+			"name": "2. Provide Customer ID",
+			"url": "http://localhost:8001/chat",
+			"time": 5244,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Agent provides order details after receiving ID": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Agent provides order details after receiving ID": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5244
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Agent provides order details after receiving ID": true
+				}
+			]
+		},
+		{
+			"id": "fa8d6134-a3e2-4cc2-bac8-13791315416e",
+			"name": "1. Top-Rated Guitar Products",
+			"url": "http://localhost:8001/chat",
+			"time": 11605,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Returns guitar product recommendations": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns guitar product recommendations": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11605
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Returns guitar product recommendations": true
+				}
+			]
+		},
+		{
+			"id": "c42096cf-31b1-4584-818e-e3045903831f",
+			"name": "2. Thin Guitar Strings",
+			"url": "http://localhost:8001/chat",
+			"time": 2331,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Provides guitar string recommendations": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Provides guitar string recommendations": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2331
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Provides guitar string recommendations": true
+				}
+			]
+		},
+		{
+			"id": "e3547d8f-77f7-4074-bff7-7e18f0525d93",
+			"name": "3. BOYA Microphone for Cello",
+			"url": "http://localhost:8001/chat",
+			"time": 4975,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Analyzes product suitability": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Analyzes product suitability": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4975
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Analyzes product suitability": true
+				}
+			]
+		},
+		{
+			"id": "c56bdb0e-c1d2-4788-a618-3b933f9ca697",
+			"name": "4. User Preference Search",
+			"url": "http://localhost:8001/chat",
+			"time": 10583,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Provides preference-based recommendations": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Provides preference-based recommendations": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10583
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Provides preference-based recommendations": true
+				}
+			]
+		},
+		{
+			"id": "aa2c35dd-2029-4ec4-8b2d-85f73a0c5e91",
+			"name": "5. Category Discovery",
+			"url": "http://localhost:8001/chat",
+			"time": 8157,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Status code is 200": true,
+				"Shows available categories/brands": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Shows available categories/brands": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8157
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Status code is 200": true,
+					"Shows available categories/brands": true
+				}
+			]
+		},
+		{
+			"id": "b508e19b-b8ac-4355-9cd5-d59b5aafa748",
+			"name": "1. Ask about cell phone order",
+			"url": "http://localhost:8001/chat",
+			"time": 6347,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Agent asks for Customer ID": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Agent asks for Customer ID": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				6347
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Agent asks for Customer ID": true
+				}
+			]
+		},
+		{
+			"id": "56939032-e272-4f3a-b4a1-d89a55a24f66",
+			"name": "2. Provide Customer ID 53639",
+			"url": "http://localhost:8001/chat",
+			"time": 10110,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Agent responds to customer ID": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Agent responds to customer ID": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10110
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Agent responds to customer ID": true
+				}
+			]
+		},
+		{
+			"id": "46ad5917-40d4-4ced-9fdd-2b40b4658694",
+			"name": "3. Clarify which order",
+			"url": "http://localhost:8001/chat",
+			"time": 8563,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Agent handles clarification request": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Agent handles clarification request": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8563
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Agent handles clarification request": true
+				}
+			]
+		},
+		{
+			"id": "dee88c8d-ac90-4ed6-96b2-49f100892c4a",
+			"name": "Setup Advanced Session",
+			"url": "http://localhost:8001/chat",
+			"time": 4175,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Advanced session created": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Advanced session created": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				4175
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Advanced session created": true
+				}
+			]
+		},
+		{
+			"id": "ac02570d-7a53-4e4e-915c-942509aac29f",
+			"name": "Multi-Tool: Order + Analytics + Gender",
+			"url": "http://localhost:8001/chat",
+			"time": 8676,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Multi-tool orchestration successful": true,
+				"Performance acceptable (accounting for cold starts)": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Multi-tool orchestration successful": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Performance acceptable (accounting for cold starts)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8676
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Multi-tool orchestration successful": true,
+					"Performance acceptable (accounting for cold starts)": true
+				}
+			]
+		},
+		{
+			"id": "990f3642-56a1-43ee-9ef8-4f2a0e82f31e",
+			"name": "Streaming Multi-Tool Execution",
+			"url": "http://localhost:8001/chat/stream",
+			"time": 11916,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"SSE streaming response received": true,
+				"Streaming events validation": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"SSE streaming response received": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Streaming events validation": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				11916
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"SSE streaming response received": true,
+					"Streaming events validation": true
+				}
+			]
+		},
+		{
+			"id": "c4924d73-c20b-419f-a625-ed41c024eee0",
+			"name": "Comprehensive Business Report",
+			"url": "http://localhost:8001/chat",
+			"time": 17907,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Enterprise-level query handled": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Enterprise-level query handled": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				17907
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Enterprise-level query handled": true
+				}
+			]
+		},
+		{
+			"id": "5ae22d1c-0f5b-464f-8720-5cbbf96869d0",
+			"name": "1. First Page of Orders",
+			"url": "http://localhost:8001/chat",
+			"time": 15116,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"First page of orders returned": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"First page of orders returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				15116
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"First page of orders returned": true
+				}
+			]
+		},
+		{
+			"id": "9ba45574-b846-4a93-a3f0-fa75b1683256",
+			"name": "2. Next Page Request",
+			"url": "http://localhost:8001/chat",
+			"time": 13188,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Second page of orders returned": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Second page of orders returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				13188
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Second page of orders returned": true
+				}
+			]
+		},
+		{
+			"id": "2c695764-c297-4eb9-ac16-8250611abbd5",
+			"name": "3. Specific Range Request",
+			"url": "http://localhost:8001/chat",
+			"time": 10095,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Specific range of orders returned": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Specific range of orders returned": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				10095
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Specific range of orders returned": true
+				}
+			]
+		},
+		{
+			"id": "3e53be7a-90a5-4c9b-9ef0-a88a2622b05f",
+			"name": "High Profit Products Analysis",
+			"url": "http://localhost:8002/orders/high-profit-products?min_profit=100&limit=10",
+			"time": 174,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"High profit analysis successful": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"High profit analysis successful": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				174
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"High profit analysis successful": true
+				}
+			]
+		},
+		{
+			"id": "87f4026a-74e2-493e-a1d7-50f486b280fd",
+			"name": "Profit by Gender Demographics",
+			"url": "http://localhost:8002/orders/profit-by-gender",
+			"time": 143,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Gender demographics analysis": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Gender demographics analysis": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				143
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Gender demographics analysis": true
+				}
+			]
+		},
+		{
+			"id": "52700837-2ca2-470e-b6ba-0e717dbca462",
+			"name": "Customer Lifetime Analytics",
+			"url": "http://localhost:8002/customers/12345/stats",
+			"time": 155,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Customer analytics comprehensive": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Customer analytics comprehensive": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				155
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Customer analytics comprehensive": true
+				}
+			]
+		},
+		{
+			"id": "5c119e32-c5cb-4d4b-98c0-8d1815307753",
+			"name": "51k Dataset Safety Limit",
+			"url": "http://localhost:8002/orders/all?limit=10000",
+			"time": 186,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Large dataset safety enforced": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Large dataset safety enforced": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				186
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Large dataset safety enforced": true
+				}
+			]
+		},
+		{
+			"id": "1781edfe-6980-40ed-a9d5-5704fdf19763",
+			"name": "LLM Field Exclusion Test",
+			"url": "http://localhost:8002/orders/customer/37077?limit=1",
+			"time": 144,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"LLM-safe field exclusion working": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"LLM-safe field exclusion working": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				144
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"LLM-safe field exclusion working": true
+				}
+			]
+		},
+		{
+			"id": "c1c330d3-fb5e-4457-8d99-4c9844daa0de",
+			"name": "Basic Semantic Search",
+			"url": "http://localhost:8003/search/semantic",
+			"time": 54,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Semantic search successful": true,
+				"Response size optimized": true,
+				"Token optimization verified": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Semantic search successful": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Response size optimized": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Token optimization verified": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				54
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Semantic search successful": true,
+					"Response size optimized": true,
+					"Token optimization verified": true
+				}
+			]
+		},
+		{
+			"id": "ae41fe93-b49a-4f05-9262-c8365fb8cb04",
+			"name": "Complex Filtered Search",
+			"url": "http://localhost:8003/search/semantic",
+			"time": 107,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Complex filtering successful": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Complex filtering successful": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				107
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Complex filtering successful": true
+				}
+			]
+		},
+		{
+			"id": "be876fa5-6b2b-436b-be6c-fdbc47052689",
+			"name": "Available Brands Discovery",
+			"url": "http://localhost:8003/metadata/options?field_name=store&limit=10&sort_by_count=true",
+			"time": 307,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Brand discovery successful": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Brand discovery successful": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				307
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Brand discovery successful": true
+				}
+			]
+		},
+		{
+			"id": "662c7681-f3c1-4417-bf88-cdd0d1ecd21e",
+			"name": "Category Discovery",
+			"url": "http://localhost:8003/metadata/options?field_name=main_category",
+			"time": 453,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Category discovery successful": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Category discovery successful": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				453
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Category discovery successful": true
+				}
+			]
+		},
+		{
+			"id": "b881c92c-f988-4380-b6c8-b01f9b2a93e6",
+			"name": "Non-existent Order Handling",
+			"url": "http://localhost:8002/orders/customer/999999",
+			"time": 140,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Returns empty list for non-existent customer": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Returns empty list for non-existent customer": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				140
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Returns empty list for non-existent customer": true
+				}
+			]
+		},
+		{
+			"id": "c0a92f07-13d2-405d-bffa-1e21116999c8",
+			"name": "Chat Handles Errors Gracefully",
+			"url": "http://localhost:8001/chat",
+			"time": 5844,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Chat handles invalid order gracefully": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Chat handles invalid order gracefully": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5844
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Chat handles invalid order gracefully": true
+				}
+			]
+		},
+		{
+			"id": "90158087-3378-4215-a6c2-a429d58c5477",
+			"name": "Massive Data Request Protection",
+			"url": "http://localhost:8001/chat",
+			"time": 2379,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Massive request handled safely": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Massive request handled safely": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				2379
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Massive request handled safely": true
+				}
+			]
+		},
+		{
+			"id": "9108521f-176b-45e7-ab01-4206af559b83",
+			"name": "Non-existent Category Search",
+			"url": "http://localhost:8001/chat",
+			"time": 5123,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Handles non-existent category gracefully": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Handles non-existent category gracefully": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				5123
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Handles non-existent category gracefully": true
+				}
+			]
+		},
+		{
+			"id": "7ea8e5a7-37f2-4771-8a2d-9bf9a66a1061",
+			"name": "Invalid Input Validation",
+			"url": "http://localhost:8003/search/semantic",
+			"time": 8,
+			"responseCode": {
+				"code": 422,
+				"name": "Unprocessable Entity"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Invalid input rejected": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Invalid input rejected": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				8
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Invalid input rejected": true
+				}
+			]
+		},
+		{
+			"id": "085d5c3c-4e61-4ba4-96bb-2fbd426b5f8b",
+			"name": "Simple Query Performance",
+			"url": "http://localhost:8003/search/semantic",
+			"time": 52,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Simple query performance (cold start aware)": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Simple query performance (cold start aware)": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				52
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Simple query performance (cold start aware)": true
+				}
+			]
+		},
+		{
+			"id": "893dbab0-7bdb-4e9f-93d9-0d8e946b3d91",
+			"name": "Complex Multi-Tool Performance",
+			"url": "http://localhost:8001/chat",
+			"time": 12495,
+			"responseCode": {
+				"code": 200,
+				"name": "OK"
+			},
+			"tests": {
+				"Response time logged": true,
+				"Complex query acceptable performance": true,
+				"Performance summary": true
+			},
+			"testPassFailCounts": {
+				"Response time logged": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Complex query acceptable performance": {
+					"pass": 1,
+					"fail": 0
+				},
+				"Performance summary": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				12495
+			],
+			"allTests": [
+				{
+					"Response time logged": true,
+					"Complex query acceptable performance": true,
+					"Performance summary": true
+				}
+			]
+		}
+	],
+	"count": 1,
+	"totalTime": 232905,
+	"collection": {
+		"requests": [
+			{
+				"id": "aa90fae8-4599-4bd0-acaa-8e7b74c2c300",
+				"method": "GET"
+			},
+			{
+				"id": "db953b9e-e9c4-49a4-a598-6b248ffdc296",
+				"method": "GET"
+			},
+			{
+				"id": "3b9487ee-99ec-48d4-9185-bcaf31a98a3a",
+				"method": "GET"
+			},
+			{
+				"id": "ce54334f-3c21-440b-9c2c-d566d75b8d6e",
+				"method": "POST"
+			},
+			{
+				"id": "ccb78ac9-839a-475f-bb0a-fb2c3745b627",
+				"method": "POST"
+			},
+			{
+				"id": "22d20bd4-a5a6-481a-878d-513c42e7e7f5",
+				"method": "POST"
+			},
+			{
+				"id": "685f0154-64b6-4f0b-a070-df2f851bb062",
+				"method": "POST"
+			},
+			{
+				"id": "4f31d3c3-fedb-4dda-88e5-2f2af924bc3f",
+				"method": "POST"
+			},
+			{
+				"id": "fdad1f6c-0799-4cd6-9d1a-e82a4432f303",
+				"method": "POST"
+			},
+			{
+				"id": "b8666f2a-76ca-4bda-99a0-84b72f9ecc73",
+				"method": "POST"
+			},
+			{
+				"id": "6bf45220-e8bc-40c7-bd1e-b82886c0661e",
+				"method": "POST"
+			},
+			{
+				"id": "fa8d6134-a3e2-4cc2-bac8-13791315416e",
+				"method": "POST"
+			},
+			{
+				"id": "c42096cf-31b1-4584-818e-e3045903831f",
+				"method": "POST"
+			},
+			{
+				"id": "e3547d8f-77f7-4074-bff7-7e18f0525d93",
+				"method": "POST"
+			},
+			{
+				"id": "c56bdb0e-c1d2-4788-a618-3b933f9ca697",
+				"method": "POST"
+			},
+			{
+				"id": "aa2c35dd-2029-4ec4-8b2d-85f73a0c5e91",
+				"method": "POST"
+			},
+			{
+				"id": "b508e19b-b8ac-4355-9cd5-d59b5aafa748",
+				"method": "POST"
+			},
+			{
+				"id": "56939032-e272-4f3a-b4a1-d89a55a24f66",
+				"method": "POST"
+			},
+			{
+				"id": "46ad5917-40d4-4ced-9fdd-2b40b4658694",
+				"method": "POST"
+			},
+			{
+				"id": "dee88c8d-ac90-4ed6-96b2-49f100892c4a",
+				"method": "POST"
+			},
+			{
+				"id": "ac02570d-7a53-4e4e-915c-942509aac29f",
+				"method": "POST"
+			},
+			{
+				"id": "990f3642-56a1-43ee-9ef8-4f2a0e82f31e",
+				"method": "POST"
+			},
+			{
+				"id": "c4924d73-c20b-419f-a625-ed41c024eee0",
+				"method": "POST"
+			},
+			{
+				"id": "5ae22d1c-0f5b-464f-8720-5cbbf96869d0",
+				"method": "POST"
+			},
+			{
+				"id": "9ba45574-b846-4a93-a3f0-fa75b1683256",
+				"method": "POST"
+			},
+			{
+				"id": "2c695764-c297-4eb9-ac16-8250611abbd5",
+				"method": "POST"
+			},
+			{
+				"id": "3e53be7a-90a5-4c9b-9ef0-a88a2622b05f",
+				"method": "GET"
+			},
+			{
+				"id": "87f4026a-74e2-493e-a1d7-50f486b280fd",
+				"method": "GET"
+			},
+			{
+				"id": "52700837-2ca2-470e-b6ba-0e717dbca462",
+				"method": "GET"
+			},
+			{
+				"id": "5c119e32-c5cb-4d4b-98c0-8d1815307753",
+				"method": "GET"
+			},
+			{
+				"id": "1781edfe-6980-40ed-a9d5-5704fdf19763",
+				"method": "GET"
+			},
+			{
+				"id": "c1c330d3-fb5e-4457-8d99-4c9844daa0de",
+				"method": "POST"
+			},
+			{
+				"id": "ae41fe93-b49a-4f05-9262-c8365fb8cb04",
+				"method": "POST"
+			},
+			{
+				"id": "be876fa5-6b2b-436b-be6c-fdbc47052689",
+				"method": "GET"
+			},
+			{
+				"id": "662c7681-f3c1-4417-bf88-cdd0d1ecd21e",
+				"method": "GET"
+			},
+			{
+				"id": "b881c92c-f988-4380-b6c8-b01f9b2a93e6",
+				"method": "GET"
+			},
+			{
+				"id": "c0a92f07-13d2-405d-bffa-1e21116999c8",
+				"method": "POST"
+			},
+			{
+				"id": "90158087-3378-4215-a6c2-a429d58c5477",
+				"method": "POST"
+			},
+			{
+				"id": "9108521f-176b-45e7-ab01-4206af559b83",
+				"method": "POST"
+			},
+			{
+				"id": "7ea8e5a7-37f2-4771-8a2d-9bf9a66a1061",
+				"method": "POST"
+			},
+			{
+				"id": "085d5c3c-4e61-4ba4-96bb-2fbd426b5f8b",
+				"method": "POST"
+			},
+			{
+				"id": "893dbab0-7bdb-4e9f-93d9-0d8e946b3d91",
+				"method": "POST"
+			}
+		]
+	}
+}
