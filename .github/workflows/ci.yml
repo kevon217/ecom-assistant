@@ -82,11 +82,11 @@ jobs:
 
       - name: Build Docker images
         run: |
-          docker-compose build
+          docker compose build
 
       - name: Start services
         run: |
-          docker-compose up -d
+          docker compose up -d
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
 
