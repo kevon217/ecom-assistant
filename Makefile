@@ -15,16 +15,16 @@ help:
 	@echo "  make bootstrap-chroma - Initialize ChromaDB (if needed)"
 
 build:
-	docker-compose build
+	docker compose build
 
 up:
-	docker-compose up -d
+	docker compose up -d
 	@echo "Waiting for services to be healthy..."
 	@sleep 5
 	@make health
 
 down:
-	docker-compose down
+	docker compose down
 
 test:
 	# Run unit tests for each service
@@ -34,29 +34,29 @@ test:
 
 test-integration:
 	# Run with services up
-	docker-compose up -d
+	docker compose up -d
 	@sleep 30
 	@make health
 	# Add integration test commands here
-	docker-compose down
+	docker compose down
 
 clean:
-	docker-compose down -v
+	docker compose down -v
 	docker system prune -f
 	rm -rf data/chroma/*
 	rm -rf data/sessions/*
 
 logs:
-	docker-compose logs -f
+	docker compose logs -f
 
 logs-chat:
-	docker-compose logs -f chat-service
+	docker compose logs -f chat-service
 
 logs-order:
-	docker-compose logs -f order-service
+	docker compose logs -f order-service
 
 logs-product:
-	docker-compose logs -f product-service
+	docker compose logs -f product-service
 
 health:
 	@echo "Checking service health..."
@@ -65,17 +65,17 @@ health:
 	@curl -f http://localhost:8003/health && echo "✅ Product service healthy" || echo "❌ Product service not healthy"
 
 shell-chat:
-	docker-compose exec chat-service bash
+	docker compose exec chat-service bash
 
 shell-order:
-	docker-compose exec order-service bash
+	docker compose exec order-service bash
 
 shell-product:
-	docker-compose exec product-service bash
+	docker compose exec product-service bash
 
 # Only needed if ChromaDB wasn't created during build
 bootstrap-chroma:
-	docker-compose exec product-service python /app/scripts/bootstrap/load_vectors.py \
+	docker compose exec product-service python /app/scripts/bootstrap/load_vectors.py \
 		--csv /app/data/products_cleaned.csv \
 		--persist-dir /app/data/chroma \
 		--collection products \
@@ -96,7 +96,7 @@ restart: down up
 
 # Check what's running
 ps:
-	docker-compose ps
+	docker compose ps
 
 # Remove old images to save space
 prune:

@@ -5,9 +5,9 @@ set -e
 
 echo "🚀 Starting vector initialization..."
 
-# Use paths that match your docker-compose volumes
-DATA_DIR="/data"
-CHROMA_DIR="/data/chroma"
+# Use paths that match container
+DATA_DIR="/app/data"
+CHROMA_DIR="/app/data/chroma"
 CSV_FILE="${DATA_DIR}/products_cleaned.csv"
 
 # Check if data directory exists
@@ -31,7 +31,7 @@ echo "📊 CSV file info:"
 wc -l ${CSV_FILE}
 
 echo "🔄 Loading products into ChromaDB..."
-# Adjust the python path to run from the correct location
+# Already in correct location
 cd /app
 python -m scripts.bootstrap.load_vectors \
     --csv ${CSV_FILE} \

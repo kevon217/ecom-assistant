@@ -6,6 +6,9 @@ data-pipeline/
 CLAUDE.md
 Chatbot Challenge Description.md
 .env.local
+test-reports/
+logs/
+mock_api.py
 
 # Python
 __pycache__/

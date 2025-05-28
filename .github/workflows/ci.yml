@@ -130,7 +130,7 @@ jobs:
             # Not ready yet
             if [ $i -eq 30 ]; then
               echo "❌ Services failed to start after 60 seconds"
-              docker-compose logs
+              docker compose logs
               exit 1
             fi
 
@@ -174,4 +174,4 @@ jobs:
       - name: Show logs on failure
         if: failure()
         run: |
-          docker-compose logs --tail=100
+          docker compose logs --tail=100

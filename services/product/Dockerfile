@@ -43,7 +43,7 @@ WORKDIR /app
 # Initialize ChromaDB during build with smart caching
 RUN if [ -f /app/data/products_cleaned.csv ]; then \
         if [ -f /app/data/chroma/chroma.sqlite3 ] && [ -d /app/data/chroma ]; then \
-            echo "ChromaDB already exists, skipping bootstrap (use 'docker-compose build --no-cache product-service' to force rebuild)"; \
+            echo "ChromaDB already exists, skipping bootstrap (use 'docker compose build --no-cache product-service' to force rebuild)"; \
         else \
             echo "Starting ChromaDB bootstrap during build..."; \
             python /app/scripts/bootstrap/load_vectors.py \

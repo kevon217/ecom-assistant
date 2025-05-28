@@ -1,4 +1,4 @@
-# docker-compose.yml
+# docker compose.yml
 
 services:
   # Order service - PORT 8002
