@@ -13,7 +13,6 @@ dependencies = [
     "pandas>=2.2.0",
     "pydantic>=2.6.0",
     "chromadb>=0.4.24",
-    "rapidfuzz>=3.6.1",
     "scikit-learn>=1.4.0",
     "openai-agents>=0.0.15",
     "openai-agents-mcp>=0.0.8",
