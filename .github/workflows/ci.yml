@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd services/${{ matrix.service }}
-          uv sync
+          uv sync --all-extras
 
       - name: Run tests
         run: |
