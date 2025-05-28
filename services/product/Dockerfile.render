@@ -1,0 +1,52 @@
+FROM python:3.11-slim AS base
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    curl \
+    build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install uv
+RUN pip install uv
+
+# Set working directory
+WORKDIR /app
+
+# Copy everything
+COPY . /app/
+
+# Install dependencies
+WORKDIR /app/libs
+RUN uv pip install --system -e .
+
+WORKDIR /app/services/product
+RUN uv pip install --system -e .
+
+# Create ChromaDB directory
+RUN mkdir -p /app/data/chroma
+
+# Bootstrap ChromaDB with product data
+RUN python /app/scripts/bootstrap/load_vectors.py \
+    --csv /app/data/products_cleaned.csv \
+    --persist-dir /app/data/chroma \
+    --collection products \
+    --model all-MiniLM-L6-v2
+
+# Create non-root user
+RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+USER appuser
+
+# Set environment variables
+ENV PYTHONPATH="/app/services/product/src:/app/libs:/app" \
+    PYTHONUNBUFFERED=1 \
+    CHROMA_PERSIST_DIR="/app/data/chroma"
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+    CMD curl -f http://localhost:${PORT:-10000}/health || exit 1
+
+# Expose port
+EXPOSE 10000
+
+# Run with dynamic port
+CMD python -m uvicorn product.app:app --host 0.0.0.0 --port ${PORT:-10000}
