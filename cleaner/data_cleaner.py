@@ -10,7 +10,6 @@ from typing import Any, Callable, Dict, List, Union
 import pandas as pd
 
 from cleaner.schema import FieldProcessingConfig
-from cleaner.utils import normalize_text
 
 
 class DataCleaner:
@@ -29,464 +28,342 @@ class DataCleaner:
 
     def run(self) -> pd.DataFrame:
         """Process all fields according to their configs."""
-        for field_name, field_config in self.config.items():
-            # Convert dict config to FieldProcessingConfig
-            if isinstance(field_config, dict):
-                field_config = FieldProcessingConfig(**field_config)
-            elif not isinstance(field_config, FieldProcessingConfig):
+        for field_name, field_cfg in self.config.items():
+            # normalize config into FieldProcessingConfig
+            if isinstance(field_cfg, dict):
+                field_cfg = FieldProcessingConfig(**field_cfg)
+            elif not isinstance(field_cfg, FieldProcessingConfig):
                 raise ValueError(f"Invalid config type for {field_name}")
 
             if field_name not in self.df.columns:
-                # Special handling for datetime combination
+                # handle combine_datetime when missing
                 if (
-                    field_config.type == "datetime"
-                    and "combine_datetime" in field_config.preprocessing
+                    field_cfg.type == "datetime"
+                    and "combine_datetime" in field_cfg.preprocessing
                 ):
                     self.df[field_name] = self._process_field(
-                        pd.Series(index=self.df.index), field_config, field_name
+                        pd.Series(index=self.df.index), field_cfg, field_name
                     )
                 continue
-            processed = self._process_field(
-                self.df[field_name], field_config, field_name
-            )
+
+            processed = self._process_field(self.df[field_name], field_cfg, field_name)
             self.df[field_name] = processed
 
-            # Add *_norm columns if requested
-            if getattr(field_config, "add_norm_column", False):
-                if field_config.type == "structured":
-                    # Join list with space, then normalize
-                    self.df[f"{field_name}_norm"] = processed.apply(
-                        lambda x: normalize_text(
-                            " ".join(x) if isinstance(x, list) else str(x)
-                        )
-                    )
-                else:
-                    self.df[f"{field_name}_norm"] = processed.apply(normalize_text)
-        # NEW: Combine & checksum
+        # Combine for embeddings & checksum
         self.df["__embed_text"] = self.df.apply(self._make_doc_text, axis=1)
         self.df["embed_checksum"] = self.df["__embed_text"].apply(
             self._compute_checksum
         )
-        # Add order_id if missing
+
+        # Ensure order_id exists
         if "order_id" not in self.df.columns:
             self.df["order_id"] = [str(uuid.uuid4()) for _ in range(len(self.df))]
+
         self._convert_columns_to_snake_case()
         return self.df
 
     def _process_field(
-        self, series: pd.Series, field_config: FieldProcessingConfig, field_name: str
+        self, series: pd.Series, cfg: FieldProcessingConfig, name: str
     ) -> pd.Series:
         """Process a single field according to its config."""
-        # First parse structured data if needed
-        if field_config.type == "structured":
-            parsed = series.apply(
-                lambda x: self._parse_structured_data(
-                    x, field_config.options.get("format", "list")
+        if cfg.type == "structured":
+            parsed = self._process_structured(series, cfg.options)
+            if cfg.preserve_raw:
+                self.df[f"{name}_raw"] = parsed
+                self.df[f"{name}_embed"] = parsed.apply(
+                    lambda lst: self._to_embedding_text(lst, cfg.options, cfg)
                 )
+            return parsed
+
+        s = series
+        if cfg.preprocessing:
+            for step in cfg.preprocessing:
+                s = self._apply_preprocessing(s, step, cfg.options, cfg)
+
+        proc = self._get_processor(cfg.type)
+        if proc:
+            s = proc(s, cfg.options)
+
+        if cfg.preserve_raw:
+            raw = self._basic_clean(series, cfg.type)
+            self.df[f"{name}_raw"] = raw
+            self.df[f"{name}_embed"] = raw.apply(
+                lambda x: self._normalize_text(x, cfg.options)
             )
 
-            if field_config.preserve_raw:
-                # Always store the parsed list/dict as *_raw
-                self.df[f"{field_name}_raw"] = parsed
-                # For *_embed, join and normalize for embeddings
-                self.df[f"{field_name}_embed"] = parsed.apply(
-                    lambda lst: self._to_embedding_text(
-                        lst, field_config.options, field_config
-                    )
-                )
-                # Return parsed for main column (optional, not used downstream)
-                return parsed
-            else:
-                return parsed
-        else:
-            # For non-structured fields, apply preprocessing first, then type processing
-            processed = series
+        return s
 
-            # Apply preprocessing steps if specified
-            if hasattr(field_config, "preprocessing") and field_config.preprocessing:
-                for step in field_config.preprocessing:
-                    processed = self._apply_preprocessing(
-                        processed, step, field_config.options, field_config
-                    )
-
-            # Apply type-specific processing
-            processor = self._get_processor(field_config.type)
-            if processor:
-                processed = processor(processed, field_config.options)
-
-            # Handle preserve_raw logic
-            if field_config.preserve_raw:
-                # Store the basic cleaned version as *_raw
-                raw_cleaned = self._basic_clean(series, field_config.type)
-                self.df[f"{field_name}_raw"] = raw_cleaned
-                # For *_embed, normalize for embeddings
-                self.df[f"{field_name}_embed"] = raw_cleaned.apply(
-                    lambda x: self._normalize_text(x, field_config.options)
-                )
-
-            return processed
-
-    def _basic_clean(self, series: pd.Series, field_type: str) -> pd.Series:
-        """Basic cleaning without normalization."""
-        if field_type == "text":
-            return series.fillna("").astype(str).apply(lambda x: str(x).strip())
+    def _basic_clean(self, series: pd.Series, ftype: str) -> pd.Series:
+        if ftype == "text":
+            return series.fillna("").astype(str).str.strip()
         return series
 
-    def _get_processor(self, field_type: str) -> Callable:
-        """Returns the appropriate processor function for the field type."""
-        processors = {
+    def _get_processor(self, ftype: str) -> Callable:
+        return {
             "numeric": self._process_numeric,
             "text": self._process_text,
             "structured": self._process_structured,
             "categorical": self._process_categorical,
             "datetime": self._process_datetime,
-        }
-        return processors.get(field_type)
+        }.get(ftype)
 
-    def _process_numeric(self, series: pd.Series, options: Dict) -> pd.Series:
-        """Process numeric fields."""
-        # Clean the series first
+    def _process_numeric(self, series: pd.Series, opts: Dict) -> pd.Series:
         cleaned = series.replace(["None", "nan", "NaN", ""], pd.NA)
 
-        # Try to convert to numeric, handling any invalid decimals
-        def safe_numeric(val):
+        def safe(val):
             if pd.isna(val):
                 return pd.NA
             try:
-                # Remove any currency symbols or commas
                 if isinstance(val, str):
                     val = val.replace("$", "").replace(",", "").strip()
                 return pd.to_numeric(val)
             except:
                 return pd.NA
 
-        return cleaned.apply(safe_numeric)
+        return cleaned.apply(safe)
 
-    def _process_structured(self, series: pd.Series, options: Dict) -> pd.Series:
-        """Process structured data (lists/dicts)."""
-        format_type = options.get("format", "list")
+    def _process_structured(self, series: pd.Series, opts: Dict) -> pd.Series:
+        fmt = opts.get("format", "list")
+        lc = opts.get("lowercase", False)
 
-        def safe_parse(x):
+        def parse(x):
             if pd.isna(x):
-                return [] if format_type == "list" else {}
-            try:
-                return self._parse_structured_data(x, format_type)
-            except Exception as e:
-                return [] if format_type == "list" else {}
+                return [] if fmt == "list" else {}
+            parsed = self._parse_structured_data(x, fmt)
+            if lc:
+                if fmt == "list" and isinstance(parsed, list):
+                    return [
+                        str(i).lower().strip() if isinstance(i, str) else i
+                        for i in parsed
+                    ]
+                if fmt == "dict" and isinstance(parsed, dict):
+                    return {
+                        k: (str(v).lower().strip() if isinstance(v, str) else v)
+                        for k, v in parsed.items()
+                    }
+            return parsed
 
-        return series.apply(safe_parse)
+        return series.apply(parse)
 
-    def _process_text(self, series: pd.Series, options: Dict) -> pd.Series:
-        """Process text fields."""
+    def _process_text(self, series: pd.Series, opts: Dict) -> pd.Series:
         return (
-            series.fillna("")
-            .astype(str)
-            .apply(lambda x: self._normalize_text(x, options))
+            series.fillna("").astype(str).apply(lambda x: self._normalize_text(x, opts))
         )
 
-    def _process_categorical(self, series: pd.Series, options: Dict) -> pd.Series:
-        """Process categorical fields."""
+    def _process_categorical(self, series: pd.Series, opts: Dict) -> pd.Series:
         s = series.astype(str).str.strip()
-        if options.get("lowercase", True):
+        if opts.get("lowercase"):
             s = s.str.lower()
-        if options.get("titlecase", True):
+        if opts.get("titlecase"):
             s = s.str.title()
-        if options.get("missing_fill"):
-            s = s.fillna(options["missing_fill"])
-        if options.get("drop_duplicates"):
+        if opts.get("missing_fill"):
+            s = s.fillna(opts["missing_fill"])
+        if opts.get("drop_duplicates"):
             s = s.drop_duplicates()
         return s
 
-    def _process_datetime(self, series: pd.Series, options: Dict) -> pd.Series:
-        """Process datetime fields."""
-        # First clean any invalid values
-        cleaned = series.replace(["None", "nan", "NaN", ""], pd.NA)
+    def _process_datetime(self, series: pd.Series, opts: Dict) -> pd.Series:
+        clean = series.replace(["None", "nan", "NaN", ""], pd.NA)
+        if opts.get("time_only"):
 
-        # Handle time-only fields
-        if options.get("time_only", False):
-
-            def parse_time(x):
+            def pt(x):
                 if pd.isna(x):
                     return None
+                if isinstance(x, str) and re.match(r"^\d{2}:\d{2}:\d{2}$", x):
+                    return x
+                try:
+                    return pd.to_datetime(x).strftime("%H:%M:%S")
+                except:
+                    return None
 
-                # For time fields, we want HH:MM:SS format
-                if isinstance(x, str):
-                    # If already in correct format, validate it
-                    if re.match(r"^\d{2}:\d{2}:\d{2}$", x):
-                        try:
-                            # Validate the time components
-                            hours, minutes, seconds = map(int, x.split(":"))
-                            if (
-                                0 <= hours <= 23
-                                and 0 <= minutes <= 59
-                                and 0 <= seconds <= 59
-                            ):
-                                return x
-                        except ValueError:
-                            return None
+            return clean.apply(pt)
 
-                    # Try to convert other time formats to HH:MM:SS
-                    try:
-                        dt = pd.to_datetime(x)
-                        return dt.strftime("%H:%M:%S")
-                    except:
-                        return None
+        fmt = opts.get("format")
+        if fmt:
+            return pd.to_datetime(clean, format=fmt, errors="coerce").where(
+                lambda v: v.notna(), None
+            )
+        return pd.to_datetime(clean, errors="coerce").where(lambda v: v.notna(), None)
 
-                # If it's already a datetime/timestamp, format it
-                if isinstance(x, (pd.Timestamp, pd.datetime)):
-                    return x.strftime("%H:%M:%S")
-
-                return None
-
-            return cleaned.apply(parse_time)
-
-        # Handle date fields with strict format
-        date_format = options.get("format")
-        if date_format:
-            # For dates, we want strict format enforcement
-            try:
-                result = pd.to_datetime(cleaned, format=date_format, errors="coerce")
-                return result.where(result.notna(), None)
-            except ValueError:
-                # If strict parsing fails, return None - no flexible fallback
-                return pd.Series([None] * len(cleaned))
-
-        # No format specified, use flexible parsing (for non-Order_Date fields)
-        result = pd.to_datetime(cleaned, errors="coerce")
-        return result.where(result.notna(), None)
-
-    def _parse_structured_data(self, val: Any, expected_type: str) -> Union[List, Dict]:
-        """Parse string representations of structured data."""
+    def _parse_structured_data(self, val: Any, expected: str) -> Union[List, Dict]:
         if pd.isna(val) or val is None:
-            return [] if expected_type == "list" else {}
-
+            return [] if expected == "list" else {}
         if isinstance(val, (list, dict)):
             return val
 
+        txt = val
+        if isinstance(txt, str):
+            txt = txt.encode("utf-8").decode("unicode-escape")
         try:
-            # Remove any unicode escape sequences first
-            if isinstance(val, str):
-                val = val.encode("utf-8").decode("unicode-escape")
-            parsed = ast.literal_eval(str(val))
-            if isinstance(parsed, (list, dict)):
-                return parsed
-            return [parsed] if expected_type == "list" else {"value": parsed}
-        except Exception:
-            if isinstance(val, str):
-                # Try JSON parsing for dicts
-                if expected_type == "dict" and val.strip().startswith("{"):
+            lit = ast.literal_eval(str(txt))
+            if isinstance(lit, (list, dict)):
+                return lit
+            return [lit] if expected == "list" else {"value": lit}
+        except:
+            if isinstance(txt, str):
+                if expected == "dict" and txt.strip().startswith("{"):
                     try:
-                        return json.loads(val)
-                    except Exception:
+                        return json.loads(txt)
+                    except:
                         pass
-                # Try comma splitting for lists
-                if expected_type == "list" and "," in val:
-                    return [x.strip() for x in val.split(",") if x.strip()]
-            return [val] if expected_type == "list" else {"value": val}
+                if expected == "list" and "," in txt:
+                    return [x.strip() for x in txt.split(",") if x.strip()]
+            return [txt] if expected == "list" else {"value": txt}
 
-    def _normalize_text(self, text: str, options: Dict = None) -> str:
-        """Normalize text content. Handles both strings and lists."""
-        options = options or {}
-
+    def _normalize_text(self, text: str, opts: Dict = None) -> str:
+        opts = opts or {}
         if isinstance(text, list):
-            # Normalize each item, join with ". "
-            cleaned = [
-                self._normalize_text(item, options)
+            return ". ".join(
+                self._normalize_text(item, opts)
                 for item in text
                 if pd.notna(item) and str(item).strip()
-            ]
-            return ". ".join(cleaned)
-
+            )
         if pd.isna(text) or text is None:
             return ""
-
-        text = str(text).strip()
-        if options.get("remove_html", True):
-            text = re.sub(r"<[^>]+>", " ", text)
-        if options.get("lowercase", True):
-            text = text.lower()
-        if options.get("remove_special_chars", True):
-            text = re.sub(r"[^\w\s.,!?-]", " ", text)
-        return " ".join(text.split())
+        s = str(text).strip()
+        if opts.get("remove_html", True):
+            s = re.sub(r"<[^>]+>", " ", s)
+        if opts.get("lowercase", False):
+            s = s.lower()
+        if opts.get("remove_special_chars", True):
+            s = re.sub(r"[^\w\s.,!?-]", " ", s)
+        return " ".join(s.split())
 
     def _to_embedding_text(
-        self, lst: Any, options: Dict, field_config: FieldProcessingConfig
+        self, lst: Any, opts: Dict, cfg: FieldProcessingConfig
     ) -> str:
-        """Convert a list or string to embedding-friendly text."""
-        min_length = field_config.min_token_length
+        ml = cfg.min_token_length
         if isinstance(lst, list):
-            cleaned_items = []
-            for item in lst:
-                if pd.isna(item) or item is None:
+            out = []
+            for i in lst:
+                if pd.isna(i):
                     continue
-                text = str(item).strip()
-                if len(text) >= min_length:
-                    text = re.sub(r"[^\w\s.,!?-]", " ", text)
-                    text = " ".join(text.split())
-                    if text:
-                        cleaned_items.append(text.lower())
-            return ". ".join(cleaned_items)
-        else:
-            if pd.isna(lst) or lst is None:
-                return ""
-            text = str(lst).strip()
-            if len(text) >= min_length:
-                text = re.sub(r"[^\w\s.,!?-]", " ", text)
-                text = " ".join(text.split())
-                return text.lower()
-            return ""
+                t = str(i).strip()
+                if len(t) >= ml:
+                    t = re.sub(r"[^\w\s.,!?-]", " ", t)
+                    t = " ".join(t.split())
+                    if t:
+                        out.append(t.lower())
+            return ". ".join(out)
+
+        t = "" if pd.isna(lst) else str(lst).strip()
+        if len(t) >= ml:
+            t = re.sub(r"[^\w\s.,!?-]", " ", t)
+            t = " ".join(t.split())
+            return t.lower()
+        return ""
 
     def _apply_preprocessing(
-        self,
-        series: pd.Series,
-        step: str,
-        options: Dict,
-        field_config: FieldProcessingConfig,
+        self, series: pd.Series, step: str, opts: Dict, cfg: FieldProcessingConfig
     ) -> pd.Series:
-        """Apply a preprocessing step to a series."""
-        preprocessors = {
+        procs = {
             "normalize_text": lambda s: s.apply(
-                lambda x: self._normalize_text(x, options)
+                lambda x: self._normalize_text(x, opts)
             ),
             "join_text": lambda s: s.apply(
-                lambda x: options.get("join_separator", " ").join(x)
+                lambda x: opts.get("join_separator", " ").join(x)
                 if isinstance(x, list)
                 else x
             ),
             "to_embedding_text": lambda s: s.apply(
-                lambda x: self._to_embedding_text(x, options, field_config)
+                lambda x: self._to_embedding_text(x, opts, cfg)
             ),
-            "combine_datetime": lambda s: self._combine_datetime(self.df, options),
+            "combine_datetime": lambda s: self._combine_datetime(self.df, opts),
+            "lowercase": lambda s: s.apply(lambda x: self._apply_lowercase_to_data(x)),
         }
-        preprocessor = preprocessors.get(step)
-        return preprocessor(series) if preprocessor else series
+        fn = procs.get(step)
+        return fn(series) if fn else series
 
-    def _combine_datetime(self, df: pd.DataFrame, options: Dict) -> pd.Series:
-        """Combine date and time fields into a single datetime."""
-        date_series = options.get("date_series")
-        time_series = options.get("time_series")
-        timezone = options.get("timezone", "UTC")
+    def _apply_lowercase_to_data(self, v):
+        if pd.isna(v) or v is None:
+            return v
+        if isinstance(v, str):
+            return v.lower().strip()
+        if isinstance(v, list):
+            return [str(i).lower().strip() if isinstance(i, str) else i for i in v]
+        if isinstance(v, dict):
+            return {
+                k: (str(vv).lower().strip() if isinstance(vv, str) else vv)
+                for k, vv in v.items()
+            }
+        return str(v).lower().strip()
 
-        if not date_series or not time_series:
-            raise ValueError("Both date_series and time_series must be specified")
+    def _combine_datetime(self, df: pd.DataFrame, opts: Dict) -> pd.Series:
+        ds, ts = opts.get("date_series"), opts.get("time_series")
+        tz = opts.get("timezone", "UTC")
+        if not ds or not ts:
+            raise ValueError("date_series & time_series required")
+        if ds not in df or ts not in df:
+            raise ValueError(f"Missing series: {ds} or {ts}")
 
-        if date_series not in df.columns or time_series not in df.columns:
-            raise ValueError(f"Missing required series: {date_series} or {time_series}")
-
-        def parse_time(t):
-            """Parse time string to datetime.time object."""
+        def pt(t):
             if pd.isna(t):
                 return None
-
-            # We expect time to be in HH:MM:SS format
-            if not isinstance(t, str) or not re.match(r"^\d{2}:\d{2}:\d{2}$", t):
-                return None
-
+            if isinstance(t, str) and re.match(r"^\d{2}:\d{2}:\d{2}$", t):
+                return t
             try:
-                hours, minutes, seconds = map(int, t.split(":"))
-                if not (0 <= hours <= 23 and 0 <= minutes <= 59 and 0 <= seconds <= 59):
-                    return None
-                return (
-                    pd.Timestamp.now()
-                    .replace(hour=hours, minute=minutes, second=seconds, microsecond=0)
-                    .time()
-                )
+                return pd.to_datetime(t).strftime("%H:%M:%S")
             except:
                 return None
 
-        def combine_dt(row):
-            """Combine date and time into datetime with timezone."""
-            date_str = row[date_series]
-            time_str = row[time_series]
-
-            # Skip if either component is missing
-            if pd.isna(date_str) or pd.isna(time_str):
+        def cb(row):
+            d, ti = row[ds], row[ts]
+            if pd.isna(d) or pd.isna(ti):
                 return None
-
-            # Parse the time string into a time object
-            time_obj = parse_time(time_str)
-            if time_obj is None:
+            to = pt(ti)
+            if to is None:
                 return None
-
             try:
-                # Parse the date string if needed
-                if isinstance(date_str, str):
-                    try:
-                        date = pd.to_datetime(date_str, format="%Y-%m-%d")
-                    except ValueError:
-                        return None
-                else:
-                    date = date_str
-
+                date = (
+                    pd.to_datetime(d, format="%Y-%m-%d", errors="coerce")
+                    if isinstance(d, str)
+                    else d
+                )
                 if pd.isna(date):
                     return None
-
-                # Create a new timestamp with both date and time components
                 dt = pd.Timestamp(
                     year=date.year,
                     month=date.month,
                     day=date.day,
-                    hour=time_obj.hour,
-                    minute=time_obj.minute,
-                    second=time_obj.second,
+                    hour=int(to[:2]),
+                    minute=int(to[3:5]),
+                    second=int(to[6:8]),
                 )
-
-                # Localize to specified timezone
-                if timezone:
-                    dt = dt.tz_localize(timezone)
-                return dt
-            except Exception as e:
-                print(f"Error combining datetime: {e}")  # Debug info
+                return dt.tz_localize(tz) if tz else dt
+            except:
                 return None
 
-        return df.apply(combine_dt, axis=1)
+        return df.apply(cb, axis=1)
 
     def _make_doc_text(self, row: pd.Series) -> str:
         parts = []
-        # Dynamically include fields with 'to_embedding_text' in preprocessing
-        for field_name, field_config in self.config.items():
-            # Convert dict config to FieldProcessingConfig if needed
-            if isinstance(field_config, dict):
-                field_config = FieldProcessingConfig(**field_config)
-            if "to_embedding_text" in getattr(field_config, "preprocessing", []):
-                embed_col = f"{field_name}_embed"
-                if (
-                    embed_col in row
-                    and pd.notna(row[embed_col])
-                    and str(row[embed_col]).strip()
-                ):
-                    tag = field_name.upper()
-                    parts.append(f"<{tag}> {row[embed_col]} </{tag}>")
-
-        combined_text = "\n".join(parts)
-
-        # Fallback if empty embed text (prevents 118 bootstrap failures)
-        if not combined_text.strip():
-            # Use title + ASIN as minimum fallback
+        for name, cfg in self.config.items():
+            if isinstance(cfg, dict):
+                cfg = FieldProcessingConfig(**cfg)
+            if "to_embedding_text" in cfg.preprocessing:
+                col = f"{name}_embed"
+                if col in row and pd.notna(row[col]) and str(row[col]).strip():
+                    T = name.upper()
+                    parts.append(f"<{T}> {row[col]} </{T}>")
+        txt = "\n".join(parts)
+        if not txt.strip():
             title = row.get("title_raw", row.get("title", ""))
             asin = row.get("parent_asin", "")
             if title or asin:
-                combined_text = f"<TITLE> {title} </TITLE>\n<ASIN> {asin} </ASIN>"
-            else:
-                # Last resort - use any available text field
-                for col in row.index:
-                    if pd.notna(row[col]) and str(row[col]).strip():
-                        combined_text = f"<DATA> {str(row[col]).strip()} </DATA>"
-                        break
-
-        return combined_text
+                return f"<TITLE> {title} </TITLE>\n<ASIN> {asin} </ASIN>"
+            for c in row.index:
+                if pd.notna(row[c]) and str(row[c]).strip():
+                    return f"<DATA> {row[c]} </DATA>"
+        return txt
 
     @staticmethod
     def _compute_checksum(text: str) -> str:
         return hashlib.sha256(text.encode("utf-8")).hexdigest()
 
     def _convert_columns_to_snake_case(self):
-        """Convert all DataFrame columns to snake_case."""
+        def to_snake(n):
+            n = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", n)
+            n = re.sub(r"([a-z\d])([A-Z])", r"\1_\2", n)
+            return n.replace(" ", "_").lower()
 
-        def to_snake(name):
-            name = re.sub(r"([A-Z]+)([A-Z][a-z])", r"\1_\2", name)
-            name = re.sub(r"([a-z\d])([A-Z])", r"\1_\2", name)
-            name = name.replace(" ", "_")
-            return name.lower()
-
-        self.df.columns = [to_snake(col) for col in self.df.columns]
+        self.df.columns = [to_snake(c) for c in self.df.columns]

@@ -1,0 +1,41 @@
+{
+  "dataset": "orders",
+  "total_tested": 100,
+  "validation_errors": 100,
+  "fixed_rows": 0,
+  "error_summary": {
+    "ValidationError": 100
+  },
+  "sample_errors": [
+    {
+      "row_index": 0,
+      "order_id": "bebd972d-ff64-48f7-a49a-8dbe32eef98e",
+      "error": "2 validation errors for OrderItem\norder_date\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-01-02 00:00:00'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\norder_timestamp\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-01-02 10:56:33+0000', tz='UTC'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type",
+      "error_type": "ValidationError"
+    },
+    {
+      "row_index": 1,
+      "order_id": "fbac4f83-d78d-47ca-b2e3-0e37281f692e",
+      "error": "2 validation errors for OrderItem\norder_date\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-07-24 00:00:00'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\norder_timestamp\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-07-24 20:41:37+0000', tz='UTC'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type",
+      "error_type": "ValidationError"
+    },
+    {
+      "row_index": 2,
+      "order_id": "142ebbdd-f0e0-4147-a2b6-6d6e391cd8f8",
+      "error": "2 validation errors for OrderItem\norder_date\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-11-08 00:00:00'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\norder_timestamp\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-11-08 08:38:49+0000', tz='UTC'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type",
+      "error_type": "ValidationError"
+    },
+    {
+      "row_index": 3,
+      "order_id": "b441f19b-b09d-460a-8df5-9727dd8c8301",
+      "error": "2 validation errors for OrderItem\norder_date\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-04-18 00:00:00'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\norder_timestamp\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-04-18 19:28:06+0000', tz='UTC'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type",
+      "error_type": "ValidationError"
+    },
+    {
+      "row_index": 4,
+      "order_id": "7ddcf877-2460-4fde-abbe-b2dec6381add",
+      "error": "2 validation errors for OrderItem\norder_date\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-08-13 00:00:00'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type\norder_timestamp\n  Input should be a valid string [type=string_type, input_value=Timestamp('2018-08-13 21:18:39+0000', tz='UTC'), input_type=Timestamp]\n    For further information visit https://errors.pydantic.dev/2.11/v/string_type",
+      "error_type": "ValidationError"
+    }
+  ]
+}

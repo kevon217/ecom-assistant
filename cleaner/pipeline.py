@@ -130,6 +130,13 @@ class PipelineOrchestrator:
             raw_compare = raw[common_cols].copy()
             cleaned_compare = cleaned[common_cols].copy()
 
+            # Safety check for empty DataFrames
+            if raw_compare.empty or cleaned_compare.empty:
+                self.logger.warning(
+                    f"[{name}] Skipping comparison - empty DataFrame detected"
+                )
+                return
+
             # Convert datetime columns to string for comparison
             datetime_cols = raw_compare.select_dtypes(
                 include=["datetime64"]
@@ -234,7 +241,15 @@ class PipelineOrchestrator:
                 else:
                     shutil.rmtree(latest_dir)
             latest_dir.parent.mkdir(parents=True, exist_ok=True)
-            latest_dir.symlink_to(run_dir)
+
+            # Use relative path for symlink to avoid absolute path issues
+            try:
+                latest_dir.symlink_to(run_dir.resolve())
+            except OSError as e:
+                self.logger.warning(
+                    f"[{name}] Failed to create symlink: {e}. Copying instead."
+                )
+                shutil.copytree(run_dir, latest_dir)
 
             self.logger.info(f"--- Completed pipeline for {name} ---")
             return True

@@ -23,6 +23,7 @@ dependencies = [
     "openai-agents-mcp>=0.0.8",
     "fastapi-mcp-client",
     "sentence-transformers>=4.1.0",
+    "pytest-env>=1.1.5",
 ]
 
 [dependency-groups]

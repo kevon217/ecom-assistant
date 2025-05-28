@@ -1,0 +1,41 @@
+{
+  "dataset": "products",
+  "total_tested": 100,
+  "validation_errors": 7,
+  "fixed_rows": 0,
+  "error_summary": {
+    "TypeError": 7
+  },
+  "sample_errors": [
+    {
+      "row_index": 18,
+      "parent_asin": "B0C43X1YDH",
+      "error": "'<' not supported between instances of 'NoneType' and 'int'",
+      "error_type": "TypeError"
+    },
+    {
+      "row_index": 56,
+      "parent_asin": "B015IJIO5U",
+      "error": "'<' not supported between instances of 'NoneType' and 'int'",
+      "error_type": "TypeError"
+    },
+    {
+      "row_index": 63,
+      "parent_asin": "B07GQVKPX1",
+      "error": "'<' not supported between instances of 'NoneType' and 'int'",
+      "error_type": "TypeError"
+    },
+    {
+      "row_index": 65,
+      "parent_asin": "B0BCXL2V52",
+      "error": "'<' not supported between instances of 'NoneType' and 'int'",
+      "error_type": "TypeError"
+    },
+    {
+      "row_index": 88,
+      "parent_asin": "B0BK9TXQ7Y",
+      "error": "'<' not supported between instances of 'NoneType' and 'int'",
+      "error_type": "TypeError"
+    }
+  ]
+}

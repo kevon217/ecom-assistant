@@ -58,10 +58,24 @@ datasets:
     fields:
       price:
         type: "numeric"
+        options:
+          on_missing: -1 # Use -1 for missing prices (ChromaDB can't handle null)
+          validation:
+            min: -1 # Allow -1 for missing prices
+            max: 100000 # Reasonable upper bound
       average_rating:
         type: "numeric"
+        options:
+          on_missing: "preserve_null" # Don't fill with 0
+          validation:
+            min: 0.0
+            max: 5.0
       rating_number:
         type: "numeric"
+        options:
+          on_missing: "zero" # 0 reviews makes sense
+          validation:
+            min: 0
       features:
         type: "structured"
         options:
@@ -85,7 +99,8 @@ datasets:
         type: "structured"
         options:
           format: "list"
-        preserve_raw: true
+          lowercase: true
+        preserve_raw: false
       title:
         type: "text"
         preserve_raw: true
@@ -99,11 +114,13 @@ datasets:
         type: "categorical"
         options:
           lowercase: true
+          titlecase: false # Preserve original case
           missing_fill: "Unknown Store"
       details:
         type: "structured"
         options:
           format: "dict"
+          lowercase: true
         # preprocessing:
         # - "normalize_text" # leaving this out for now
       parent_asin:
@@ -115,6 +132,8 @@ datasets:
         type: "categorical"
         options:
           lowercase: true
+        preprocessing:
+          - "normalize_text"
 
 validation:
   enabled: true

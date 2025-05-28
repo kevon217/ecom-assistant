@@ -58,11 +58,14 @@ class ModelValidator:
             row = df.iloc[idx]
             try:
                 # Try to create ProductItem with minimal required fields
+                price_val = row.get("price")
+                rating_val = row.get("average_rating")
+
                 ProductItem(
                     parent_asin=row.get("parent_asin", "UNKNOWN"),
                     title=row.get("title_raw", "Unknown Product"),
-                    price=float(row.get("price", 0.0)),
-                    average_rating=float(row.get("average_rating", 0.0)),
+                    price=float(price_val) if pd.notna(price_val) else None,
+                    average_rating=float(rating_val) if pd.notna(rating_val) else None,
                     rating_number=int(row.get("rating_number", 0)),
                     store=row.get("store", "Unknown Store"),
                     main_category=row.get("main_category"),
@@ -83,11 +86,13 @@ class ModelValidator:
 
                 # Try to fix common issues
                 if "price" in str(e).lower():
-                    df_fixed.at[idx, "price"] = 0.0
+                    df_fixed.at[idx, "price"] = None  # Preserve null for missing prices
                     fixed_count += 1
                 elif "rating" in str(e).lower():
-                    df_fixed.at[idx, "average_rating"] = 0.0
-                    df_fixed.at[idx, "rating_number"] = 0
+                    df_fixed.at[idx, "average_rating"] = (
+                        None  # Preserve null for missing ratings
+                    )
+                    df_fixed.at[idx, "rating_number"] = 0  # 0 reviews makes sense
                     fixed_count += 1
                 elif "categories" in str(e).lower():
                     df_fixed.at[idx, "categories_raw"] = []

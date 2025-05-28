@@ -1,0 +1,6 @@
+order_id,customer_id,product_category,sales,profit,shipping_cost,order_priority,gender,payment_method,order_date,time,aging,device_type,customer_login_type,product,quantity,discount,order_timestamp,embed_text,embed_checksum
+5701b1d3-1c63-4ed4-9176-af42adb932b8,18186,Fashion,213.0,128.7,12.9,Low,Female,credit_card,2018-06-15,16:51:40,1.0,Web,Member,Formal Shoes,2.0,0.1,,,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+3496987e-9e3a-42d4-8106-4089a8a13bea,37077,Auto & Accessories,140.0,46.0,4.6,Medium,Female,credit_card,2018-01-02,10:56:33,8.0,Web,Member,Car Media Players,1.0,0.3,,,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+b2140c85-6416-43ea-86ed-dd8db0625ec8,50741,Auto & Accessories,118.0,26.2,2.6,High,Female,credit_card,2018-04-18,19:28:06,7.0,Web,Member,Car & Bike Care,1.0,0.3,,,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+7c0ec2f3-383a-48e6-97cd-e160589c2761,41066,Auto & Accessories,117.0,31.2,3.1,Critical,Female,credit_card,2018-11-08,08:38:49,8.0,Web,Member,Car Body Covers,5.0,0.1,,,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+f8b8350e-a7f5-4226-aca3-eaf176ce1003,25610,Electronic,220.0,135.6,13.6,Medium,Female,credit_card,2018-07-14,08:46:50,10.0,Web,Member,Samsung Mobile,2.0,0.1,,,e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
