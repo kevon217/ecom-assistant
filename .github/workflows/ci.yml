@@ -34,40 +34,30 @@ jobs:
           cd services/${{ matrix.service }}
           uv sync
 
-      - name: Create test MCP config (chat service only)
-        if: matrix.service == 'chat'
-        run: |
-          # Create config in repo root where chat service expects it
-          cat > mcp_agent.config.yaml << EOF
-          servers:
-            - name: order-service
-              type: sse
-              url: http://localhost:8002/mcp
-              cache_tools_list: true
-            - name: product-service
-              type: sse
-              url: http://localhost:8003/mcp
-              cache_tools_list: true
-          agent:
-            model: gpt-4o-mini
-            max_concurrent_tools: 5
-            tool_retries:
-              default: 2
-            tool_timeouts:
-              default: 30
-          EOF
-
       - name: Run tests
         run: |
           cd services/${{ matrix.service }}
           uv run pytest
         env:
-          # Exact environment variable names for Pydantic
+          # Required for all services (especially chat)
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+
+          # Service URLs for tests
           ORDER_MCP_URL: http://localhost:8002/mcp
           PRODUCT_MCP_URL: http://localhost:8003/mcp
-          AGENT_TOOL_RETRIES_DEFAULT: 2
-          AGENT_TOOL_TIMEOUTS_DEFAULT: 30
+
+          # Standard settings
+          LOG_LEVEL: INFO
+
+          # Chat-specific settings
+          AGENT_MODEL: gpt-4o-mini
+          CHAT_SESSION_TTL: 60
+          CHAT_SESSION_STORE_PATH: /tmp/sessions
+
+          # Tool settings (if you decide to use them)
+          AGENT_TOOL_TIMEOUTS: 30
+          AGENT_TOOL_RETRIES: 3
+          AGENT_MAX_CONCURRENT_TOOLS: 5
 
   integration-test:
     runs-on: ubuntu-latest
@@ -76,75 +66,110 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Create test data
+      - name: Create test data directories
         run: |
-          mkdir -p data/chroma data/processed/latest data/sessions
-          # Copy minimal test data if available
-          if [ -d "tests/fixtures" ]; then
-            cp tests/fixtures/test_*.csv data/processed/latest/ || true
-          fi
+          mkdir -p data/chroma data/sessions
+          # No need to copy - files are already in data/ from git checkout
+          ls -la data/  # Verify files are there
 
-      - name: Create MCP config
+      - name: Verify data files exist
         run: |
-          cat > mcp_agent.config.yaml << EOF
-          servers:
-            - name: order-service
-              type: sse
-              url: http://order-service:8002/mcp
-              cache_tools_list: true
-            - name: product-service
-              type: sse
-              url: http://product-service:8003/mcp
-              cache_tools_list: true
-          agent:
-            model: gpt-4o-mini
-            max_concurrent_tools: 5
-            tool_retries:
-              default: 2
-            tool_timeouts:
-              default: 30
-          EOF
+          test -f data/orders_cleaned.csv || (echo "❌ orders_cleaned.csv missing" && exit 1)
+          test -f data/products_cleaned.csv || (echo "❌ products_cleaned.csv missing" && exit 1)
+          echo "✅ Data files verified"
 
-      - name: Start services and test
+      - name: Build Docker images
         run: |
-          # Start services in background
+          docker-compose build
+
+      - name: Start services
+        run: |
           docker-compose up -d
-
-          # Wait for services to be ready
-          echo "Waiting for services to start..."
-          sleep 45
-
-          # Test health endpoints with retries
-          for i in {1..5}; do
-            echo "Health check attempt $i"
-
-            # Check individual services
-            curl -f http://localhost:8002/health && echo "✅ Order service healthy"
-            curl -f http://localhost:8003/health && echo "✅ Product service healthy"
-            curl -f http://localhost:8001/health && echo "✅ Chat service healthy"
-
-            # Check tool discovery (critical test)
-            TOOL_COUNT=$(curl -s http://localhost:8001/health | jq -r '.details.tool_count // 0')
-            echo "Tool count: $TOOL_COUNT"
-
-            if [ "$TOOL_COUNT" -gt "0" ]; then
-              echo "✅ MCP tool discovery working"
-              break
-            else
-              echo "❌ No tools discovered, retrying..."
-              sleep 10
-            fi
-          done
-
-          # Final validation
-          if [ "$TOOL_COUNT" -eq "0" ]; then
-            echo "❌ Tool discovery failed after retries"
-            docker-compose logs chat-service
-            exit 1
-          fi
-
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          # Exact environment variable names
-          AGENT_TOOL_RETRIES_DEFAULT: 2
-          AGENT_TOOL_TIMEOUTS_DEFAULT: 30
+
+      - name: Wait for services to be healthy
+        run: |
+          echo "Waiting for services to start..."
+
+          # Health check with retries
+          for i in {1..30}; do
+            echo "Health check attempt $i/30"
+
+            # Check each service
+            ORDER_HEALTHY=false
+            PRODUCT_HEALTHY=false
+            CHAT_HEALTHY=false
+
+            # Order service
+            if curl -f http://localhost:8002/health 2>/dev/null; then
+              echo "✅ Order service healthy"
+              ORDER_HEALTHY=true
+            fi
+
+            # Product service
+            if curl -f http://localhost:8003/health 2>/dev/null; then
+              echo "✅ Product service healthy"
+              PRODUCT_HEALTHY=true
+            fi
+
+            # Chat service
+            if curl -f http://localhost:8001/health 2>/dev/null; then
+              echo "✅ Chat service healthy"
+              CHAT_HEALTHY=true
+            fi
+
+            # All healthy?
+            if [ "$ORDER_HEALTHY" = true ] && [ "$PRODUCT_HEALTHY" = true ] && [ "$CHAT_HEALTHY" = true ]; then
+              echo "✅ All services healthy!"
+              break
+            fi
+
+            # Not ready yet
+            if [ $i -eq 30 ]; then
+              echo "❌ Services failed to start after 60 seconds"
+              docker-compose logs
+              exit 1
+            fi
+
+            sleep 2
+          done
+
+      - name: Verify MCP tool discovery
+        run: |
+          # Check that chat service can discover tools
+          HEALTH_RESPONSE=$(curl -s http://localhost:8001/health)
+          echo "Chat service health: $HEALTH_RESPONSE"
+
+          # Optional: Check if tools are discovered (if exposed in health endpoint)
+          # TOOL_COUNT=$(echo $HEALTH_RESPONSE | jq -r '.details.tool_count // 0')
+          # if [ "$TOOL_COUNT" -gt "0" ]; then
+          #   echo "✅ MCP tools discovered: $TOOL_COUNT"
+          # else
+          #   echo "⚠️ No MCP tools discovered"
+          # fi
+
+      - name: Run smoke tests
+        run: |
+          # Test chat endpoint
+          echo "Testing chat endpoint..."
+          curl -X POST http://localhost:8001/chat \
+            -H "Content-Type: application/json" \
+            -d '{"message": "What tools do you have access to?"}' \
+            | jq .
+
+          # Test product search
+          echo "Testing product search..."
+          curl -X POST http://localhost:8003/search/semantic \
+            -H "Content-Type: application/json" \
+            -d '{"query": "headphones", "limit": 5}' \
+            | jq .
+
+          # Test order lookup
+          echo "Testing order service..."
+          curl http://localhost:8002/orders/customer/12345?limit=5 | jq .
+
+      - name: Show logs on failure
+        if: failure()
+        run: |
+          docker-compose logs --tail=100

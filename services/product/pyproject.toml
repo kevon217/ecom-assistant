@@ -37,7 +37,23 @@ build-backend = "hatchling.build"
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
-addopts = "-v --html=test-reports/report.html"
+pythonpath = ["src", "../../libs"]
+asyncio_mode = "auto"  # Add this for pytest-asyncio
+addopts = [
+    "-v",
+    "--tb=short",
+    "--strict-markers",
+    "--disable-warnings",
+    "--color=yes",
+]
+markers = [
+    "unit: Unit tests",
+    "integration: Integration tests with mocks",
+    "live_integration: Live integration tests requiring real services",
+    "requires_chroma: Semantic search requires ChromaDB vector database",
+    "slow: Slow tests that may take longer to run",
+    "mcp: MCP-specific tests",
+]
 
 [tool.ruff]
 line-length = 88

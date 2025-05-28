@@ -1,5 +1,5 @@
 services:
-  # Order Service
+  # Order Service - Deploy First
   - type: web
     name: ecom-order
     runtime: docker
@@ -16,7 +16,7 @@ services:
       - key: LOG_LEVEL
         value: INFO
 
-  # Product Service
+  # Product Service - Deploy Second
   - type: web
     name: ecom-product
     runtime: docker
@@ -41,7 +41,7 @@ services:
       - key: LOG_LEVEL
         value: INFO
 
-  # Chat Service
+  # Chat Service - Deploy Last
   - type: web
     name: ecom-chat
     runtime: docker
@@ -50,22 +50,49 @@ services:
     dockerfilePath: ./services/chat/Dockerfile.render
     dockerContext: .
     healthCheckPath: /health
+    disk:
+      name: session-data
+      mountPath: /tmp/sessions
+      sizeGB: 1
     envVars:
       - key: PORT
         value: 10000
+
+      # IMPORTANT: Update these URLs after first deployment
+      # Replace with your actual Render service URLs
       - key: ORDER_MCP_URL
         value: https://ecom-order.onrender.com/mcp
       - key: PRODUCT_MCP_URL
         value: https://ecom-product.onrender.com/mcp
+
+      # Agent configuration
       - key: AGENT_MODEL
         value: gpt-4o-mini
+      - key: AGENT_TOOL_TIMEOUTS
+        value: 30
+      - key: AGENT_TOOL_RETRIES
+        value: 3
+      - key: AGENT_MAX_CONCURRENT_TOOLS
+        value: 5
+
+      # Session configuration
       - key: CHAT_SESSION_TTL
         value: 60
       - key: CHAT_SESSION_STORE_PATH
         value: /tmp/sessions
+
+      # CORS configuration
       - key: CHAT_ALLOWED_ORIGINS
         value: '["*"]'
+
+      # Startup delay to allow other services to initialize
+      - key: STARTUP_DELAY
+        value: 45
+
+      # Required secret - set in Render dashboard
       - key: OPENAI_API_KEY
-        sync: false # Set in Render dashboard
+        sync: false
+
+      # Logging
       - key: LOG_LEVEL
         value: INFO
