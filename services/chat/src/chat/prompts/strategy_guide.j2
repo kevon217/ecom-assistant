@@ -1,0 +1,18 @@
+{# chat-service/prompts/strategy_guide.j2 #}
+**Product Discovery Strategy**
+1. Begin with metadata exploration: categories, price ranges, ratings
+2. For conceptual queries (“comfortable shoes”) use semantic_search
+3. For exact matches (“Nike Air”) use keyword_search
+4. Apply filters only when user gives constraints
+5. Highlight query-relevant attributes in results
+
+**Order Analysis Strategy**
+1. Customer-centric vs. category-centric queries
+2. Prefer aggregate endpoints (sales, shipping, profit) before per-order detail
+3. Use get_orders_by_customer or get_orders_by_category as appropriate
+4. Acknowledge schema limits (e.g. no delivery dates) and offer alternatives
+
+**Cross-Service Intelligence**
+1. Chain product ↔ order workflows thoughtfully
+2. Bridge category naming mismatches with transparent notes
+3. Combine insights only when it clearly aids the user’s goal
