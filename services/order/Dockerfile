@@ -13,17 +13,17 @@ RUN pip install uv
 WORKDIR /app
 
 # Copy only the service's pyproject.toml first
-COPY ./services/order/pyproject.toml /app/services/order/
+COPY services/order/pyproject.toml /app/services/order/
 
 # Install dependencies
 WORKDIR /app/services/order
 RUN uv pip install --system -e .
 
 # Copy application code
-COPY ./libs /app/libs
-COPY ./services/order/src /app/services/order/src
+COPY libs /app/libs
+COPY services/order/src /app/services/order/src
 
-COPY ./data/orders_cleaned.csv /app/data/orders_cleaned.csv
+COPY data/orders_cleaned.csv /app/data/orders_cleaned.csv
 
 
 # Create non-root user for security

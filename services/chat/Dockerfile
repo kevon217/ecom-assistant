@@ -13,15 +13,15 @@ RUN pip install uv
 WORKDIR /app
 
 # Copy dependency files first (better caching)
-COPY ./services/chat/pyproject.toml /app/services/chat/
+COPY services/chat/pyproject.toml /app/services/chat/
 
 # Install dependencies
 WORKDIR /app/services/chat
 RUN uv pip install --system -e .
 
 # Copy application code
-COPY ./libs /app/libs
-COPY ./services/chat/src /app/services/chat/src
+COPY libs /app/libs
+COPY services/chat/src /app/services/chat/src
 
 
 # Create directories and set permissions

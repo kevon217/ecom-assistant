@@ -13,18 +13,18 @@ RUN pip install uv
 WORKDIR /app
 
 # Copy only the service's pyproject.toml first
-COPY ./services/product/pyproject.toml /app/services/product/
+COPY services/product/pyproject.toml /app/services/product/
 
 # Install service dependencies first
 WORKDIR /app/services/product
 RUN uv pip install --system -e .
 
 # Now copy the actual code
-COPY ./libs /app/libs
-COPY ./services/product/src /app/services/product/src
+COPY libs /app/libs
+COPY services/product/src /app/services/product/src
 
-COPY ./data/products_cleaned.csv /app/data/products_cleaned.csv
-COPY ./scripts/bootstrap/load_vectors.py /app/scripts/bootstrap/load_vectors.py
+COPY data/products_cleaned.csv /app/data/products_cleaned.csv
+COPY scripts/bootstrap/load_vectors.py /app/scripts/bootstrap/load_vectors.py
 
 # Set environment variables BEFORE bootstrap
 ENV PYTHONPATH="/app/services/product/src:/app/libs:/app" \
