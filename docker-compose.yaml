@@ -1,0 +1,98 @@
+# docker-compose.yml
+version: '3.8'
+
+services:
+  # Order service - PORT 8002
+  order-service:
+    build:
+      context: .
+      dockerfile: ./services/order/Dockerfile
+    ports:
+      - "8002:8002"
+    volumes:
+      - ./logs:/app/logs
+      #  - ./data/processed/latest/orders:/app/data/orders:ro  # Mount as read-only
+    environment:
+      - PORT=8002
+      - ORDER_DATA_PATH=data/orders_cleaned.csv
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - ecom-network
+
+  # Product service - PORT 8003
+  product-service:
+    build:
+      context: .
+      dockerfile: ./services/product/Dockerfile
+    ports:
+      - "8003:8003"
+    volumes:
+      - chroma-data:/app/data/chroma
+      #  - ./data/processed/latest/products:/app/data/products:ro  # Mount as read-only
+      - ./logs:/app/logs
+    environment:
+      - PORT=8003
+      - CHROMA_PERSIST_DIR=data/chroma
+      - PRODUCT_DATA_PATH=data/products_cleaned.csv
+      - EMBEDDING_MODEL=all-MiniLM-L6-v2
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8003/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - ecom-network
+
+  # Chat service - PORT 8001
+  chat-service:
+    build:
+      context: .
+      dockerfile: ./services/chat/Dockerfile
+    ports:
+      - "8001:8001"
+    volumes:
+      - sessions-data:/app/data/sessions
+      - ./logs/chat:/app/logs
+    environment:
+      - PORT=8001
+      - ORDER_MCP_URL=http://order-service:8002/mcp
+      - PRODUCT_MCP_URL=http://product-service:8003/mcp
+      - AGENT_MODEL=${AGENT_MODEL:-gpt-4o-mini}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - CHAT_SESSION_TTL=${CHAT_SESSION_TTL:-60}
+      - CHAT_SESSION_STORE_PATH=data/sessions
+      - CHAT_ALLOWED_ORIGINS=["*"]
+      - AGENT_TOOL_TIMEOUTS=${AGENT_TOOL_TIMEOUTS:-30}
+      - AGENT_TOOL_RETRIES=${AGENT_TOOL_RETRIES:-3}
+      - AGENT_MAX_CONCURRENT_TOOLS=${AGENT_MAX_CONCURRENT_TOOLS:-5}
+      - DEBUG=${DEBUG:-false}
+      - LOG_LEVEL=INFO
+    depends_on:
+      order-service:
+        condition: service_healthy
+      product-service:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s  # Give more time for MCP discovery
+    networks:
+      - ecom-network
+
+networks:
+  ecom-network:
+    driver: bridge
+
+volumes:
+  sessions-data:
+    driver: local
+  chroma-data:
+    driver: local

@@ -1,0 +1,71 @@
+services:
+  # Order Service
+  - type: web
+    name: ecom-order
+    runtime: docker
+    repo: https://github.com/kevon217/ecom-assistant
+    branch: master
+    dockerfilePath: ./services/order/Dockerfile.render
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: ORDER_DATA_PATH
+        value: /app/data/orders_cleaned.csv
+      - key: LOG_LEVEL
+        value: INFO
+
+  # Product Service
+  - type: web
+    name: ecom-product
+    runtime: docker
+    repo: https://github.com/kevon217/ecom-assistant
+    branch: master
+    dockerfilePath: ./services/product/Dockerfile.render
+    dockerContext: .
+    healthCheckPath: /health
+    disk:
+      name: chroma-data
+      mountPath: /app/data/chroma
+      sizeGB: 1
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: PRODUCT_DATA_PATH
+        value: /app/data/products_cleaned.csv
+      - key: CHROMA_PERSIST_DIR
+        value: /app/data/chroma
+      - key: EMBEDDING_MODEL
+        value: all-MiniLM-L6-v2
+      - key: LOG_LEVEL
+        value: INFO
+
+  # Chat Service
+  - type: web
+    name: ecom-chat
+    runtime: docker
+    repo: https://github.com/kevon217/ecom-assistant
+    branch: master
+    dockerfilePath: ./services/chat/Dockerfile.render
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 10000
+      - key: ORDER_MCP_URL
+        value: https://ecom-order.onrender.com/mcp
+      - key: PRODUCT_MCP_URL
+        value: https://ecom-product.onrender.com/mcp
+      - key: AGENT_MODEL
+        value: gpt-4o-mini
+      - key: CHAT_SESSION_TTL
+        value: 60
+      - key: CHAT_SESSION_STORE_PATH
+        value: /tmp/sessions
+      - key: CHAT_ALLOWED_ORIGINS
+        value: '["*"]'
+      - key: OPENAI_API_KEY
+        sync: false # Set in Render dashboard
+      - key: LOG_LEVEL
+        value: INFO
