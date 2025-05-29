@@ -100,7 +100,10 @@ def mock_orchestrator(mock_agent, mock_session_manager):
         "model": "gpt-4o-mini",
         "template_loaded": True,
         "tool_count": 0,
-        "mcp_servers": ["order-service", "product-service"],
+        # CHANGE: mcp_servers is now a dict, not a list
+        "mcp_servers": {"order": "connected", "product": "connected"},
+        "mcp_connected": True,
+        "last_mcp_check": None,
     }
     mock_orch.load_templates = AsyncMock()
     mock_orch.cleanup = AsyncMock()

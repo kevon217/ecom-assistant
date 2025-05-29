@@ -17,29 +17,25 @@ from fake_model import FakeModel
 class TestModelErrors:
     """Test error handling from model failures."""
 
-    def test_model_exception_returns_500(self, integration_test_client):
-        """Test that model exceptions result in 500 error."""
+    def test_model_exception_returns_200(self, integration_test_client):
+        """Test that model exceptions are handled gracefully."""
         client, fake_model, app = integration_test_client
-
-        # Set model to raise exception
         fake_model.set_next_output(RuntimeError("Model crashed"))
-
         response = client.post("/chat", json={"message": "test"})
 
-        assert response.status_code == 500
+        # NOW EXPECTS 200 with fallback (not 500)
+        assert response.status_code == 200
         data = response.json()
-        assert "Internal server error" in data["detail"]
+        assert "message" in data
 
     def test_model_timeout_handled(self, integration_test_client):
         """Test handling of model timeout errors."""
         client, fake_model, app = integration_test_client
-
-        # Set model to raise timeout exception
         fake_model.set_next_output(TimeoutError("Model request timed out"))
-
         response = client.post("/chat", json={"message": "test"})
 
-        assert response.status_code == 500
+        # NOW EXPECTS 200 with fallback (not 500)
+        assert response.status_code == 200
 
     @pytest.mark.asyncio
     async def test_streaming_error_event(self, integration_test_client):

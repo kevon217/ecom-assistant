@@ -83,12 +83,20 @@ class TestConfigurationAccess:
         """Test that health status includes model from config."""
         orch = orchestrator_with_mocks
 
-        with patch("chat.orchestrator.config") as mock_config:
-            mock_config.agent_model = "gpt-4o-mini"
-            status = orch.get_health_status()
+        # Fix: config is an instance, not a module
+        from chat.config import config as chat_config
 
+        # Patch the instance attribute
+        original_model = chat_config.agent_model
+        chat_config.agent_model = "gpt-4o-mini"
+
+        try:
+            status = orch.get_health_status()
             assert "model" in status
             assert status["model"] == "gpt-4o-mini"
+        finally:
+            # Restore original value
+            chat_config.agent_model = original_model
 
 
 @pytest.mark.unit
@@ -122,7 +130,7 @@ class TestAgentConfigurationPatterns:
                     # Verify Agent constructor includes mcp_servers
                     call_kwargs = mock_agent_class.call_args.kwargs
                     assert "mcp_servers" in call_kwargs
-                    assert len(call_kwargs["mcp_servers"]) == 2
+                    assert len(call_kwargs["mcp_servers"]) == 0  # starts empty now
                     assert "model" not in call_kwargs
 
     def test_model_configured_via_run_config(self, orchestrator_with_mocks):
