@@ -254,6 +254,7 @@ async def chat_stream(
         full_response = []
         active_tools = {}  # Track tool_id -> tool_name mapping
         last_heartbeat = time.time()
+        stream_completed = False
 
         try:
             async for evt in stream.stream_events():
@@ -300,11 +301,18 @@ async def chat_stream(
                                 tool_id = evt.item.tool_call_id
                                 if tool_id in active_tools:
                                     tool_name = active_tools.pop(tool_id, "unknown")
-                                    yield f"data: {json.dumps({'type': 'tool_end', 'tool': tool_name, 'message': '✓ Complete'})}\n\n"
 
                                     # Check for tool errors
                                     if hasattr(evt.item, "error") and evt.item.error:
-                                        yield f"data: {json.dumps({'type': 'tool_error', 'tool': tool_name, 'error': str(evt.item.error)})}\n\n"
+                                        error_msg = str(evt.item.error)
+                                        yield f"data: {json.dumps({'type': 'tool_error', 'tool': tool_name, 'error': error_msg})}\n\n"
+
+                                        # Log but don't kill the stream
+                                        logger.warning(
+                                            f"Tool {tool_name} failed: {error_msg}"
+                                        )
+                                    else:
+                                        yield f"data: {json.dumps({'type': 'tool_end', 'tool': tool_name, 'message': '✓ Complete'})}\n\n"
 
                         elif event_name == "mcp_list_tools":
                             yield f"data: {json.dumps({'type': 'info', 'message': 'Discovering available tools...'})}\n\n"
@@ -313,18 +321,42 @@ async def chat_stream(
                         new_agent_name = getattr(evt.new_agent, "name", "Assistant")
                         yield f"data: {json.dumps({'type': 'agent_changed', 'agent': new_agent_name})}\n\n"
 
+                    elif evt.type == "run_complete_stream_event":
+                        # Mark stream as completed successfully
+                        stream_completed = True
+
                     # Debug mode
                     elif config.debug:
                         yield f"data: {json.dumps({'type': 'debug', 'event_type': evt.type, 'data': str(evt)[:100]})}\n\n"
 
                 except Exception as e:
+                    # Log individual event errors but don't kill the stream
                     logger.error(f"Error processing event: {e}", exc_info=True)
+
+                    # Notify about tool errors specifically
+                    if "timeout" in str(e).lower() or "MCP" in str(e):
+                        yield f"data: {json.dumps({'type': 'tool_error', 'error': 'Tool temporarily unavailable'})}\n\n"
+
                     if config.debug:
                         yield f"data: {json.dumps({'type': 'debug_error', 'error': str(e)})}\n\n"
 
+                    # Continue processing other events
+                    continue
+
         except Exception as e:
             logger.error(f"Stream error: {e}", exc_info=True)
-            yield f"data: {json.dumps({'type': 'error', 'error': 'Stream processing failed'})}\n\n"
+
+            # Only show error if we haven't received any content
+            if not full_response and not stream_completed:
+                # Check if it's a tool-related error
+                if (
+                    "MCP" in str(e)
+                    or "tool" in str(e).lower()
+                    or "timeout" in str(e).lower()
+                ):
+                    yield f"data: {json.dumps({'type': 'info', 'message': 'Some tools are currently unavailable, but I can still help you.'})}\n\n"
+                else:
+                    yield f"data: {json.dumps({'type': 'error', 'error': 'Stream processing failed'})}\n\n"
 
         finally:
             # Save the complete response

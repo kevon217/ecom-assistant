@@ -81,15 +81,18 @@ class AgentOrchestrator:
                     server_config["instance"] = MCPServerSse(
                         params={
                             "url": server_config["url"],  # Changed from config["url"]
-                            "timeout": 10,
+                            "timeout": 30,
                             "headers": {  # Add these headers for Render!
                                 "Accept": "text/event-stream",
                                 "Cache-Control": "no-cache",
                                 "Connection": "keep-alive",
                                 "X-Accel-Buffering": "no",
                             },
+                            "sse_read_timeout": 300,  # Add explicit SSE timeout
                         },
                         cache_tools_list=True,
+                        name=server_config["name"],
+                        client_session_timeout_seconds=30,
                     )
 
                 # Try to connect if not already connected
@@ -152,11 +155,11 @@ class AgentOrchestrator:
         else:
             logger.info("Templates loaded successfully")
 
-        # # Try initial connection but don't fail if it doesn't work
-        # try:
-        #     await self._try_connect_mcp_servers()
-        # except Exception as e:
-        #     logger.info(f"Initial MCP connection skipped: {e}")
+        # Try initial connection but don't fail if it doesn't work
+        try:
+            await self._try_connect_mcp_servers()
+        except Exception as e:
+            logger.info(f"Initial MCP connection skipped: {e}")
 
     async def cleanup(self):
         """Cleanup MCP server connections."""

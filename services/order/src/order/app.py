@@ -3,7 +3,7 @@ from typing import Callable, List
 
 from fastapi import Depends, FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, StreamingResponse
 from fastapi_mcp import FastApiMCP
 from libs.ecom_shared.errors import not_found_error, service_error, validation_error
 from libs.ecom_shared.guardrails import GuardrailViolation
@@ -46,21 +46,24 @@ app.add_middleware(
 async def add_sse_headers_middleware(request: Request, call_next: Callable) -> Response:
     """Add required headers for SSE to work through Render's proxy"""
 
-    # Process the request
-    response = await call_next(request)
-
-    # Only modify headers for the MCP SSE endpoint
+    # For SSE endpoints, we need special handling
     if request.url.path == "/mcp" and request.method == "GET":
-        # Critical headers for Render's proxy
-        response.headers["X-Accel-Buffering"] = "no"
-        response.headers["Cache-Control"] = "no-cache, no-transform"
-        response.headers["Connection"] = "keep-alive"
+        # Call the endpoint
+        response = await call_next(request)
 
-        # Also add CORS headers if needed
-        response.headers["Access-Control-Allow-Origin"] = "*"
-        response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        # Only modify if it's actually a streaming response
+        if isinstance(response, StreamingResponse):
+            # SSE requires these headers
+            response.headers["X-Accel-Buffering"] = "no"
+            response.headers["Cache-Control"] = "no-cache, no-transform"
+            response.headers["Connection"] = "keep-alive"
+            response.headers["Access-Control-Allow-Origin"] = "*"
+            response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
 
-    return response
+        return response
+    else:
+        # For non-SSE endpoints, pass through normally
+        return await call_next(request)
 
 
 def get_order_service() -> OrderDataService:
