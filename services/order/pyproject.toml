@@ -1,8 +1,8 @@
 [project]
 name = "order-service"
-version = "0.4.0"
+version = "1.1.0"
 description = "Order service for e-commerce assistant"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 authors = [
     {name = "Kevin Armengol"}
 ]

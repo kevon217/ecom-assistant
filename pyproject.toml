@@ -1,8 +1,8 @@
 [project]
 name = "ecom-assistant"
-version = "0.1.0"
+version = "1.1.0"
 description = "E-commerce Expert Assistant with microservices architecture"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.13"
 
 dependencies = [
     "fastapi>=0.109.0",
@@ -22,9 +22,8 @@ dependencies = [
     "openai-agents-mcp>=0.0.8",
     "fastapi-mcp-client",
     "pytest-env>=1.1.5",
-    "sentence-transformers[onnx]>=4.1.0",  # ONNX-only CPU backend
-    "torch==2.2.0cpu",                    # CPU-only wheel
-    "onnxruntime>=1.17.0",                 # CPU runtime
+    "torch==2.2.0",                # default PyPI wheel with CUDA support
+    "onnxruntime>=1.17.0",          # CPU-only runtime works on macOS arm64   "sentence-transformers[onnx]>=4.1.0",
 ]
 
 [dependency-groups]
