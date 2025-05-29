@@ -28,7 +28,7 @@ class AgentOrchestrator:
         self._mcp_connected = False
         self._connection_lock = asyncio.Lock()
         self._last_connection_attempt = None
-        self._connection_retry_interval = 30  # TODO: make this configurable
+        self._connection_retry_interval = 15  # TODO: make this configurable
 
         # Store server configurations but don't create instances yet
         self._server_configs = []
@@ -81,7 +81,7 @@ class AgentOrchestrator:
                     server_config["instance"] = MCPServerSse(
                         params={
                             "url": server_config["url"],  # Changed from config["url"]
-                            "timeout": 30,
+                            "timeout": 60,
                             "headers": {  # Add these headers for Render!
                                 "Accept": "text/event-stream",
                                 "Cache-Control": "no-cache",
@@ -92,7 +92,7 @@ class AgentOrchestrator:
                         },
                         cache_tools_list=True,
                         name=server_config["name"],
-                        client_session_timeout_seconds=30,
+                        client_session_timeout_seconds=60,
                     )
 
                 # Try to connect if not already connected

@@ -197,7 +197,7 @@ async def chat(
                         },
                         {"role": "user", "content": req.message},
                     ],
-                    temperature=0.7,
+                    temperature=0.25,
                     max_tokens=500,
                 )
                 reply = response.choices[0].message.content
@@ -259,8 +259,8 @@ async def chat_stream(
         try:
             async for evt in stream.stream_events():
                 try:
-                    # Send heartbeat every 20 seconds
-                    if time.time() - last_heartbeat > 20:
+                    # Send heartbeat every 15 seconds
+                    if time.time() - last_heartbeat > 15:
                         yield ": heartbeat\n\n"
                         last_heartbeat = time.time()
 

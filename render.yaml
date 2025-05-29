@@ -73,7 +73,7 @@ services:
       - key: AGENT_MODEL
         value: gpt-4o-mini
       - key: AGENT_TOOL_TIMEOUTS
-        value: "30"
+        value: "50"
       - key: AGENT_TOOL_RETRIES
         value: "3"
       - key: AGENT_MAX_CONCURRENT_TOOLS
