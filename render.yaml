@@ -60,31 +60,15 @@ services:
     # diskMounts:
     #   - volume: session-data
     #     mountPath: /tmp/sessions
-    # override the default start to wait on Order & Product
-
-    # startCommand: |
-    #   #!/usr/bin/env bash
-    #   set -e
-    #   echo "🌐 Waiting for Order & Product services to be healthy…"
-    #   until curl -sf http://ecom-order:10000/health; do
-    #     echo "⏳ ecom-order not ready, retrying…"
-    #     sleep 5
-    #   done
-    #   until curl -sf http://ecom-product:10000/health; do
-    #     echo "⏳ ecom-product not ready, retrying…"
-    #     sleep 5
-    #   done
-    #   echo "✅ Dependencies up; starting Chat service"
-    #   exec uvicorn chat.app:app --host 0.0.0.0 --port $PORT
 
     startCommand: |
-      # Wait for Order MCP (tools discovery) to be ready
-      until curl -sf http://ecom-order:10000/mcp -H "Accept: application/json"; do
+      # Wait for Order MCP (tools discovery) via public URL
+      until curl -sf https://ecom-order.onrender.com/mcp -H "Accept: application/json"; do
         echo "⏳ Waiting on Order MCP…"; sleep 5
       done
 
-      # Wait for Product MCP (tools discovery) to be ready
-      until curl -sf http://ecom-product:10000/mcp -H "Accept: application/json"; do
+      # Wait for Product MCP (tools discovery) via public URL
+      until curl -sf https://ecom-product-w38k.onrender.com/mcp -H "Accept: application/json"; do
         echo "⏳ Waiting on Product MCP…"; sleep 5
       done
 
@@ -95,9 +79,9 @@ services:
       - key: PORT
         value: 10000
       - key: ORDER_MCP_URL
-        value: http://ecom-order:10000/mcp
+        value: https://ecom-order.onrender.com/mcp
       - key: PRODUCT_MCP_URL
-        value: http://ecom-product:10000/mcp
+        value: https://ecom-product-w38k.onrender.com/mcp
       - key: OPENAI_API_KEY
         sync: false
       - key: AGENT_MODEL
