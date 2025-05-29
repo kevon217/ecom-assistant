@@ -39,14 +39,13 @@ class AgentOrchestrator:
             self.system_tpl = None
 
         # Initialize MCP servers for our FastAPI services
-        self.mcp_servers = []
         self._setup_mcp_servers()
 
         # Create agent with MCP servers
         self.agent = Agent(
             name="EcomAssistant",
             instructions="You are an E-commerce Assistant. Help users find products and check orders.",
-            mcp_servers=self.mcp_servers,  # Pass the MCP server objects
+            mcp_servers=self.mcp_servers,
         )
 
     def _setup_mcp_servers(self):
@@ -84,18 +83,27 @@ class AgentOrchestrator:
         else:
             logger.info("Templates loaded successfully")
 
-        # Start MCP server connections
+        # Try to connect each MCP server, keep only the ones that succeed
+        connected: list[MCPServerSse] = []
         for server in self.mcp_servers:
             for attempt in range(5):
                 try:
                     await server.connect()
+                    logger.info(f"MCP server ready: {server.params['url']}")
+                    connected.append(server)
                     break
-                except Exception:
-                    await asyncio.sleep(5)
+                except Exception as e:
+                    # use attempt+1 here, not a non-existent variable
+                    logger.warning(
+                        f"Attempt {attempt + 1} failed for {server.params['url']}: {e}"
+                    )
+                    await asyncio.sleep(2)
             else:
-                logger.error(
-                    f"Could not connect to {server.params['url']} after retries"
-                )
+                logger.warning(f"Giving up on MCP server {server.params['url']}")
+
+        # Only keep the ones that actually connected
+        self.mcp_servers = connected
+        self.agent.mcp_servers = connected
 
     async def cleanup(self):
         """Cleanup MCP server connections."""
