@@ -26,6 +26,7 @@ RUN uv pip install --system .
 WORKDIR /app
 COPY libs /app/libs
 COPY services/order/src /app/services/order/src
+COPY data/orders_cleaned.csv /app/data/orders_cleaned.csv
 
 # Create non-root user
 # RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app

@@ -21,9 +21,10 @@ RUN uv pip install --system .
 WORKDIR /app
 COPY libs /app/libs
 COPY services/product/src /app/services/product/src
+COPY data/products_cleaned.csv /app/data/products_cleaned.csv
 
 # Root-level bootstrap script
-COPY scripts/bootstrap /app/scripts/bootstrap
+COPY scripts/bootstrap/load_vectors.py /app/scripts/bootstrap/load_vectors.py
 
 # Make Chroma directory & bootstrap
 RUN mkdir -p /app/data/chroma
