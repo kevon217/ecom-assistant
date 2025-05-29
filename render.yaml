@@ -61,20 +61,6 @@ services:
     #   - volume: session-data
     #     mountPath: /tmp/sessions
 
-    startCommand: |
-      # Wait for Order MCP (tools discovery) via public URL
-      until curl -sf https://ecom-order.onrender.com/mcp -H "Accept: application/json"; do
-        echo "⏳ Waiting on Order MCP…"; sleep 5
-      done
-
-      # Wait for Product MCP (tools discovery) via public URL
-      until curl -sf https://ecom-product-w38k.onrender.com/mcp -H "Accept: application/json"; do
-        echo "⏳ Waiting on Product MCP…"; sleep 5
-      done
-
-      echo "✅ All MCP endpoints ready; starting Chat"
-      exec uvicorn chat.app:app --host 0.0.0.0 --port $PORT
-
     envVars:
       - key: PORT
         value: 10000
@@ -97,7 +83,7 @@ services:
       - key: CHAT_SESSION_TTL
         value: "60"
       - key: CHAT_SESSION_STORE_PATH
-        value: "/tmp/sessions"
+        value: "/app/data/sessions"
       - key: CHAT_ALLOWED_ORIGINS
         value: '["*"]'
       - key: LOG_LEVEL

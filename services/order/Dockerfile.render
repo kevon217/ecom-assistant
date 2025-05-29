@@ -1,48 +1,45 @@
+# services/order/Dockerfile.render
 FROM python:3.11-slim AS base
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+# System deps
+RUN apt-get update \
+ && apt-get install -y curl build-essential \
+ && rm -rf /var/lib/apt/lists/*
 
 # Install uv
 RUN pip install uv
 
-# Set working directory
+# Workdir
 WORKDIR /app
 
-# Copy everything
-COPY . /app/
-
-# Install dependencies
-# WORKDIR /app/libs
-# RUN uv pip install --system .
-
-WORKDIR /app/services/order
-RUN uv pip install --system .
+# Copy dependency spec
+COPY services/order/pyproject.toml /app/services/order/
 
 # Create logs directory
 RUN mkdir -p /app/logs
+
+# Install deps
+WORKDIR /app/services/order
+RUN uv pip install --system .
+
+# Copy code + shared libs
+WORKDIR /app
+COPY libs /app/libs
+COPY services/order/src /app/services/order/src
 
 # Create non-root user
 # RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
 # USER appuser
 
-# Set environment variables
+# ENV & healthcheck
 ENV PYTHONPATH="/app/services/order/src:/app/libs:/app" \
-    PYTHONUNBUFFERED=1
-
-# Health check
-# HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-#     CMD curl -f http://localhost:${PORT:-10000}/health || exit 1
+    PYTHONUNBUFFERED=1 \
+    PORT=10000
 
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:${PORT:-10000}/health \
-       && curl -sf http://localhost:${PORT:-10000}/mcp -H "Accept: application/json" \
-       || exit 1
+  CMD curl -f http://localhost:${PORT}/health || exit 1
 
-# Expose port
 EXPOSE 10000
 
-# Run with dynamic port
-CMD python -m uvicorn order.app:app --host 0.0.0.0 --port ${PORT:-10000}
+# Entrypoint
+CMD ["python", "-m", "uvicorn", "order.app:app", "--host", "0.0.0.0", "--port", "10000"]

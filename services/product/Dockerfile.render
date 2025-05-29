@@ -1,57 +1,53 @@
+# services/product/Dockerfile.render
 FROM python:3.11-slim AS base
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    build-essential \
-    && rm -rf /var/lib/apt/lists/*
+# System deps
+RUN apt-get update \
+ && apt-get install -y curl build-essential \
+ && rm -rf /var/lib/apt/lists/*
 
-# Install uv
+# Install uv (uvicorn shim)
 RUN pip install uv
 
-# Set working directory
+# Workdir
 WORKDIR /app
 
-# Copy everything
-COPY . /app/
-
-# Install dependencies
-# WORKDIR /app/libs
-# RUN uv pip install --system .
-
+# Cache Python deps install
+COPY services/product/pyproject.toml /app/services/product/
 WORKDIR /app/services/product
 RUN uv pip install --system .
 
-# Create ChromaDB directory
-RUN mkdir -p /app/data/chroma
+# Copy in your code and shared libs
+WORKDIR /app
+COPY libs /app/libs
+COPY services/product/src /app/services/product/src
 
-# Bootstrap ChromaDB with product data
+# Root-level bootstrap script
+COPY scripts/bootstrap /app/scripts/bootstrap
+
+# Make Chroma directory & bootstrap
+RUN mkdir -p /app/data/chroma
 RUN python /app/scripts/bootstrap/load_vectors.py \
-    --csv /app/data/products_cleaned.csv \
-    --persist-dir /app/data/chroma \
-    --collection products \
-    --model all-MiniLM-L6-v2
+      --csv /app/data/products_cleaned.csv \
+      --persist-dir /app/data/chroma \
+      --collection products \
+      --model all-MiniLM-L6-v2
 
 # Create non-root user
-# RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+# RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app /tmp/sessions
 # USER appuser
 
-# Set environment variables
+# ENV and healthcheck
 ENV PYTHONPATH="/app/services/product/src:/app/libs:/app" \
     PYTHONUNBUFFERED=1 \
+    PORT=10000 \
     CHROMA_PERSIST_DIR="/app/data/chroma"
 
-# Health check
-# HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-#     CMD curl -f http://localhost:${PORT:-10000}/health || exit 1
-
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
-    CMD curl -f http://localhost:${PORT:-10000}/health \
-       && curl -sf http://localhost:${PORT:-10000}/mcp -H "Accept: application/json" \
-       || exit 1
+  CMD curl -f http://localhost:${PORT}/health \
+      && curl -sf http://localhost:${PORT}/mcp -H "Accept: application/json" || exit 1
 
-# Expose port
 EXPOSE 10000
 
-# Run with dynamic port
-CMD python -m uvicorn product.app:app --host 0.0.0.0 --port ${PORT:-10000}
+# Entrypoint
+CMD ["python", "-m", "uvicorn", "product.app:app", "--host", "0.0.0.0", "--port", "10000"]

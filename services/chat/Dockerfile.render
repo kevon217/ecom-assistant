@@ -1,44 +1,47 @@
-FROM python:3.11-slim AS base
+FROM python:3.11-slim
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    curl \
-    && rm -rf /var/lib/apt/lists/*
+# Install system deps
+RUN apt-get update \
+ && apt-get install -y curl \
+ && rm -rf /var/lib/apt/lists/*
 
-# Install uv
+# Install uv (uvicorn shim)
 RUN pip install uv
 
-# Set working directory
+# Set workdir
 WORKDIR /app
 
-# Copy everything
-COPY . /app/
-
-# Install dependencies
-# WORKDIR /app/libs
-# RUN uv pip install --system .
-
+# Cache Python deps install
+COPY services/chat/pyproject.toml /app/services/chat/
 WORKDIR /app/services/chat
 RUN uv pip install --system .
 
-# Create directories
-RUN mkdir -p /tmp/sessions /app/logs
+# Copy app code and libs
+WORKDIR /app
+COPY libs /app/libs
+COPY services/chat/src /app/services/chat/src
+
+# Add our startup wrapper
+COPY services/chat/start.sh /app/start.sh
+RUN chmod +x /app/start.sh
+
+# Create any runtime dirs
+RUN mkdir -p /app/data/sessions /app/logs
 
 # Create non-root user
 # RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app /tmp/sessions
 # USER appuser
 
-# Set environment variables
+# Set environment defaults
 ENV PYTHONPATH="/app/services/chat/src:/app/libs:/app" \
     PYTHONUNBUFFERED=1 \
-    CHAT_SESSION_STORE_PATH="/tmp/sessions"
+    CHAT_SESSION_STORE_PATH="/app/data/sessions"
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
     CMD curl -f http://localhost:${PORT:-10000}/health || exit 1
 
-# Expose port
 EXPOSE 10000
 
-# Run with dynamic port
-CMD python -m uvicorn chat.app:app --host 0.0.0.0 --port ${PORT:-10000}
+# Entrypoint → our script
+CMD ["/app/start.sh"]
