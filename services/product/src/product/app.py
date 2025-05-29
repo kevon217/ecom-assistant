@@ -4,7 +4,7 @@ import os
 import traceback
 from typing import Any, Callable, Dict, List, Optional
 
-from fastapi import Depends, FastAPI, HTTPException, Query, Response
+from fastapi import Depends, FastAPI, HTTPException, Query, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_mcp import FastApiMCP
 from libs.ecom_shared.logging import get_logger

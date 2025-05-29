@@ -152,11 +152,11 @@ class AgentOrchestrator:
         else:
             logger.info("Templates loaded successfully")
 
-        # Try initial connection but don't fail if it doesn't work
-        try:
-            await self._try_connect_mcp_servers()
-        except Exception as e:
-            logger.info(f"Initial MCP connection skipped: {e}")
+        # # Try initial connection but don't fail if it doesn't work
+        # try:
+        #     await self._try_connect_mcp_servers()
+        # except Exception as e:
+        #     logger.info(f"Initial MCP connection skipped: {e}")
 
     async def cleanup(self):
         """Cleanup MCP server connections."""
