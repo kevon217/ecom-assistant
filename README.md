@@ -107,7 +107,7 @@ The assistant leverages OpenAI's Agents SDK to orchestrate multiple specialized 
 
 ### Postman Collection
 
-Comprehensive API testing is provided via Postman collection in the `postman/` directory:
+[Postman Testing Guide](postman/Postman%20Testing%20Guide.md) — step-by-step walkthrough of how to import and run the collection.
 
 - `ecom_assistant_postman_collection.json` - Full test suite with 100+ tests
 - `ecom_assistant_local_env.json` - Environment for local testing
@@ -336,6 +336,10 @@ Server-Sent Events provide transparent tool execution:
 - Graceful error handling and input validation
 
 ## Deployment
+
+**Note:**
+The `OPENAI_API_KEY` is **only required** by the **Chat service**.
+The Order and Product services do not call OpenAI and therefore do not need this secret.
 
 ### Environment Variables
 
