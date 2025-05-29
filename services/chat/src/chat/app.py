@@ -6,6 +6,7 @@ import time
 from contextlib import asynccontextmanager
 from pathlib import Path
 
+from agents.exceptions import UserError
 from agents_mcp import RunnerContext
 from fastapi import APIRouter, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -13,6 +14,7 @@ from fastapi.responses import StreamingResponse
 from libs.ecom_shared.context import AppContext
 from libs.ecom_shared.logging import get_logger
 from libs.ecom_shared.models import HealthResponse, HealthStatus
+from openai import ChatCompletion
 
 from .config import config
 from .models import ChatRequest, ChatResponse
@@ -75,6 +77,9 @@ def get_runner_context(session=Depends(get_session)) -> RunnerContext:
 # --- Synchronous Chat Endpoint --------------------------------------------------
 
 
+# --- Chat Endpoint with graceful fallback -------------------------------------
+
+
 @router.post("/chat", response_model=ChatResponse)
 async def chat(
     req: ChatRequest,
@@ -82,21 +87,32 @@ async def chat(
     orchestrator: AgentOrchestrator = Depends(get_orchestrator),
 ):
     """Handle a single-shot chat request (no streaming)."""
-    start_time = time.time()
 
-    # Record the user's message in session history
+    start_time = time.time()
     orchestrator.session_manager.add_message(context.session_id, "user", req.message)
 
     try:
-        # Delegate to orchestrator (handles prompt, MCP, async Runner.run)
+        # try with MCP‐enabled orchestrator
         reply = await orchestrator.process_message(req.message, context)
+
+    except UserError as ue:
+        # if MCP tools not ready, fall back to plain OpenAI chat
+        logger.warning(f"MCP unavailable, falling back: {ue}")
+        client = ChatCompletion()
+        resp = await client.acreate(
+            model=config.agent_model,
+            messages=[
+                {"role": "system", "content": "You are a helpful assistant."},
+                {"role": "user", "content": req.message},
+            ],
+        )
+        reply = resp.choices[0].message.content
+
     except Exception as e:
         logger.error(f"Error during chat processing: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail="Internal server error")
 
-    # Record the assistant's reply
     orchestrator.session_manager.add_message(context.session_id, "assistant", reply)
-
     return ChatResponse(
         message=reply,
         session_id=context.session_id,
@@ -246,7 +262,7 @@ async def chat_stream(
 async def lifespan(app: FastAPI):
     import asyncio
 
-    startup_delay = int(os.getenv("STARTUP_DELAY", "0"))
+    startup_delay = config.startup_delay
     if startup_delay > 0:
         logger.info(
             f"Waiting {startup_delay} seconds for other services to initialize..."

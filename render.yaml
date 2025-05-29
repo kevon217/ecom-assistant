@@ -91,7 +91,7 @@ services:
         value: '["*"]'
 
       # Startup delay
-      - key: STARTUP_DELAY
+      - key: CHAT_STARTUP_DELAY
         value: "45"
 
       # Secrets

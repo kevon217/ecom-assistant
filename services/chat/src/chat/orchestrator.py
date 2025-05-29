@@ -1,5 +1,6 @@
 # services/chat/src/chat/orchestrator.py - Using MCPServerSse for FastAPI-MCP services
 
+import asyncio
 import logging
 import os
 from typing import Any, Dict, List
@@ -84,12 +85,17 @@ class AgentOrchestrator:
             logger.info("Templates loaded successfully")
 
         # Start MCP server connections
-        try:
-            for server in self.mcp_servers:
-                await server.connect()  # SSE uses connect() instead of __aenter__
-            logger.info("MCP server connections established")
-        except Exception as e:
-            logger.error(f"Failed to connect to MCP servers: {e}")
+        for server in self.mcp_servers:
+            for attempt in range(5):
+                try:
+                    await server.connect()
+                    break
+                except Exception:
+                    await asyncio.sleep(5)
+            else:
+                logger.error(
+                    f"Could not connect to {server.params['url']} after retries"
+                )
 
     async def cleanup(self):
         """Cleanup MCP server connections."""
