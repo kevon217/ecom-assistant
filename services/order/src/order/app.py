@@ -1,7 +1,7 @@
 # order-service/app.py
-from typing import List
+from typing import Callable, List
 
-from fastapi import Depends, FastAPI, Request
+from fastapi import Depends, FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi_mcp import FastApiMCP
@@ -40,6 +40,27 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def add_sse_headers_middleware(request: Request, call_next: Callable) -> Response:
+    """Add required headers for SSE to work through Render's proxy"""
+
+    # Process the request
+    response = await call_next(request)
+
+    # Only modify headers for the MCP SSE endpoint
+    if request.url.path == "/mcp" and request.method == "GET":
+        # Critical headers for Render's proxy
+        response.headers["X-Accel-Buffering"] = "no"
+        response.headers["Cache-Control"] = "no-cache, no-transform"
+        response.headers["Connection"] = "keep-alive"
+
+        # Also add CORS headers if needed
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+
+    return response
 
 
 def get_order_service() -> OrderDataService:

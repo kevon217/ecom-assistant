@@ -78,27 +78,33 @@ class AgentOrchestrator:
             try:
                 # Create instance if needed
                 if server_config["instance"] is None:
-                    config["instance"] = MCPServerSse(
+                    server_config["instance"] = MCPServerSse(
                         params={
-                            "url": config["url"],
-                            "timeout": 10,  # Shorter timeout for dynamic checking #TODO: make this configurable
+                            "url": server_config["url"],  # Changed from config["url"]
+                            "timeout": 10,
+                            "headers": {  # Add these headers for Render!
+                                "Accept": "text/event-stream",
+                                "Cache-Control": "no-cache",
+                                "Connection": "keep-alive",
+                                "X-Accel-Buffering": "no",
+                            },
                         },
                         cache_tools_list=True,
                     )
 
                 # Try to connect if not already connected
-                server = config["instance"]
+                server = server_config["instance"]
                 if not hasattr(server, "_connected") or not server._connected:
                     await server.connect()
                     logger.info(
-                        f"✓ MCP server connected: {config['name']} at {config['url']}"
+                        f"✓ MCP server connected: {server_config['name']} at {server_config['url']}"
                     )
 
                 connected_servers.append(server)
                 any_connected = True
 
             except Exception as e:
-                logger.debug(f"MCP server {config['name']} not available: {e}")
+                logger.debug(f"MCP server {server_config['name']} not available: {e}")
                 # Don't remove the instance - we'll retry later
 
         # Update agent with currently connected servers
@@ -159,7 +165,9 @@ class AgentOrchestrator:
                 try:
                     await server_config["instance"].cleanup()
                 except Exception as e:
-                    logger.warning(f"Error closing MCP server {config['name']}: {e}")
+                    logger.warning(
+                        f"Error closing MCP server {server_config['name']}: {e}"
+                    )
 
     def _render_prompt(self, user_message: str, ctx: AppContext) -> str:
         """Render the prompt template."""

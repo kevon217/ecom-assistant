@@ -49,10 +49,10 @@ async def health():
 
 @router.get("/debug/connections")
 async def debug_connections():
-    """Test connectivity to MCP services - production version."""
+    """Enhanced debug endpoint with MCP protocol testing"""
     import httpx
 
-    # Get orchestrator status if available
+    # Get orchestrator status
     orchestrator_status = {}
     try:
         orch = get_orchestrator()
@@ -67,68 +67,106 @@ async def debug_connections():
         "connectivity": {"order_service": {}, "product_service": {}},
     }
 
-    # Quick connectivity test with short timeout
-    async with httpx.AsyncClient(timeout=2.0) as client:
-        # Test order service
-        try:
-            # Just check if SSE endpoint responds
-            async with client.stream(
-                "GET", config.order_mcp_url, headers={"Accept": "text/event-stream"}
-            ) as response:
-                results["connectivity"]["order_service"] = {
-                    "reachable": True,
-                    "status": response.status_code,
-                    "is_sse": "text/event-stream"
-                    in response.headers.get("content-type", ""),
+    # Enhanced connectivity tests
+    async with httpx.AsyncClient(timeout=5.0) as client:
+        for service_name, url in [
+            ("order_service", config.order_mcp_url),
+            ("product_service", config.product_mcp_url),
+        ]:
+            # Test 1: Basic HTTP connectivity
+            try:
+                basic_response = await client.get(url.replace("/mcp", "/health"))
+                results["connectivity"][service_name]["health_check"] = {
+                    "status": basic_response.status_code,
+                    "ok": basic_response.status_code == 200,
                 }
-        except httpx.TimeoutException:
-            results["connectivity"]["order_service"] = {
-                "reachable": True,
-                "status": "timeout",
-                "note": "SSE endpoint exists but slow to connect",
-            }
-        except Exception as e:
-            results["connectivity"]["order_service"] = {
-                "reachable": False,
-                "error": type(e).__name__,
-            }
-
-        # Test product service
-        try:
-            async with client.stream(
-                "GET", config.product_mcp_url, headers={"Accept": "text/event-stream"}
-            ) as response:
-                results["connectivity"]["product_service"] = {
-                    "reachable": True,
-                    "status": response.status_code,
-                    "is_sse": "text/event-stream"
-                    in response.headers.get("content-type", ""),
+            except Exception as e:
+                results["connectivity"][service_name]["health_check"] = {
+                    "error": str(e)
                 }
-        except httpx.TimeoutException:
-            results["connectivity"]["product_service"] = {
-                "reachable": True,
-                "status": "timeout",
-                "note": "SSE endpoint exists but slow to connect",
-            }
-        except Exception as e:
-            results["connectivity"]["product_service"] = {
-                "reachable": False,
-                "error": type(e).__name__,
-            }
 
-    # Add summary
-    all_reachable = all(
-        results["connectivity"][svc].get("reachable", False)
-        for svc in ["order_service", "product_service"]
-    )
+            # Test 2: SSE endpoint
+            try:
+                headers = {
+                    "Accept": "text/event-stream",
+                    "Cache-Control": "no-cache",
+                    "X-Accel-Buffering": "no",
+                }
+                async with client.stream("GET", url, headers=headers) as response:
+                    first_chunk = None
+                    async for chunk in response.aiter_text():
+                        first_chunk = chunk[:200]  # First 200 chars
+                        break
 
+                    results["connectivity"][service_name]["mcp_sse"] = {
+                        "status": response.status_code,
+                        "headers": dict(response.headers),
+                        "is_sse": "text/event-stream"
+                        in response.headers.get("content-type", ""),
+                        "first_chunk": first_chunk,
+                        "has_x_accel": "no"
+                        == response.headers.get("x-accel-buffering", "").lower(),
+                    }
+            except Exception as e:
+                results["connectivity"][service_name]["mcp_sse"] = {
+                    "error": type(e).__name__,
+                    "message": str(e),
+                }
+
+            # Test 3: MCP tools list (JSON)
+            try:
+                json_response = await client.get(
+                    url, headers={"Accept": "application/json"}
+                )
+                if json_response.status_code == 200:
+                    data = json_response.json()
+                    results["connectivity"][service_name]["mcp_tools"] = {
+                        "available": True,
+                        "tool_count": len(data.get("tools", []))
+                        if isinstance(data, dict)
+                        else "unknown",
+                    }
+                else:
+                    results["connectivity"][service_name]["mcp_tools"] = {
+                        "status": json_response.status_code
+                    }
+            except Exception as e:
+                results["connectivity"][service_name]["mcp_tools"] = {"error": str(e)}
+
+    # Enhanced summary
     results["summary"] = {
-        "all_services_reachable": all_reachable,
+        "all_health_checks_pass": all(
+            results["connectivity"][svc].get("health_check", {}).get("ok", False)
+            for svc in ["order_service", "product_service"]
+        ),
+        "all_mcp_endpoints_reachable": all(
+            results["connectivity"][svc].get("mcp_sse", {}).get("is_sse", False)
+            for svc in ["order_service", "product_service"]
+        ),
         "mcp_connected": orchestrator_status.get("mcp_connected", False),
-        "tools_available": orchestrator_status.get("tool_count", 0) > 0,
+        "total_tools": orchestrator_status.get("tool_count", 0),
+        "recommendation": _get_recommendation(results),
     }
 
     return results
+
+
+def _get_recommendation(results):
+    """Provide actionable recommendations based on debug results"""
+    health_ok = results["summary"]["all_health_checks_pass"]
+    mcp_ok = results["summary"]["all_mcp_endpoints_reachable"]
+    connected = results["summary"]["mcp_connected"]
+
+    if health_ok and mcp_ok and connected:
+        return "✅ All systems operational"
+    elif health_ok and mcp_ok and not connected:
+        return "🔄 MCP endpoints ready but not connected yet. Will retry automatically."
+    elif health_ok and not mcp_ok:
+        return "⚠️ Services are healthy but MCP endpoints not responding correctly. Check SSE headers."
+    elif not health_ok:
+        return "❌ Some services are not healthy. Check service logs."
+    else:
+        return "🔍 Investigating connection issues..."
 
 
 # --- Dependency Overrides -------------------------------------------------------
