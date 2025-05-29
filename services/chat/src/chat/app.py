@@ -1,4 +1,4 @@
-# services/chat/src/chat/app.py
+# services/chat/src/chat/app.py - Complete with graceful handling
 
 import json
 import os
@@ -14,7 +14,6 @@ from fastapi.responses import StreamingResponse
 from libs.ecom_shared.context import AppContext
 from libs.ecom_shared.logging import get_logger
 from libs.ecom_shared.models import HealthResponse, HealthStatus
-from openai import ChatCompletion
 
 from .config import config
 from .models import ChatRequest, ChatResponse
@@ -24,13 +23,6 @@ from .session import SessionManager, SessionStore, get_session
 logger = get_logger(__name__)
 
 router = APIRouter(tags=["chat"])
-
-from agents.stream_events import (
-    AgentUpdatedStreamEvent,
-    RawResponsesStreamEvent,
-    RunItemStreamEvent,
-    StreamEvent,
-)
 
 # --- Health Check Endpoint ------------------------------------------------------
 
@@ -52,7 +44,94 @@ async def health():
     return HealthResponse(status=HealthStatus.OK, details=details, version="0.8.0")
 
 
-# --- Dependency Overrides --------------------------------------------------------
+# --- Debug Endpoint -------------------------------------------------------------
+
+
+@router.get("/debug/connections")
+async def debug_connections():
+    """Test connectivity to MCP services - production version."""
+    import httpx
+
+    # Get orchestrator status if available
+    orchestrator_status = {}
+    try:
+        orch = get_orchestrator()
+        orchestrator_status = orch.get_health_status()
+    except:
+        orchestrator_status = {"error": "Orchestrator not available"}
+
+    results = {
+        "timestamp": time.time(),
+        "orchestrator": orchestrator_status,
+        "mcp_urls": {"order": config.order_mcp_url, "product": config.product_mcp_url},
+        "connectivity": {"order_service": {}, "product_service": {}},
+    }
+
+    # Quick connectivity test with short timeout
+    async with httpx.AsyncClient(timeout=2.0) as client:
+        # Test order service
+        try:
+            # Just check if SSE endpoint responds
+            async with client.stream(
+                "GET", config.order_mcp_url, headers={"Accept": "text/event-stream"}
+            ) as response:
+                results["connectivity"]["order_service"] = {
+                    "reachable": True,
+                    "status": response.status_code,
+                    "is_sse": "text/event-stream"
+                    in response.headers.get("content-type", ""),
+                }
+        except httpx.TimeoutException:
+            results["connectivity"]["order_service"] = {
+                "reachable": True,
+                "status": "timeout",
+                "note": "SSE endpoint exists but slow to connect",
+            }
+        except Exception as e:
+            results["connectivity"]["order_service"] = {
+                "reachable": False,
+                "error": type(e).__name__,
+            }
+
+        # Test product service
+        try:
+            async with client.stream(
+                "GET", config.product_mcp_url, headers={"Accept": "text/event-stream"}
+            ) as response:
+                results["connectivity"]["product_service"] = {
+                    "reachable": True,
+                    "status": response.status_code,
+                    "is_sse": "text/event-stream"
+                    in response.headers.get("content-type", ""),
+                }
+        except httpx.TimeoutException:
+            results["connectivity"]["product_service"] = {
+                "reachable": True,
+                "status": "timeout",
+                "note": "SSE endpoint exists but slow to connect",
+            }
+        except Exception as e:
+            results["connectivity"]["product_service"] = {
+                "reachable": False,
+                "error": type(e).__name__,
+            }
+
+    # Add summary
+    all_reachable = all(
+        results["connectivity"][svc].get("reachable", False)
+        for svc in ["order_service", "product_service"]
+    )
+
+    results["summary"] = {
+        "all_services_reachable": all_reachable,
+        "mcp_connected": orchestrator_status.get("mcp_connected", False),
+        "tools_available": orchestrator_status.get("tool_count", 0) > 0,
+    }
+
+    return results
+
+
+# --- Dependency Overrides -------------------------------------------------------
 
 
 def get_orchestrator() -> AgentOrchestrator:
@@ -74,10 +153,7 @@ def get_runner_context(session=Depends(get_session)) -> RunnerContext:
     return RunnerContext(**ctx.to_dict())
 
 
-# --- Synchronous Chat Endpoint --------------------------------------------------
-
-
-# --- Chat Endpoint with graceful fallback -------------------------------------
+# --- Chat Endpoint with graceful fallback ---------------------------------------
 
 
 @router.post("/chat", response_model=ChatResponse)
@@ -86,33 +162,49 @@ async def chat(
     context: RunnerContext = Depends(get_runner_context),
     orchestrator: AgentOrchestrator = Depends(get_orchestrator),
 ):
-    """Handle a single-shot chat request (no streaming)."""
+    """Handle chat requests gracefully, with or without MCP tools."""
 
     start_time = time.time()
     orchestrator.session_manager.add_message(context.session_id, "user", req.message)
 
     try:
-        # try with MCP‐enabled orchestrator
+        # Process message - will work with or without MCP
         reply = await orchestrator.process_message(req.message, context)
-
-    except UserError as ue:
-        # if MCP tools not ready, fall back to plain OpenAI chat
-        logger.warning(f"MCP unavailable, falling back: {ue}")
-        client = ChatCompletion()
-        resp = await client.acreate(
-            model=config.agent_model,
-            messages=[
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": req.message},
-            ],
-        )
-        reply = resp.choices[0].message.content
 
     except Exception as e:
         logger.error(f"Error during chat processing: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail="Internal server error")
+
+        # Provide a helpful fallback response
+        if "MCP" in str(e) or "tool" in str(e).lower():
+            reply = (
+                "I'm currently unable to access some specialized tools, but I can still help you "
+                "with general questions about products and orders. What would you like to know?"
+            )
+        else:
+            # For other errors, try a direct OpenAI call as ultimate fallback
+            try:
+                import openai
+
+                client = openai.AsyncOpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
+                response = await client.chat.completions.create(
+                    model=config.agent_model,
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": "You are a helpful e-commerce assistant.",
+                        },
+                        {"role": "user", "content": req.message},
+                    ],
+                    temperature=0.7,
+                    max_tokens=500,
+                )
+                reply = response.choices[0].message.content
+            except Exception as fallback_error:
+                logger.error(f"Fallback also failed: {fallback_error}")
+                reply = "I apologize, but I'm having technical difficulties. Please try again in a moment."
 
     orchestrator.session_manager.add_message(context.session_id, "assistant", reply)
+
     return ChatResponse(
         message=reply,
         session_id=context.session_id,
@@ -132,12 +224,19 @@ async def chat_stream(
 ):
     """
     Stream chat responses with real-time tool execution feedback via SSE.
-    Uses the actual OpenAI Agents SDK event types.
+    Checks MCP connection before starting the stream.
     """
     # Record the user's message
     orchestrator.session_manager.add_message(context.session_id, "user", req.message)
 
-    # Start the streaming run
+    # Ensure MCP is checked BEFORE creating the stream
+    try:
+        await orchestrator.ensure_mcp_connected()
+    except Exception as e:
+        logger.warning(f"MCP connection check failed: {e}")
+        # Continue anyway - we'll work without tools
+
+    # Now start the streaming run (this is sync)
     try:
         stream = orchestrator.process_message_streaming(req.message, context)
     except Exception as e:
@@ -152,19 +251,18 @@ async def chat_stream(
         # Track state
         full_response = []
         active_tools = {}  # Track tool_id -> tool_name mapping
-        last_heartbeat = time.time()  # ADD SSE HEARTBEAT TRACKING
+        last_heartbeat = time.time()
 
         try:
             async for evt in stream.stream_events():
                 try:
-                    # ADD HEARTBEAT CHECK
+                    # Send heartbeat every 20 seconds
                     if time.time() - last_heartbeat > 20:
                         yield ": heartbeat\n\n"
                         last_heartbeat = time.time()
 
-                    # Handle based on ACTUAL event type from SDK
+                    # Handle based on event type
                     if evt.type == "raw_response_event":
-                        # This contains the raw OpenAI API responses
                         if hasattr(evt.data, "choices") and evt.data.choices:
                             delta = evt.data.choices[0].delta
 
@@ -174,7 +272,7 @@ async def chat_stream(
                                 full_response.append(chunk)
                                 yield f"data: {json.dumps({'type': 'content', 'content': chunk})}\n\n"
 
-                            # Detect tool calls from the raw response
+                            # Detect tool calls
                             if hasattr(delta, "tool_calls") and delta.tool_calls:
                                 for tc in delta.tool_calls:
                                     if hasattr(tc, "function") and hasattr(
@@ -193,11 +291,9 @@ async def chat_stream(
                                             yield f"data: {json.dumps({'type': 'tool_start', 'tool': tool_name, 'message': f'🔧 {friendly_name}...'})}\n\n"
 
                     elif evt.type == "run_item_stream_event":
-                        # Higher-level agent events
                         event_name = evt.name
 
                         if event_name == "tool_output":
-                            # Tool execution completed
                             if hasattr(evt.item, "tool_call_id"):
                                 tool_id = evt.item.tool_call_id
                                 if tool_id in active_tools:
@@ -209,15 +305,13 @@ async def chat_stream(
                                         yield f"data: {json.dumps({'type': 'tool_error', 'tool': tool_name, 'error': str(evt.item.error)})}\n\n"
 
                         elif event_name == "mcp_list_tools":
-                            # MCP is discovering tools
                             yield f"data: {json.dumps({'type': 'info', 'message': 'Discovering available tools...'})}\n\n"
 
                     elif evt.type == "agent_updated_stream_event":
-                        # Agent has changed (for multi-agent scenarios)
                         new_agent_name = getattr(evt.new_agent, "name", "Assistant")
                         yield f"data: {json.dumps({'type': 'agent_changed', 'agent': new_agent_name})}\n\n"
 
-                    # Debug mode - log unknown events
+                    # Debug mode
                     elif config.debug:
                         yield f"data: {json.dumps({'type': 'debug', 'event_type': evt.type, 'data': str(evt)[:100]})}\n\n"
 
@@ -255,7 +349,7 @@ async def chat_stream(
     )
 
 
-# --- Lifespan / Startup & Shutdown ------------------------------------------------
+# --- Lifespan / Startup & Shutdown ----------------------------------------------
 
 
 @asynccontextmanager
@@ -280,7 +374,7 @@ async def lifespan(app: FastAPI):
     app.state.session_manager = session_mgr
     app.state.orchestrator = AgentOrchestrator(session_manager=session_mgr)
 
-    # pre-load Jinja2 templates and open MCP connections
+    # pre-load templates and try initial MCP connection (non-blocking)
     await app.state.orchestrator.load_templates()
 
     yield  # application is running

@@ -21,7 +21,7 @@ class ChatConfig(BaseSettings):
         description="Path to session storage directory",
     )
 
-    startup_delay: int = Field(30, env="CHAT_STARTUP_DELAY")
+    startup_delay: int = Field(5, env="CHAT_STARTUP_DELAY")
 
     # MCP service URLs
     order_mcp_url: str = Field("http://order-service:8002/mcp", env="ORDER_MCP_URL")
