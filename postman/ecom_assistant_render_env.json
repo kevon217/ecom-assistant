@@ -3,38 +3,18 @@
   "name": "E-Commerce Assistant - Render",
   "values": [
     {
-      "key": "base_url",
-      "value": "https://your-app-name",
-      "enabled": true
-    },
-    {
-      "key": "chat_port",
-      "value": "",
-      "enabled": true
-    },
-    {
-      "key": "order_port",
-      "value": "",
-      "enabled": true
-    },
-    {
-      "key": "product_port",
-      "value": "",
-      "enabled": true
-    },
-    {
       "key": "chat_url",
-      "value": "https://ecom-chat-service.onrender.com",
+      "value": "https://ecom-chat-itzk.onrender.com",
       "enabled": true
     },
     {
       "key": "order_url",
-      "value": "https://ecom-order-service.onrender.com",
+      "value": "https://ecom-order.onrender.com",
       "enabled": true
     },
     {
       "key": "product_url",
-      "value": "https://ecom-product-service.onrender.com",
+      "value": "https://ecom-product-w38k.onrender.com",
       "enabled": true
     }
   ],

@@ -29,9 +29,9 @@ The collection automatically validates required environment variables. Import th
 2. **Update the URLs** with your actual Render service endpoints:
 
    ```json
-   "chat_url": "https://YOUR-CHAT-SERVICE.onrender.com"
-   "order_url": "https://YOUR-ORDER-SERVICE.onrender.com"
-   "product_url": "https://YOUR-PRODUCT-SERVICE.onrender.com"
+   "chat_url": "https://ecom-chat-itzk.onrender.com"
+   "order_url": "https://ecom-order.onrender.com"
+   "product_url": "https://ecom-product-w38k.onrender.com"
    ```
 
 3. Select the environment before running tests
