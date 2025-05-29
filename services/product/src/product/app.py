@@ -40,25 +40,21 @@ app.add_middleware(
 @app.middleware("http")
 async def add_sse_headers_middleware(request: Request, call_next: Callable) -> Response:
     """Add required headers for SSE to work through Render's proxy"""
+    response = await call_next(request)
 
-    # For SSE endpoints, we need special handling
-    if request.url.path == "/mcp" and request.method == "GET":
-        # Call the endpoint
-        response = await call_next(request)
-
-        # Only modify if it's actually a streaming response
-        if isinstance(response, StreamingResponse):
-            # SSE requires these headers
-            response.headers["X-Accel-Buffering"] = "no"
-            response.headers["Cache-Control"] = "no-cache, no-transform"
-            response.headers["Connection"] = "keep-alive"
-            response.headers["Access-Control-Allow-Origin"] = "*"
-            response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-
-        return response
-    else:
-        # For non-SSE endpoints, pass through normally
-        return await call_next(request)
+    # Only touch GET /mcp that is actually streaming event-stream
+    if (
+        request.url.path == "/mcp"
+        and request.method == "GET"
+        and isinstance(response, StreamingResponse)
+        and "event-stream" in response.headers.get("content-type", "")
+    ):
+        response.headers["X-Accel-Buffering"] = "no"
+        response.headers["Cache-Control"] = "no-cache, no-transform"
+        response.headers["Connection"] = "keep-alive"
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    return response
 
 
 @app.on_event("startup")
@@ -183,59 +179,3 @@ mcp = FastApiMCP(
     ],
 )
 mcp.mount()
-
-
-# @app.get(
-#     "/metadata/options",
-#     response_model=MetadataOptionsResponse,
-#     operation_id="get_metadata_options",
-#     tags=["products"],
-# )
-# async def metadata_options(
-#     field_name: str = Query(..., description="Name of categorical field"),
-# ):
-#     svc = get_product_service()
-#     try:
-#         options = svc.get_metadata_options(field_name)
-#     except KeyError:
-#         raise HTTPException(status_code=404, detail=f"Field '{field_name}' not found")
-#     return MetadataOptionsResponse(options=options)
-
-
-# @app.post(
-#     "/search/semantic",
-#     response_model=List[ProductItem],
-#     operation_id="semantic_search",
-#     tags=["products"],
-# )
-# async def semantic_search(
-#     request: SemanticSearchRequest,
-#     service: ProductDataService = Depends(get_product_service),
-# ):
-#     return service.semantic_search(
-#         query=request.query, limit=request.limit, filters=request.filters
-#     )
-
-# @app.post(
-#     "/search/lexical",
-#     response_model=List[ProductItem],
-#     operation_id="lexical_search",
-#     tags=["products"],
-# )
-# async def lexical_search(
-#     request: SemanticSearchRequest,
-#     service: ProductDataService = Depends(get_product_service),
-# ):
-#     logger.info(f"Lexical search request: {request}")
-#     try:
-#         results = service.lexical_search(
-#             query=request.query,
-#             limit=request.limit,
-#             filters=request.filters,
-#         )
-#         logger.info(f"Service returned {len(results)} results")
-#         return results
-#     except Exception as e:
-#         logger.error(f"Lexical search error: {e}")
-#         logger.error(f"Full traceback: {traceback.format_exc()}")
-#         raise HTTPException(status_code=500, detail=f"Lexical search error: {str(e)}")

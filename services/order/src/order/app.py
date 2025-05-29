@@ -45,25 +45,21 @@ app.add_middleware(
 @app.middleware("http")
 async def add_sse_headers_middleware(request: Request, call_next: Callable) -> Response:
     """Add required headers for SSE to work through Render's proxy"""
+    response = await call_next(request)
 
-    # For SSE endpoints, we need special handling
-    if request.url.path == "/mcp" and request.method == "GET":
-        # Call the endpoint
-        response = await call_next(request)
-
-        # Only modify if it's actually a streaming response
-        if isinstance(response, StreamingResponse):
-            # SSE requires these headers
-            response.headers["X-Accel-Buffering"] = "no"
-            response.headers["Cache-Control"] = "no-cache, no-transform"
-            response.headers["Connection"] = "keep-alive"
-            response.headers["Access-Control-Allow-Origin"] = "*"
-            response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-
-        return response
-    else:
-        # For non-SSE endpoints, pass through normally
-        return await call_next(request)
+    # Only touch GET /mcp that is actually streaming event-stream
+    if (
+        request.url.path == "/mcp"
+        and request.method == "GET"
+        and isinstance(response, StreamingResponse)
+        and "event-stream" in response.headers.get("content-type", "")
+    ):
+        response.headers["X-Accel-Buffering"] = "no"
+        response.headers["Cache-Control"] = "no-cache, no-transform"
+        response.headers["Connection"] = "keep-alive"
+        response.headers["Access-Control-Allow-Origin"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    return response
 
 
 def get_order_service() -> OrderDataService:
