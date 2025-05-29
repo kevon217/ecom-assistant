@@ -46,7 +46,7 @@ services:
       - key: LOG_LEVEL
         value: INFO
 
-  # 3) Chat Service (Free + Optional Session Persistence)
+  # 3) Chat Service (waits for its dependencies)
   - type: web
     name: ecom-chat
     plan: free
@@ -60,17 +60,32 @@ services:
     # diskMounts:
     #   - volume: session-data
     #     mountPath: /tmp/sessions
+    # override the default start to wait on Order & Product
+
+    startCommand: |
+      #!/usr/bin/env bash
+      set -e
+      echo "🌐 Waiting for Order & Product services to be healthy…"
+      until curl -sf http://ecom-order:10000/health; do
+        echo "⏳ ecom-order not ready, retrying…"
+        sleep 5
+      done
+      until curl -sf http://ecom-product:10000/health; do
+        echo "⏳ ecom-product not ready, retrying…"
+        sleep 5
+      done
+      echo "✅ Dependencies up; starting Chat service"
+      exec uvicorn chat.app:app --host 0.0.0.0 --port $PORT
+
     envVars:
       - key: PORT
         value: 10000
-
-      # Use Render’s internal hostnames for private service discovery:
       - key: ORDER_MCP_URL
         value: http://ecom-order:10000/mcp
       - key: PRODUCT_MCP_URL
         value: http://ecom-product:10000/mcp
-
-      # Agent configuration
+      - key: OPENAI_API_KEY
+        sync: false
       - key: AGENT_MODEL
         value: gpt-4o-mini
       - key: AGENT_TOOL_TIMEOUTS
@@ -79,25 +94,11 @@ services:
         value: "3"
       - key: AGENT_MAX_CONCURRENT_TOOLS
         value: "5"
-
-      # Session configuration
       - key: CHAT_SESSION_TTL
         value: "60"
       - key: CHAT_SESSION_STORE_PATH
         value: "/tmp/sessions"
-
-      # CORS
       - key: CHAT_ALLOWED_ORIGINS
         value: '["*"]'
-
-      # Startup delay
-      - key: CHAT_STARTUP_DELAY
-        value: "45"
-
-      # Secrets
-      - key: OPENAI_API_KEY
-        sync: false
-
-      # Logging
       - key: LOG_LEVEL
         value: INFO
