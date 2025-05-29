@@ -22,8 +22,9 @@ dependencies = [
     "openai-agents-mcp>=0.0.8",
     "fastapi-mcp-client",
     "pytest-env>=1.1.5",
-    "torch==2.2.0",                # default PyPI wheel with CUDA support
-    "onnxruntime>=1.17.0",          # CPU-only runtime works on macOS arm64   "sentence-transformers[onnx]>=4.1.0",
+    "torch>=2.3.0",
+    "onnxruntime>=1.17.0",
+    "sentence-transformers>=4.1.0"
 ]
 
 [dependency-groups]
