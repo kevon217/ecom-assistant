@@ -16,8 +16,8 @@ WORKDIR /app
 COPY . /app/
 
 # Install dependencies
-WORKDIR /app/libs
-RUN uv pip install --system .
+# WORKDIR /app/libs
+# RUN uv pip install --system .
 
 WORKDIR /app/services/product
 RUN uv pip install --system .

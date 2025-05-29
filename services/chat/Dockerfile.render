@@ -15,8 +15,8 @@ WORKDIR /app
 COPY . /app/
 
 # Install dependencies
-WORKDIR /app/libs
-RUN uv pip install --system .
+# WORKDIR /app/libs
+# RUN uv pip install --system .
 
 WORKDIR /app/services/chat
 RUN uv pip install --system .
