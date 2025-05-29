@@ -1,7 +1,15 @@
+# render.yaml
+
+# If you want session persistence for chat, keep the volume; otherwise omit it.
+# volumes:
+#   - name: session-data
+#     sizeGB: 1
+
 services:
-  # Order Service - Deploy First
+  # 1) Order Service (Free & Ephemeral)
   - type: web
     name: ecom-order
+    plan: free
     runtime: docker
     repo: https://github.com/kevon217/ecom-assistant
     branch: master
@@ -16,19 +24,16 @@ services:
       - key: LOG_LEVEL
         value: INFO
 
-  # Product Service - Deploy Second
+  # 2) Product Service (Free & Ephemeral)
   - type: web
     name: ecom-product
+    plan: free
     runtime: docker
     repo: https://github.com/kevon217/ecom-assistant
     branch: master
     dockerfilePath: ./services/product/Dockerfile.render
     dockerContext: .
     healthCheckPath: /health
-    disk:
-      name: chroma-data
-      mountPath: /app/data/chroma
-      sizeGB: 1
     envVars:
       - key: PORT
         value: 10000
@@ -41,55 +46,55 @@ services:
       - key: LOG_LEVEL
         value: INFO
 
-  # Chat Service - Deploy Last
+  # 3) Chat Service (Free + Optional Session Persistence)
   - type: web
     name: ecom-chat
+    plan: free
     runtime: docker
     repo: https://github.com/kevon217/ecom-assistant
     branch: master
     dockerfilePath: ./services/chat/Dockerfile.render
     dockerContext: .
     healthCheckPath: /health
-    disk:
-      name: session-data
-      mountPath: /tmp/sessions
-      sizeGB: 1
+    # Comment out diskMounts below to use ephemeral storage for sessions instead
+    # diskMounts:
+    #   - volume: session-data
+    #     mountPath: /tmp/sessions
     envVars:
       - key: PORT
         value: 10000
 
-      # IMPORTANT: Update these URLs after first deployment
-      # Replace with your actual Render service URLs
+      # Use Render’s internal hostnames for private service discovery:
       - key: ORDER_MCP_URL
-        value: https://ecom-order.onrender.com/mcp
+        value: http://ecom-order:10000/mcp
       - key: PRODUCT_MCP_URL
-        value: https://ecom-product.onrender.com/mcp
+        value: http://ecom-product:10000/mcp
 
       # Agent configuration
       - key: AGENT_MODEL
         value: gpt-4o-mini
       - key: AGENT_TOOL_TIMEOUTS
-        value: 30
+        value: "30"
       - key: AGENT_TOOL_RETRIES
-        value: 3
+        value: "3"
       - key: AGENT_MAX_CONCURRENT_TOOLS
-        value: 5
+        value: "5"
 
       # Session configuration
       - key: CHAT_SESSION_TTL
-        value: 60
+        value: "60"
       - key: CHAT_SESSION_STORE_PATH
-        value: /tmp/sessions
+        value: "/tmp/sessions"
 
-      # CORS configuration
+      # CORS
       - key: CHAT_ALLOWED_ORIGINS
         value: '["*"]'
 
-      # Startup delay to allow other services to initialize
+      # Startup delay
       - key: STARTUP_DELAY
-        value: 45
+        value: "45"
 
-      # Required secret - set in Render dashboard
+      # Secrets
       - key: OPENAI_API_KEY
         sync: false
 

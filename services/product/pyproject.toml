@@ -13,13 +13,14 @@ dependencies = [
     "pandas>=2.2.0",
     "pydantic>=2.6.0",
     "chromadb>=0.4.24",
-    "scikit-learn>=1.4.0",
     "openai-agents>=0.0.15",
     "openai-agents-mcp>=0.0.8",
     "fastapi-mcp==0.3.4",  # For MCP tool exposure
     "httpx>=0.26.0",       # For TestClient
     "jinja2>=3.1.3",  # <-- Add this line
-    "sentence-transformers>=4.1.0",
+    "sentence-transformers[onnx]>=4.1.0",  # ONNX-only CPU backend
+    "torch==2.2.0cpu",                    # CPU-only wheel
+    "onnxruntime>=1.17.0",                 # CPU runtime
 
 ]
 

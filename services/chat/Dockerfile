@@ -17,7 +17,7 @@ COPY services/chat/pyproject.toml /app/services/chat/
 
 # Install dependencies
 WORKDIR /app/services/chat
-RUN uv pip install --system -e .
+RUN uv pip install --system .
 
 # Copy application code
 COPY libs /app/libs
@@ -25,11 +25,12 @@ COPY services/chat/src /app/services/chat/src
 
 
 # Create directories and set permissions
-RUN mkdir -p /app/data/sessions /app/logs && \
-    useradd -m -u 1000 appuser && \
-    chown -R appuser:appuser /app
+RUN mkdir -p /app/data/sessions /app/logs
 
-USER appuser
+# useradd -m -u 1000 appuser && \
+# chown -R appuser:appuser /app
+
+# USER appuser
 
 # Set environment variables
 ENV PYTHONPATH="/app/services/chat/src:/app/libs:/app" \

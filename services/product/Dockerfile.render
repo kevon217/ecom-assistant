@@ -17,10 +17,10 @@ COPY . /app/
 
 # Install dependencies
 WORKDIR /app/libs
-RUN uv pip install --system -e .
+RUN uv pip install --system .
 
 WORKDIR /app/services/product
-RUN uv pip install --system -e .
+RUN uv pip install --system .
 
 # Create ChromaDB directory
 RUN mkdir -p /app/data/chroma
@@ -33,8 +33,8 @@ RUN python /app/scripts/bootstrap/load_vectors.py \
     --model all-MiniLM-L6-v2
 
 # Create non-root user
-RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
-USER appuser
+# RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+# USER appuser
 
 # Set environment variables
 ENV PYTHONPATH="/app/services/product/src:/app/libs:/app" \

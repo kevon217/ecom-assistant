@@ -16,17 +16,17 @@ COPY . /app/
 
 # Install dependencies
 WORKDIR /app/libs
-RUN uv pip install --system -e .
+RUN uv pip install --system .
 
 WORKDIR /app/services/chat
-RUN uv pip install --system -e .
+RUN uv pip install --system .
 
 # Create directories
 RUN mkdir -p /tmp/sessions /app/logs
 
 # Create non-root user
-RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app /tmp/sessions
-USER appuser
+# RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app /tmp/sessions
+# USER appuser
 
 # Set environment variables
 ENV PYTHONPATH="/app/services/chat/src:/app/libs:/app" \

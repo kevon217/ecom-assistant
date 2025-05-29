@@ -16,14 +16,17 @@ COPY . /app/
 
 # Install dependencies
 WORKDIR /app/libs
-RUN uv pip install --system -e .
+RUN uv pip install --system .
 
 WORKDIR /app/services/order
-RUN uv pip install --system -e .
+RUN uv pip install --system .
+
+# Create logs directory
+RUN mkdir -p /app/logs
 
 # Create non-root user
-RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
-USER appuser
+# RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+# USER appuser
 
 # Set environment variables
 ENV PYTHONPATH="/app/services/order/src:/app/libs:/app" \

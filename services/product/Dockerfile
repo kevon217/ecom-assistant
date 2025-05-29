@@ -17,12 +17,11 @@ COPY services/product/pyproject.toml /app/services/product/
 
 # Install service dependencies first
 WORKDIR /app/services/product
-RUN uv pip install --system -e .
+RUN uv pip install --system .
 
 # Now copy the actual code
 COPY libs /app/libs
 COPY services/product/src /app/services/product/src
-
 COPY data/products_cleaned.csv /app/data/products_cleaned.csv
 COPY scripts/bootstrap/load_vectors.py /app/scripts/bootstrap/load_vectors.py
 
@@ -30,12 +29,13 @@ COPY scripts/bootstrap/load_vectors.py /app/scripts/bootstrap/load_vectors.py
 ENV PYTHONPATH="/app/services/product/src:/app/libs:/app" \
     PYTHONUNBUFFERED=1 \
     PORT=8003 \
-    CHROMA_PERSIST_DIR="data/chroma"
+    CHROMA_PERSIST_DIR="/app/data/chroma"
 
 # Create directories for ChromaDB and set permissions
-RUN mkdir -p /app/data/chroma && \
-    useradd -m -u 1000 appuser && \
-    chown -R appuser:appuser /app
+RUN mkdir -p /app/data/chroma /app/logs
+
+# useradd -m -u 1000 appuser && \
+# chown -R appuser:appuser /app
 
 # Change to correct working directory for bootstrap
 WORKDIR /app
@@ -55,7 +55,7 @@ RUN if [ -f /app/data/products_cleaned.csv ]; then \
         echo "Warning: products_cleaned.csv not found, skipping bootstrap"; \
     fi
 
-USER appuser
+# USER appuser
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \

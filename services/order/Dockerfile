@@ -17,18 +17,19 @@ COPY services/order/pyproject.toml /app/services/order/
 
 # Install dependencies
 WORKDIR /app/services/order
-RUN uv pip install --system -e .
+RUN uv pip install --system .
 
 # Copy application code
 COPY libs /app/libs
 COPY services/order/src /app/services/order/src
-
 COPY data/orders_cleaned.csv /app/data/orders_cleaned.csv
 
+# Create logs directory
+RUN mkdir -p /app/logs
 
 # Create non-root user for security
-RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
-USER appuser
+# RUN useradd -m -u 1000 appuser && chown -R appuser:appuser /app
+# USER appuser
 
 # Set environment variables
 ENV PYTHONPATH="/app/services/order/src:/app/libs:/app" \
