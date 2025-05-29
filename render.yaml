@@ -22,7 +22,7 @@ services:
       - key: ORDER_DATA_PATH
         value: /app/data/orders_cleaned.csv
       - key: LOG_LEVEL
-        value: INFO
+        value: DEBUG
 
   # 2) Product Service (Free & Ephemeral)
   - type: web
@@ -44,7 +44,7 @@ services:
       - key: EMBEDDING_MODEL
         value: all-MiniLM-L6-v2
       - key: LOG_LEVEL
-        value: INFO
+        value: DEBUG
 
   # 3) Chat Service (waits for its dependencies)
   - type: web
@@ -62,19 +62,33 @@ services:
     #     mountPath: /tmp/sessions
     # override the default start to wait on Order & Product
 
+    # startCommand: |
+    #   #!/usr/bin/env bash
+    #   set -e
+    #   echo "🌐 Waiting for Order & Product services to be healthy…"
+    #   until curl -sf http://ecom-order:10000/health; do
+    #     echo "⏳ ecom-order not ready, retrying…"
+    #     sleep 5
+    #   done
+    #   until curl -sf http://ecom-product:10000/health; do
+    #     echo "⏳ ecom-product not ready, retrying…"
+    #     sleep 5
+    #   done
+    #   echo "✅ Dependencies up; starting Chat service"
+    #   exec uvicorn chat.app:app --host 0.0.0.0 --port $PORT
+
     startCommand: |
-      #!/usr/bin/env bash
-      set -e
-      echo "🌐 Waiting for Order & Product services to be healthy…"
-      until curl -sf http://ecom-order:10000/health; do
-        echo "⏳ ecom-order not ready, retrying…"
-        sleep 5
+      # Wait for Order MCP (tools discovery) to be ready
+      until curl -sf http://ecom-order:10000/mcp -H "Accept: application/json"; do
+        echo "⏳ Waiting on Order MCP…"; sleep 5
       done
-      until curl -sf http://ecom-product:10000/health; do
-        echo "⏳ ecom-product not ready, retrying…"
-        sleep 5
+
+      # Wait for Product MCP (tools discovery) to be ready
+      until curl -sf http://ecom-product:10000/mcp -H "Accept: application/json"; do
+        echo "⏳ Waiting on Product MCP…"; sleep 5
       done
-      echo "✅ Dependencies up; starting Chat service"
+
+      echo "✅ All MCP endpoints ready; starting Chat"
       exec uvicorn chat.app:app --host 0.0.0.0 --port $PORT
 
     envVars:
@@ -94,6 +108,8 @@ services:
         value: "3"
       - key: AGENT_MAX_CONCURRENT_TOOLS
         value: "5"
+      - key: CHAT_STARTUP_DELAY
+        value: "0"
       - key: CHAT_SESSION_TTL
         value: "60"
       - key: CHAT_SESSION_STORE_PATH
@@ -101,4 +117,4 @@ services:
       - key: CHAT_ALLOWED_ORIGINS
         value: '["*"]'
       - key: LOG_LEVEL
-        value: INFO
+        value: DEBUG

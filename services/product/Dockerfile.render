@@ -42,8 +42,13 @@ ENV PYTHONPATH="/app/services/product/src:/app/libs:/app" \
     CHROMA_PERSIST_DIR="/app/data/chroma"
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
-    CMD curl -f http://localhost:${PORT:-10000}/health || exit 1
+# HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+#     CMD curl -f http://localhost:${PORT:-10000}/health || exit 1
+
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=5 \
+    CMD curl -f http://localhost:${PORT:-10000}/health \
+       && curl -sf http://localhost:${PORT:-10000}/mcp -H "Accept: application/json" \
+       || exit 1
 
 # Expose port
 EXPOSE 10000
