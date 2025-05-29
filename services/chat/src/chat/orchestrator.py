@@ -3,8 +3,8 @@
 import asyncio
 import logging
 import os
-from datetime import datetime, timedelta
-from typing import Any, Dict, List, Optional
+from datetime import datetime
+from typing import Any, Dict
 
 from agents import RunConfig, Runner
 from agents.mcp import MCPServerSse
@@ -60,7 +60,7 @@ class AgentOrchestrator:
             name="EcomAssistant",
             instructions="You are an E-commerce Assistant. Help users find products and check orders.",
             mcp_servers=[],
-        )
+        )  # TODO: make default instructions agnostic
 
         logger.info(
             "Orchestrator initialized. MCP servers will be connected dynamically."
@@ -74,14 +74,14 @@ class AgentOrchestrator:
         connected_servers = []
         any_connected = False
 
-        for config in self._server_configs:
+        for server_config in self._server_configs:
             try:
                 # Create instance if needed
-                if config["instance"] is None:
+                if server_config["instance"] is None:
                     config["instance"] = MCPServerSse(
                         params={
                             "url": config["url"],
-                            "timeout": 10,  # Shorter timeout for dynamic checking
+                            "timeout": 10,  # Shorter timeout for dynamic checking #TODO: make this configurable
                         },
                         cache_tools_list=True,
                     )
@@ -154,10 +154,10 @@ class AgentOrchestrator:
 
     async def cleanup(self):
         """Cleanup MCP server connections."""
-        for config in self._server_configs:
-            if config["instance"] is not None:
+        for server_config in self._server_configs:
+            if server_config["instance"] is not None:
                 try:
-                    await config["instance"].cleanup()
+                    await server_config["instance"].cleanup()
                 except Exception as e:
                     logger.warning(f"Error closing MCP server {config['name']}: {e}")
 
@@ -165,9 +165,9 @@ class AgentOrchestrator:
         """Render the prompt template."""
         if not self.system_tpl:
             # Fallback prompt that mentions tool availability
-            base_prompt = "You are an E-commerce Assistant that helps users find products and check orders."
+            base_prompt = "You are an E-commerce Assistant that helps users find products and check orders."  # TODO: make this configurable
             if not self._mcp_connected:
-                base_prompt += " Note: External tools are temporarily unavailable, but you can still help with general questions."
+                base_prompt += " Note: External tools are temporarily unavailable, but you can still help with general questions."  # TODO: make this configurable
             return f"{base_prompt}\n\nUser: {user_message}"
 
         history = self.session_manager.get_history(ctx.session_id)
@@ -207,7 +207,7 @@ class AgentOrchestrator:
             logger.error(f"Error in message processing: {e}", exc_info=True)
             # Fallback response
             if "tool" in str(e).lower():
-                return "I'm having trouble accessing some tools right now, but I can still help you with general questions about products and orders. What would you like to know?"
+                return "I'm having trouble accessing some tools right now, but I can still help you with general questions about products and orders. What would you like to know?"  # TODO: make this configurable
             raise
 
     def process_message_streaming(self, user_message: str, context: RunnerContext):
