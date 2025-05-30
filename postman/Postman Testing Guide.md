@@ -34,6 +34,8 @@ The collection automatically validates required environment variables. Import th
    "product_url": "https://ecom-product-w38k.onrender.com"
    ```
 
+**NOTE**: Render's free plan (512 MB RAM, 0.1 CPU) leads to slow performance and memory overflow when handling multiple large ChromaDB queries. Time was not spent optimizing for free plan. Services may fail and need to restart. No issues when running on localhost in more forgiving environment. Run curl below to check mcp server and agent tool avability status.
+
 3. Select the environment before running tests
 
 **Environment Validation**: The collection automatically validates that required variables are set. If you see "Missing environment variables" in the console, double-check your environment selection and variable values.
@@ -402,17 +404,16 @@ The collection automatically manages sessions:
 
 **Local Development**:
 
-- Simple queries: <1 second
-- Multi-turn conversations: 2-5 seconds per turn
-- Complex multi-tool: <15 seconds
 - Health checks: <500ms
+- Simple queries: < 10 seconds
+- Complex multi-tool: < 20 seconds
 
 **Render Deployment**:
 
+- Health checks: <3s
 - First request (cold start): 30+ seconds
-- Simple queries: <5 seconds
-- Multi-turn conversations: 5-10 seconds per turn
-- Complex multi-tool: <45 seconds
+- Simple queries: 15 seconds
+- Complex multi-tool: 30+ (Render free plan is limitation; ChromaDB activities may elicit memory overflow; client session time out set at 60s)
 
 ## System Architecture Overview
 
@@ -444,14 +445,14 @@ The collection automatically manages sessions:
 
 - ChromaDB vector database with ~51k product embeddings
 - Semantic search with natural language understanding
-- Metadata filtering for precise results
+- Metadata filtering and simple document search for precise results
 
 ### Enhanced Mock API
 
 - Order service provides business intelligence beyond basic CRUD
 - Profit analysis, customer demographics, category performance
 - Production safety limits for large dataset handling
-- Pagination support for browsing 51k+ orders
+- Pagination support for browsing 51k+ orders (currently limit set to 10 and LLM instructed not to regurgitate all the data)
 
 ### Multi-Dataset Integration
 

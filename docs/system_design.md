@@ -22,13 +22,10 @@ A modular, microservice-driven e-commerce assistant that provides contextual, RA
      3. Authentication using existing FastAPI dependencies
 
 - **LLM Orchestration**
-  - Chat service uses OpenAI Agents SDK with MCP tool integration for dynamic tool discovery and invocation in LLM workflows.
+  - Chat service uses OpenAI Agents SDK with MCP extension package for dynamic tool discovery and invocation in LLM workflows.
 
 - **Vector Storage Bootstrap**
-  - StorageManager handles delta synchronization via embed_checksums, enabling incremental updates to ChromaDB collections.
-
-- **Shared-Data Disk Strategy**
-  - One shared `/data` volume holds both processed CSVs (`/data/processed`) and the ChromaDB store (`/data/chroma`) across environments.
+  - `init_vectors.sh` runs `load_vectors.py` to build ChromaDB Product collection.
 
 - **Graceful Degradation & Observability**
   - Standardized `/health` endpoints, structured logs, retries/fallbacks, and full test coverage.
@@ -40,11 +37,11 @@ A modular, microservice-driven e-commerce assistant that provides contextual, RA
 | Component | Technology | Purpose |
 |-----------|------------|---------|
 | **Backend Framework** | FastAPI | RESTful APIs, automatic OpenAPI docs, async support |
-| **AI/Chat** | OpenAI Agents SDK | LLM orchestration, tool calling, conversation management |
+| **Inter-Service Communication** | MCP Protocol | Standardized tool discovery and invocation for AI agents |
+| **Tool Integration** | FastAPI-MCP | Zero-config MCP server integration with FastAPI apps |
+| **AI/Chat** | OpenAI Agents SDK and MCP extension | LLM orchestration, tool calling, conversation management |
 | **Vector Search** | ChromaDB | Semantic search, embeddings storage, metadata filtering |
 | **Data Processing** | Pandas + Pydantic | Data cleaning, validation, transformation |
-| **Tool Integration** | FastAPI-MCP | Zero-config MCP server integration with FastAPI apps |
-| **Inter-Service Communication** | MCP Protocol | Standardized tool discovery and invocation for AI agents |
 | **Development** | uv, pre-commit, pytest | Package management, code quality, testing |
 | **Deployment** | Docker + Render.com | Containerization, cloud hosting, CI/CD |
 | **UI** | Gradio | Web-based chat interface for testing and demos |
@@ -57,8 +54,7 @@ A modular, microservice-driven e-commerce assistant that provides contextual, RA
 
 - **Raw Data**: `orders.csv` + `products.csv`
 - **Data Cleaner**: Schema-driven processing → cleaned CSVs with `embed_text` and `embed_checksums`
-- **Vector Bootstrap**: StorageManager performs delta sync, embeds new/changed records → ChromaDB
-- **Storage**: Shared `/data` volume with processed CSVs and ChromaDB collections
+- **Vector Bootstrap**: quick collection build
 
 **2. Microservices Architecture**
 
@@ -111,12 +107,12 @@ ecom-assistant/
 - **AI Integration:** OpenAI Agents SDK for LLM orchestration with FastAPI-MCP for zero-config tool publication.
 - **Storage Architecture:** Interface-based design with ChromaProductStore implementation for easy testing/swapping.
 - **Data Strategy:** ChromaDB as single source of truth for products; delta sync via embed_checksums.
-- **Bootstrap Process:** StorageManager handles incremental vector updates and data synchronization.
+- **Bootstrap Process:** Embedding pipeline script for quick collection creation.
 
 ## Recent Enhancements & Production Features
 
 - **Enhanced Order Analytics:** Comprehensive business intelligence endpoints including profit analysis, customer demographics, category sales, and shipping cost analytics.
-- **LLM Safety Measures:** Field exclusion patterns (order_id hidden from LLM), 1000-record safety limits for massive datasets, and token optimization.
+- **LLM Safety Measures:** Field exclusion patterns (order_id hidden from LLM), customizable record safety limits for massive datasets, and token optimization.
 - **Advanced Search Capabilities:** Complex filtering with profit thresholds, priority levels, category filters, and multi-criteria search operations.
 - **Production-Ready Testing:** Comprehensive test suites with unit, integration, and business workflow testing via enhanced Postman collection.
 - **Route Optimization:** Resolved path collision issues by strategic endpoint ordering (specific routes before parameterized routes).
@@ -130,19 +126,17 @@ ecom-assistant/
   - Data pipeline with schema-driven field processing, Pydantic validation, and embed_text generation → `data/processed/latest/*.csv`.
 
 - **Vector Bootstrap**
-  - StorageManager reads cleaned data with embed_checksums.
-  - Performs delta sync: identifies new/changed records via checksum comparison.
-  - Batch embeds and upserts only changed data to `/data/chroma`.
+  - Batch embeds and upserts data to `/data/chroma`.
 
 - **Order Service**
   - OrderDataService with comprehensive business analytics (51k+ orders dataset).
   - Enhanced endpoints: customer stats, profit analysis, gender demographics, category sales.
-  - Safety measures: 1000-record limits to protect LLM, LLM field exclusion (order_id hidden).
+  - Safety measures: record limits to protect LLM, LLM field exclusion (order_id hidden).
   - Advanced filtering: profit thresholds, priority levels, complex search with multiple criteria.
   - FastAPI endpoints + MCP tools for complete business intelligence.
 
 - **Product Service**
-  - ProductDataService with ChromaProductStore (4,882 products with vector embeddings).
+  - ProductDataService with ChromaProductStore (~5k products with vector embeddings).
   - ProductItemLLM model with 80% token optimization for LLM efficiency.
   - Semantic search with complex document filters and metadata discovery.
   - FastAPI endpoints + MCP tools for intelligent product search and recommendations.
@@ -150,7 +144,7 @@ ecom-assistant/
 - **Chat Service**
   - `/chat` & `/chat/stream` → `AgentOrchestrator`:
     1. Renders Jinja2 system prompt templates.
-    2. Uses OpenAI Agents SDK for tool discovery and calling.
+    2. Uses OpenAI Agents SDK and MCP extension for tool discovery and calling.
     3. Streams responses via SSE for real-time user experience.
 
 ---

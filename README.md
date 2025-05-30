@@ -1,17 +1,18 @@
-# E-Commerce Expert Assistant
+# E-Commerce Assistant
 
-Microservices architecture implementing an AI-powered e-commerce assistant using OpenAI's Agents SDK and the Model Context Protocol (MCP).
+Demo project for microservices architecture implementing an AI-powered e-commerce assistant using OpenAI's Agents SDK, Model Context Protocol (MCP), FastAPI, and Pydantic V2.
 
 ## Overview
 
-This system demonstrates how to build an E-Commerce AI assistant that can:
+This system configures an E-Commerce AI assistant that can:
 
-- **Search products** using semantic understanding and complex filters
+- **Leverage metadata** to understand data landscape
+- **Search products** using semantic search and complex filters
 - **Analyze orders** to provide business insights and customer intelligence
 - **Stream responses** in real-time with tool execution transparency
 - **Scale independently** with microservices architecture
 
-The assistant leverages OpenAI's Agents SDK to orchestrate multiple specialized services, providing a natural conversational interface for e-commerce operations.
+The assistant leverages OpenAI's Agents SDK and MCP extensions to orchestrate multiple specialized services, providing a natural conversational interface for e-commerce operations.
 
 ## Architecture
 
@@ -29,7 +30,7 @@ The assistant leverages OpenAI's Agents SDK to orchestrate multiple specialized 
 │  ┌───────────────────────────────────────────────────────────┐  │
 │  │                  OpenAI Agents SDK                        │  │
 │  │  • Automatic tool discovery via MCP                       │  │
-│  │  • Intelligent tool selection and chaining                │  │
+│  │  • Tool selection and chaining                            │  │
 │  │  • Streaming response synthesis                           │  │
 │  └───────────────────────┬───────────────┬───────────────────┘  │
 └──────────────────────────┼───────────────┼──────────────────────┘
@@ -52,14 +53,13 @@ The assistant leverages OpenAI's Agents SDK to orchestrate multiple specialized 
 
 ### Key Technologies
 
-- **OpenAI Agents SDK** - Orchestrates AI tool usage with automatic discovery
-- **Model Context Protocol (MCP)** - Standardized tool communication via Server-Sent Events
-- **openai-agents-mcp** - MCP integration wrapper for OpenAI Agents SDK
-- **FastAPI** - High-performance async web framework
-- **fastapi-mcp** - Zero-config MCP tool publication for FastAPI services
-- **ChromaDB** - Vector database for semantic search (~97MB with ~5k products)
-- **Pydantic v2** - Data validation with LLM-optimized schemas
-- **Docker** - Containerized microservices architecture
+- **OpenAI Agents SDK** - framework for building agentic AI apps
+- **Model Context Protocol (MCP)** - standardized protocol to provide tools and context for agents
+- **openai-agents-mcp** - MCP extension package for openai-agents
+- **fastapi-mcp** - zero-config MCP tool publication for FastAPI services
+- **ChromaDB** - vector database for semantic search
+- **Pydantic v2** - tool schemas and data validation
+- **Docker** - containerized microservices
 
 ## Quick Start
 
@@ -77,7 +77,7 @@ The assistant leverages OpenAI's Agents SDK to orchestrate multiple specialized 
    git clone https://github.com/kevon217/ecom-assistant.git
    cd ecom-assistant
    cp .env.sample .env
-   # Add your OPENAI_API_KEY to .env
+   # Add your OPENAI_API_KEY to .env, set service configs (also see service config.py for defaults)
    ```
 
 2. **Build and start services**
@@ -116,7 +116,7 @@ The assistant leverages OpenAI's Agents SDK to orchestrate multiple specialized 
 
 The collection includes:
 
-- All 10 challenge requirement scenarios
+- 10 challenge requirement scenarios
 - Multi-turn conversation tests
 - Edge case handling
 - Performance benchmarks
@@ -128,6 +128,12 @@ The collection includes:
 2. Update environment variables if needed (especially for Render URLs)
 3. Run collection with 500ms delay between requests
 4. Expected: 98%+ pass rate locally, 95%+ on Render
+
+**Note**: Render's free plan (512 MB RAM, 0.1 CPU) leads to slow performance and memory overflow when handling multiple large ChromaDB queries. Time was not spent optimizing for free plan. Services may fail and need to restart. No issues when running on localhost in more forgiving environment. Run curl below to check mcp server and agent tool avability status.
+
+```
+curl -X GET https://ecom-chat-itzk.onrender.com/debug/connections
+```
 
 ## 💬 Example Interactions
 
@@ -296,7 +302,7 @@ ecom-assistant/
 
 - 51k+ historical orders dataset
 - Business intelligence: profit analysis, customer stats, demographics
-- Safety features: 1000-record limits, field exclusion for LLM
+- Safety features: raw data record limits, field exclusion for LLM
 - FastAPI with fastapi-mcp for zero-config MCP tool exposure
 
 #### Product Service (Port 8003)
@@ -306,16 +312,16 @@ ecom-assistant/
 - Advanced filtering: price, rating, category, metadata
 - FastAPI with fastapi-mcp for automatic tool publication
 
-**Note**: Current implementation rebuilds ChromaDB from scratch on each deployment. Future iterations would implement incremental updates using embed_checksums for more efficient vector management.
+**Note**: Current implementation rebuilds ChromaDB from scratch on each deployment... Future iterations would implement incremental updates using embed_checksums and enable caching for more efficient vector database management and deployment.
 
 ## Key Features
 
 ### Model Context Protocol (MCP) Integration
 
-- **FastAPI-MCP**: Each service uses fastapi-mcp to automatically expose endpoints as MCP tools
-- **OpenAI-Agents-MCP**: Chat service uses Agent and RunnerContext for seamless tool orchestration
-- **Zero Configuration**: Services remain standard FastAPI apps with MCP capabilities added via simple mount
-- **Tool Discovery**: Automatic discovery and invocation of available tools at runtime
+- **FastAPI-MCP**: Order and Product services use fastapi-mcp to automatically expose endpoints as MCP tools
+- **Zero Configuration**: Services remain standard FastAPI apps with MCP capabilities added via simple app mounts
+- **OpenAI-Agents-MCP**: Extends OpenAI Agents SDK to support MCP. Chat service leverages Agent and RunnerContext to incorporate MCP servers and additional AppContext (mcp_agent.config.yaml not needed as FastAPI-MCP covers tool schemas)
+- **Agent Orchestration**: Custom orchestrator class helps facilitate dynamic tool discovery,prompt management, and further customizations
 
 ### Real-time Streaming
 
@@ -344,24 +350,34 @@ The Order and Product services do not call OpenAI and therefore do not need this
 ### Environment Variables
 
 ```bash
-# Required
-OPENAI_API_KEY=sk-...
-
-# Service URLs (configured per environment)
-ORDER_MCP_URL=http://order-service:8002/mcp
-PRODUCT_MCP_URL=http://product-service:8003/mcp
-
-# Optional
-AGENT_MODEL=gpt-4o-mini
+# Chat
+CHAT_SERVICE_URL=http://localhost:8001
+CHAT_STARTUP_DELAY=5
+CHAT_SESSION_STORE_PATH=services/chat/data/sessions
 CHAT_SESSION_TTL=60
-LOG_LEVEL=INFO
+
+# Agent
+OPENAI_API_KEY=sk...
+CHAT_SYSTEM_PROMPT_TEMPLATE=system_prompt.j2
+CHAT_INCLUDE_STRATEGIES=False
+AGENT_MODEL=gpt-4o-mini
+
+# Order
+ORDER_MCP_URL=http://localhost:8002/mcp
+ORDER_DATA_PATH=data/orders_cleaned.csv
+
+# Product
+PRODUCT_MCP_URL=http://localhost:8003/mcp
+PRODUCT_DATA_PATH=data/products_cleaned.csv
+EMBED_MODEL=all-MiniLM-L6-v2
+CHROMA_PERSIST_DIR=data/chroma
 ```
 
 ### Render Deployment
 
 1. Fork repository
 2. Connect to Render
-3. Deploy using `render.yaml`
+3. Deploy using `render.yaml` blueprint
 4. Update service URLs in chat service environment
 5. Add `OPENAI_API_KEY` in Render dashboard
 
@@ -372,7 +388,3 @@ LOG_LEVEL=INFO
 - Streaming latency: <100ms per chunk
 - Vector search: Sub-second for ~5k products
 - Cold start on Render: 30-60s first request
-
-## License
-
-MIT License - see [LICENSE](LICENSE) file for details.
