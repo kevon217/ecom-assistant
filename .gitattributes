@@ -1,0 +1,2 @@
+# exclude every .html in the repo (data files and analysis)
+*.html linguist-documentation=true
